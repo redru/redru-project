@@ -9,7 +9,7 @@ public interface SceneElement {
 
     public void draw();
 
-    public void translate();
+    public void translate(float xUpset, float yUpset, float zUpset);
 
     public void rotate();
 

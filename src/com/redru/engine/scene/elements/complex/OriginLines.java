@@ -84,13 +84,13 @@ public class OriginLines implements SceneElement {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
 
-        GLES30.glEnableVertexAttribArray(ShaderFactory.LAYOUT_VERTEX);
-        GLES30.glEnableVertexAttribArray(ShaderFactory.LAYOUT_COLOR);
+        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
+        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_COLOR);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.LAYOUT_VERTEX, VERTEX_SIZE,
+        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_VERTEX, VERTEX_SIZE,
                         GLES30.GL_FLOAT, false, STRIDE * OpenGLConstants.BYTES_PER_FLOAT, 0);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.LAYOUT_COLOR, COLOR_SIZE,
+        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_COLOR, COLOR_SIZE,
                         GLES30.GL_FLOAT, false, STRIDE * OpenGLConstants.BYTES_PER_FLOAT, VERTEX_SIZE * OpenGLConstants.BYTES_PER_FLOAT);
 
         GLES30.glBindVertexArray(0);
@@ -100,10 +100,10 @@ public class OriginLines implements SceneElement {
 
     @Override
     public void draw() {
-        GLES30.glUseProgram (ShaderFactory.defaultProgram);
+        GLES30.glUseProgram (ShaderFactory.getInstance().defaultProgram);
 
         // Load the MVP matrix
-        GLES30.glUniformMatrix4fv(ShaderFactory.MVP_LOC, 1, false,
+        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().MVP_LOC, 1, false,
                 Camera.getInstance().getMvpMatrixAsFloatBuffer());
 
         // Bind Vertex Buffer Objects (VBO)
@@ -139,13 +139,16 @@ public class OriginLines implements SceneElement {
     }
 
     @Override
-    public void translate() {
-
-    }
+	public void translate(float xUpset, float yUpset, float zUpset) {
+		// TODO Auto-generated method stub
+		
+	}
 
     @Override
     public void rotate() {
 
     }
+
+	
 
 }

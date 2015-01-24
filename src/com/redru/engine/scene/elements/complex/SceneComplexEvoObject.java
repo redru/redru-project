@@ -54,9 +54,9 @@ public class SceneComplexEvoObject implements SceneElement {
     public void setup() {
         Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------
-        vertexBuffer = ByteBuffer.allocateDirect(evoObj.getPositionData().length * OpenGLConstants.BYTES_PER_FLOAT)
+        vertexBuffer = ByteBuffer.allocateDirect(evoObj.getSingleArrayPositionData().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexBuffer.put(evoObj.getPositionData()).position(0);
+        vertexBuffer.put(evoObj.getSingleArrayPositionData()).position(0);
 
         // initialize indices byte buffer for shape coordinates-----------------------------------
         indexBuffer = ByteBuffer.allocateDirect(INDICES_SIZE * OpenGLConstants.BYTES_PER_SHORT)
@@ -65,12 +65,10 @@ public class SceneComplexEvoObject implements SceneElement {
         //---------------------------------------------------------------------------------------
         GLES30.glGenBuffers(2, VBOIds, 0);
 
-        //vertexBuffer.position( 0 );
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, NUM_VERTICES * STRIDE * OpenGLConstants.BYTES_PER_FLOAT,
                 vertexBuffer, GLES30.GL_STATIC_DRAW);
 
-        //indexBuffer.position( 0 );
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
         GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, INDICES_SIZE * OpenGLConstants.BYTES_PER_SHORT,
                 indexBuffer, GLES30.GL_STATIC_DRAW);
@@ -82,13 +80,13 @@ public class SceneComplexEvoObject implements SceneElement {
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
 
-        GLES30.glEnableVertexAttribArray(ShaderFactory.LAYOUT_VERTEX);
-        GLES30.glEnableVertexAttribArray(ShaderFactory.LAYOUT_COLOR);
+        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
+        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_COLOR);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.LAYOUT_VERTEX, VERTEX_SIZE,
+        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_VERTEX, VERTEX_SIZE,
                 GLES30.GL_FLOAT, false, 3 * OpenGLConstants.BYTES_PER_FLOAT, 0);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.LAYOUT_COLOR, COLOR_SIZE,
+        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_COLOR, COLOR_SIZE,
                 GLES30.GL_FLOAT, false, 3 * OpenGLConstants.BYTES_PER_FLOAT, 0);
 
         GLES30.glBindVertexArray(0);
@@ -98,28 +96,28 @@ public class SceneComplexEvoObject implements SceneElement {
 
     @Override
     public void draw() {
-        GLES30.glUseProgram(ShaderFactory.complexObjectProgram);
+        GLES30.glUseProgram(ShaderFactory.getInstance().complexObjectProgram);
 
         // Load the MVP matrix
-        GLES30.glUniformMatrix4fv(ShaderFactory.MVP_LOC, 1, false,
+        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().MVP_LOC, 1, false,
                 Camera.getInstance().getMvpMatrixAsFloatBuffer());
 
         // Bind this object Vertex Array Object (VAO) state and then draw the object
         GLES30.glBindVertexArray(VAOIds[0]);
 
-        GLES30.glDrawElements(GLES30.GL_TRIANGLE_FAN, evoObj.getIndices(),
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_STRIP, evoObj.getPositionIndexData().length,
                GLES30.GL_UNSIGNED_SHORT, 0);
 
         GLES30.glBindVertexArray(0);
     }
 
     @Override
-    public void translate() {
-
+    public void translate(float xUpset, float yUpset, float zUpset) {
+    	evoObj.translate(xUpset, yUpset, zUpset);
     }
 
     @Override
     public void rotate() {
-
+    	evoObj.rotate();
     }
 }

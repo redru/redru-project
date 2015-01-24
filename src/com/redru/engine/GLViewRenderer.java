@@ -25,8 +25,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "GLViewRenderer";
 
-    @SuppressWarnings("unused")
-	private ShaderFactory shaderFactory;
     private ObjFactory objFactory;
     private Camera camera;
     private SceneContext scene;
@@ -40,9 +38,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
 
-        // Initialize the Shaders Factory
-        shaderFactory = new ShaderFactory();
-
         // Initialize Object Factory
         objFactory = ObjFactory.getInstance();
 
@@ -54,7 +49,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         scene = SceneContext.getInstance();
 
         // Load .obj elements
-        elementsStartup();
+        this.elementsStartup();
 
         Log.i(TAG, "Creation complete.");
     }
@@ -103,13 +98,11 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     }
 
     private void elementsStartup() {
-        /*Obj platform = ResourceUtils.getObjInResources(MainActivity.getContext(), R.raw.obj_platform);
-        Log.i(TAG, "'obj_platform.obj' was correctly loaded.");*/
-        EvoObj platform = objFactory.getStockedObject(objFactory.getObjFiles()[0]);
+        EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
 
-        if (platform != null) {
-            sceneObjects.add(platform);
-            scene.addElementToScene(new SceneComplexEvoObject(platform));
+        if (obj != null) {
+            sceneObjects.add(obj);
+            scene.addElementToScene(new SceneComplexEvoObject(obj));
         }
 
 

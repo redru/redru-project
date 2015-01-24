@@ -12,32 +12,33 @@ import com.redru.Redru;
  * Created by Luca on 16/01/2015.
  */
 public class ShaderFactory {
-
     private static final String TAG = "ShaderFactory";
-
-    public static final int LAYOUT_VERTEX = 0;
-    public static final int LAYOUT_COLOR = 1;
+    private static ShaderFactory instance;
+    
+    public final int LAYOUT_VERTEX = 0;
+    public final int LAYOUT_COLOR = 1;
 
     private final String vertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_default);
     private final String complexObjectVertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_complex_object);
     private final String fragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_default);
 
-    public static int defaultProgram;
-    public static int complexObjectProgram;
-    public static int MVP_LOC;
+    public int defaultProgram;
+    public int complexObjectProgram;
+    public int MVP_LOC;
+    public int ENABLE_COLOR_VECTOR;
 
     private static IntBuffer shaderCompileError = IntBuffer.allocate(1);
     private static String shaderCompileInfoLog;
 
-    public ShaderFactory() {
+    private ShaderFactory() {
         int vertexShader = loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderCode);
         int complexObjectVertexShader = loadShader(GLES30.GL_VERTEX_SHADER, complexObjectVertexShaderCode);
         int fragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShaderCode);
 
-        defaultProgram = GLES30.glCreateProgram();             // create empty OpenGL ES Program
-        GLES30.glAttachShader(defaultProgram, vertexShader);   // add the vertex shader to program
-        GLES30.glAttachShader(defaultProgram, fragmentShader); // add the fragment shader to program
-        GLES30.glLinkProgram(defaultProgram);                  // creates OpenGL ES program executables
+        defaultProgram = GLES30.glCreateProgram();
+        GLES30.glAttachShader(defaultProgram, vertexShader);
+        GLES30.glAttachShader(defaultProgram, fragmentShader);
+        GLES30.glLinkProgram(defaultProgram);
 
         complexObjectProgram = GLES30.glCreateProgram();
         GLES30.glAttachShader(complexObjectProgram, complexObjectVertexShader);
@@ -45,6 +46,7 @@ public class ShaderFactory {
         GLES30.glLinkProgram(complexObjectProgram);
 
         // Get the uniform locations
+        ENABLE_COLOR_VECTOR = GLES30.glGetUniformLocation (defaultProgram, "enableColorVector");
         MVP_LOC = GLES30.glGetUniformLocation (defaultProgram, "u_mvpMatrix");
     }
 
@@ -70,6 +72,14 @@ public class ShaderFactory {
         }
 
         return shader;
+    }
+    
+    public static ShaderFactory getInstance() {
+    	if (instance == null) {
+    		instance = new ShaderFactory();
+    	}
+    	
+    	return instance;
     }
 
 }

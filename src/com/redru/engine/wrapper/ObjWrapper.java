@@ -34,13 +34,13 @@ public class ObjWrapper {
         /*----------------------------------------------------------------------*/
         String[] lines = dataFile.split("\n");
 
-        EvoObj obj = wrap(lines);
+        EvoObj obj = wrap(lines, fileName);
         /*----------------------------------------------------------------------*/
         Log.i(TAG, "Wrapping completed. File: " + fileName + ".obj");
         return obj;
     }
 
-    private EvoObj wrap(String[] lines) {
+    private EvoObj wrap(String[] lines, String name) {
         String[] lineParts;
         String[] indexesParts;
         int indexCount = 0;
@@ -183,7 +183,7 @@ public class ObjWrapper {
             }
         }
 
-        EvoObj obj  = new EvoObj(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, normalIndexData, "WRAPPED OBJECT");
+        EvoObj obj  = new EvoObj(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, normalIndexData, name);
 
         return obj;
     }

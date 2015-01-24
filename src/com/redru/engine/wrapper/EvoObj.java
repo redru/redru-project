@@ -1,8 +1,10 @@
 package com.redru.engine.wrapper;
 
+import java.util.ArrayList;
+
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.redru.engine.utils.OpenGLUtils;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -12,6 +14,8 @@ public class EvoObj implements Cloneable {
     public static final float[][] EMPTY_FLOAT_ARRAY = { { 0.0f } };
     public static final short[] EMPTY_SHORT_ARRAY = { 0 };
     public static final String DEFAULT_NAME = "EVO_OBJ";
+    
+    public final String NAME;
 
     private int vertexes = -1;
     private int textures = -1;
@@ -24,12 +28,15 @@ public class EvoObj implements Cloneable {
     private int[] indicesStride;
 
     private float[][] positionData;
+    private float[] singleArrayPositionData;
     private float[][] textureCoordinatesData;
     private float[][] normalData;
 
     private short[] positionIndexData;
     private short[] textureCoordinatesIndexData;
     private short[] normalIndexData;
+    
+    private float xUpset = 0.0f, yUpset = 0.0f, zUpset = 0.0f;
 
     public EvoObj() {
         this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, DEFAULT_NAME);
@@ -59,10 +66,12 @@ public class EvoObj implements Cloneable {
 
     public EvoObj(float[][] positionData, float[][] textureCoordinatesData, float[][] normalData, short[] positionIndexData, short[] textureCoordinatesIndexData, short[] normalIndexData, String name) {
         if (name == null || name.equals("")) {
-            name = DEFAULT_NAME;
+        	this.NAME = DEFAULT_NAME;
+        } else {
+        	this.NAME = name;
         }
 
-        Log.i(TAG, "Creating new EvoObj '" + name + "'.");
+        Log.i(TAG, "Creating new EvoObj '" + this.NAME + "'.");
 
         // Init Arrays
         this.setPositionData(positionData);
@@ -71,10 +80,10 @@ public class EvoObj implements Cloneable {
         this.setPositionIndexData(positionIndexData);
         this.setTextureCoordinatesIndexData(textureCoordinatesIndexData);
         this.setNormalIndexData(normalIndexData);
-
+        
         // Log Object Data
         logEvoObjInformation();
-        Log.i(TAG, "EvoObj '" + name + "' was successfully created.");
+        Log.i(TAG, "EvoObj '" + this.NAME + "' was successfully created.");
     }
 
     public int getVertexes() {
@@ -109,7 +118,11 @@ public class EvoObj implements Cloneable {
         return indicesStride;
     }
 
-    public float[] getPositionData() {
+    private void setPositionData(float[][] positionData) {
+        this.vertexes = positionData.length;
+        this.singlePositionSize = positionData[0].length;
+        this.positionData = positionData;
+        
         float[] tmp = new float[positionData.length * singlePositionSize];
 
         for (int i = 0, x = 0; i < positionData.length; i++) {
@@ -117,17 +130,15 @@ public class EvoObj implements Cloneable {
                 tmp[x] = positionData[i][e];
             }
         }
-
-        return tmp;
+        
+        this.singleArrayPositionData = tmp;
     }
 
-    public void setPositionData(float[][] positionData) {
-        this.vertexes = positionData.length;
-        this.singlePositionSize = positionData[0].length;
-        this.positionData = positionData;
-    }
+    public float[] getSingleArrayPositionData() {
+		return singleArrayPositionData;
+	}
 
-    public float[] getTextureCoordinatesData() {
+	public float[] getTextureCoordinatesData() {
         float[] tmp = new float[textureCoordinatesData.length * singleTextureSize];
 
         for (int i = 0, x = 0; i < textureCoordinatesData.length; i++) {
@@ -226,6 +237,23 @@ public class EvoObj implements Cloneable {
         info.append("\nTOTAL INDICES: " + indices);
         info.append("\n-----------------------------------");
         Log.i(TAG, info.toString());
+    }
+    
+    public void translate(float xUpset, float yUpset, float zUpset) {
+    	Log.i(TAG, "Starting " + NAME + " translation.");
+    	this.xUpset += xUpset;
+    	this.yUpset += yUpset;
+    	this.zUpset += zUpset;
+    	Log.i(TAG, "New positions for " + NAME + ":" +
+    			   "\nX: " + this.xUpset +
+    			   "\nY: " + this.yUpset +
+    			   "\nZ: " + this.zUpset);
+
+    	this.setPositionData(OpenGLUtils.translateMatrixOfPositions(this.positionData, xUpset, yUpset, zUpset));
+    }
+    
+    public void rotate() {
+    	
     }
 
     @Override
