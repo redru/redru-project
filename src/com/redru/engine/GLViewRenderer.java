@@ -112,7 +112,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     private void elementsStartup() {
-        EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[0]);
+        EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
 
         if (obj != null) {
             sceneObjects.add(obj);
