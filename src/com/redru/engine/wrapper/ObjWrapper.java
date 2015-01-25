@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
+import com.redru.engine.utils.OpenGLUtils;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -76,48 +77,52 @@ public class ObjWrapper {
         for (int index = 0; index < lines.length; index++) {
 
             if (lines[index].startsWith("v ")) {
+            	lines[index] = lines[index].substring(2);
                 lineParts = lines[index].split(" ");
-                float[] tmp = new float[lineParts.length - 1];
+                float[] tmp = new float[lineParts.length];
 
-                for (int i = 1; i < lineParts.length; i++) {
-                    tmp[i - 1] = Float.parseFloat(lineParts[i]);
+                for (int i = 0; i < OpenGLConstants.SINGLE_V_SIZE; i++) {
+                    tmp[i] = Float.parseFloat(lineParts[i]);
                 }
 
                 positions.add(tmp);
 
-            } else if (lines[index].startsWith("vt")) {
+            } else if (lines[index].startsWith("vt ")) {
+            	lines[index] = lines[index].substring(3);
                 lineParts = lines[index].split(" ");
-                float[] tmp = new float[lineParts.length - 1];
+                float[] tmp = new float[lineParts.length];
 
-                for (int i = 1; i < lineParts.length; i++) {
-                    tmp[i - 1] = Float.parseFloat(lineParts[i]);
+                for (int i = 0; i < OpenGLConstants.SINGLE_VT_SIZE; i++) {
+                    tmp[i] = Float.parseFloat(lineParts[i]);
                 }
 
                 textures.add(tmp);
 
-            } else if (lines[index].startsWith("vn")) {
+            } else if (lines[index].startsWith("vn ")) {
+            	lines[index] = lines[index].substring(3);
                 lineParts = lines[index].split(" ");
-                float[] tmp = new float[lineParts.length - 1];
+                float[] tmp = new float[lineParts.length];
 
-                for (int i = 1; i < lineParts.length; i++) {
-                    tmp[i - 1] = Float.parseFloat(lineParts[i]);
+                for (int i = 0; i < OpenGLConstants.SINGLE_VN_SIZE; i++) {
+                    tmp[i] = Float.parseFloat(lineParts[i]);
                 }
 
                 normals.add(tmp);
 
-            } else if (lines[index].startsWith("f")) {
+            } else if (lines[index].startsWith("f ")) {
                 ArrayList<Short> tmp0 = new ArrayList<Short>();
                 ArrayList<Short> tmp1 = new ArrayList<Short>();
                 ArrayList<Short> tmp2 = new ArrayList<Short>();
 
+                lines[index] = lines[index].substring(2);
                 lineParts = lines[index].split(" ");
-                indexCount += lineParts.length - 1;
+                indexCount += lineParts.length;
 
-                for (int i = 1; i < lineParts.length; i++) {
+                for (int i = 0; i < OpenGLConstants.SINGLE_F_SIZE; i++) {
                     indexesParts = lineParts[i].split("/");
 
                     if (indexesParts.length > 0) {
-                        for (int e = 0; e < indexesParts.length; e++) {
+                        for (int e = 0; e < OpenGLConstants.SINGLE_F_INDICES_SIZE; e++) {
                             if (e == 0) {
                                 tmp0.add(Short.parseShort(indexesParts[0]));
                             } else if (e == 1) {
@@ -202,8 +207,10 @@ public class ObjWrapper {
                 normalIndexData[x] = Short.MAX_VALUE;
             }
         }
+        
+        float[] unifiedData = OpenGLUtils.generateUnifiedData(positionData, textureCoordinatesData, normalData, positionsIndex, texturesIndex, normalsIndex);
 
-        EvoObj obj  = new EvoObj(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, normalIndexData, name);
+        EvoObj obj  = new EvoObj(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, normalIndexData, unifiedData, name);
 
         return obj;
     }

@@ -11,6 +11,7 @@ import com.redru.engine.utils.OpenGLUtils;
  */
 public class EvoObj implements Cloneable {
     private static final String TAG = "EvoObj";
+    public static final float[] EMPTY_SINGLE_FLOAT_ARRAY = { 0.0f };
     public static final float[][] EMPTY_FLOAT_ARRAY = { { 0.0f } };
     public static final short[] EMPTY_SHORT_ARRAY = { 0 };
     public static final String DEFAULT_NAME = "EVO_OBJ";
@@ -31,6 +32,8 @@ public class EvoObj implements Cloneable {
     private float[] singleArrayPositionData;
     private float[][] textureCoordinatesData;
     private float[][] normalData;
+    
+    private float[] unifiedData;
 
     private short[] positionIndexData;
     private short[] textureCoordinatesIndexData;
@@ -40,7 +43,7 @@ public class EvoObj implements Cloneable {
      * 
      */
     public EvoObj() {
-        this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, DEFAULT_NAME);
+        this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, DEFAULT_NAME);
     }
 
     /**
@@ -48,7 +51,7 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(String name) {
-        this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, name);
+        this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
     }
 
     /**
@@ -57,7 +60,7 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(float[][] positionData, String name) {
-        this(positionData, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, name);
+        this(positionData, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
     }
 
     /**
@@ -67,7 +70,7 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(float[][] positionData, float[][] textureCoordinatesData, String name) {
-        this(positionData, textureCoordinatesData, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, name);
+        this(positionData, textureCoordinatesData, EMPTY_FLOAT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
     }
 
     /**
@@ -78,7 +81,7 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(float[][] positionData, float[][] textureCoordinatesData, float[][] normalData, String name) {
-        this(positionData, textureCoordinatesData, normalData, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, name);
+        this(positionData, textureCoordinatesData, normalData, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
     }
     
     /**
@@ -90,7 +93,7 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(float[][] positionData, float[][] textureCoordinatesData, float[][] normalData, short[] positionIndexData, String name) {
-        this(positionData, textureCoordinatesData, normalData, positionIndexData, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, name);
+        this(positionData, textureCoordinatesData, normalData, positionIndexData, EMPTY_SHORT_ARRAY, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
     }
     
     /**
@@ -103,7 +106,7 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(float[][] positionData, float[][] textureCoordinatesData, float[][] normalData, short[] positionIndexData, short[] textureCoordinatesIndexData, String name) {
-        this(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, EMPTY_SHORT_ARRAY, name);
+        this(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
     }
 
     /**
@@ -117,6 +120,28 @@ public class EvoObj implements Cloneable {
      * @param name
      */
     public EvoObj(float[][] positionData, float[][] textureCoordinatesData, float[][] normalData, short[] positionIndexData, short[] textureCoordinatesIndexData, short[] normalIndexData, String name) {
+    	this(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, EMPTY_SHORT_ARRAY, EMPTY_SINGLE_FLOAT_ARRAY, name);
+    }
+    
+    /**
+     * 
+     * @param positionData
+     * @param textureCoordinatesData
+     * @param normalData
+     * @param positionIndexData
+     * @param textureCoordinatesIndexData
+     * @param normalIndexData
+     * @param unifiedData
+     * @param name
+     */
+    public EvoObj(float[][] positionData,
+    			  float[][] textureCoordinatesData,
+    			  float[][] normalData,
+    			  short[] positionIndexData,
+    			  short[] textureCoordinatesIndexData,
+    			  short[] normalIndexData,
+    			  float[] unifiedData,
+    			  String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
         } else {
@@ -132,6 +157,7 @@ public class EvoObj implements Cloneable {
         this.setPositionIndexData(positionIndexData);
         this.setTextureCoordinatesIndexData(textureCoordinatesIndexData);
         this.setNormalIndexData(normalIndexData);
+        this.setUnifiedData(unifiedData);
         
         // Log Object Data
         logEvoObjInformation();
@@ -287,6 +313,22 @@ public class EvoObj implements Cloneable {
     }
 
     /**
+     * 
+     * @return
+     */
+    public float[] getUnifiedData() {
+		return unifiedData;
+	}
+
+    /**
+     * 
+     * @param unifiedData
+     */
+	public void setUnifiedData(float[] unifiedData) {
+		this.unifiedData = unifiedData;
+	}
+
+	/**
      * 
      * @return
      */
