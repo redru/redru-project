@@ -20,6 +20,12 @@ public class ResourceUtils {
 
     private static final String TAG = "ResourceUtils";
 
+    /**
+     * 
+     * @param context
+     * @param resourceId
+     * @return
+     */
     public static String readTextFileFromResource(Context context, int resourceId) {
         StringBuilder body = new StringBuilder();
 
@@ -45,6 +51,11 @@ public class ResourceUtils {
         return body.toString();
     }
 
+    /**
+     * 
+     * @param suffix
+     * @return
+     */
     public static String[] getFilesList(String suffix) {
         Field[] fields = R.raw.class.getFields();
         ArrayList<String> tmp = new ArrayList<String>();

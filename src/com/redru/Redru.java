@@ -54,6 +54,10 @@ public class Redru extends Activity {
         return true;
     }
 
+    /**
+     * 
+     * @return
+     */
     public static Context getContext() {
         return context;
     }

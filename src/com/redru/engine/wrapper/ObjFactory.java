@@ -18,6 +18,9 @@ public class ObjFactory {
     private Map<String, EvoObj> objStock = new Hashtable<String, EvoObj>();
     private String[] objFiles;
 
+    /**
+     * 
+     */
     private ObjFactory() {
         objFiles = ResourceUtils.getFilesList("obj_");
         loadObjStock();
@@ -25,10 +28,17 @@ public class ObjFactory {
         Log.i(TAG, "Creation complete.");
     }
 
+    /**
+     * 
+     * @return
+     */
     public static ObjFactory getInstance() {
         return instance;
     }
 
+    /**
+     * 
+     */
     private void loadObjStock() {
         Log.i(TAG, "Starting loading obj stock.");
 
@@ -45,19 +55,28 @@ public class ObjFactory {
         }
     }
 
+    /**
+     * 
+     * @return
+     */
     public String[] getObjFiles() {
         return objFiles;
     }
 
-    public EvoObj getStockedObject(String object) {
+    /**
+     * 
+     * @param objectName
+     * @return
+     */
+    public EvoObj getStockedObject(String objectName) {
         EvoObj obj = null;
 
         try {
-            if (objStock.containsKey(object)) {
-                obj = (EvoObj) objStock.get(object).clone();
-                Log.i(TAG, "Requested object '" + object + "' was correctly created from the factory.");
+            if (objStock.containsKey(objectName)) {
+                obj = (EvoObj) objStock.get(objectName).clone();
+                Log.i(TAG, "Requested object '" + objectName + "' was correctly created from the factory.");
             } else {
-                Log.i(TAG, "Requested object '" + object + "' was not in the objects stock.");
+                Log.i(TAG, "Requested object '" + objectName + "' was not in the objects stock.");
             }
         } catch(CloneNotSupportedException e) {
             e.printStackTrace();

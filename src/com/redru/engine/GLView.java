@@ -8,6 +8,10 @@ import android.opengl.GLSurfaceView;
  */
 public class GLView extends GLSurfaceView {
 
+	/**
+	 * 
+	 * @param context
+	 */
     public GLView(Context context){
         super(context);
 

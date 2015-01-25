@@ -27,10 +27,17 @@ public class UserInputHandler {
     private Point p2 = new Point(0, 0);
     private Point rotation = new Point(0, 0);
 
+    /**
+     * 
+     */
     private UserInputHandler() {
         Log.i(TAG, "Creation complete.");
     }
 
+    /**
+     * 
+     * @return
+     */
     public static UserInputHandler getInstance() {
         if (instance == null) {
             instance = new UserInputHandler();
@@ -39,6 +46,11 @@ public class UserInputHandler {
         return instance;
     }
 
+    /**
+     * 
+     * @param event
+     * @return
+     */
     public boolean handleMotionEvent(MotionEvent event) {
         sgd.onTouchEvent(event);
 
@@ -86,19 +98,35 @@ public class UserInputHandler {
         return true;
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean isRotationHandled() {
         return rotationHandled;
     }
 
+    /**
+     * 
+     * @return
+     */
     public boolean isScaleHandled() {
         return scaleHandled;
     }
 
+    /**
+     * 
+     * @return
+     */
     public Point getRotation() {
         rotationHandled = true;
         return rotation;
     }
 
+    /**
+     * 
+     * @return
+     */
     public float getScale() {
         scaleHandled = true;
         return scale;

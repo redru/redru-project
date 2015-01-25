@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-import com.redru.engine.scene.elements.complex.OriginLines;
+import com.redru.engine.scene.elements.simple.OriginLines;
 
 /**
  * Created by Luca on 20/01/2015.
@@ -20,6 +20,9 @@ public class SceneContext {
 
     private boolean enableOriginLines = true;
 
+    /**
+     * 
+     */
     private SceneContext() {
         elements = new ArrayList<SceneElement>();
         originLines = new OriginLines();
@@ -28,6 +31,10 @@ public class SceneContext {
         Log.i(TAG, "Creation complete.");
     }
 
+    /**
+     * 
+     * @return
+     */
     public static SceneContext getInstance() {
         if (instance == null) {
             instance = new SceneContext();
@@ -36,6 +43,9 @@ public class SceneContext {
         return instance;
     }
 
+    /**
+     * 
+     */
     public void raiseSceneElements() {
         originLines.setup();
 
@@ -44,6 +54,9 @@ public class SceneContext {
         }
     }
 
+    /**
+     * 
+     */
     public void drawScene() {
         // Draw originLines only if requested
         if (enableOriginLines) {
@@ -55,23 +68,43 @@ public class SceneContext {
         }
     }
 
+    /**
+     * 
+     * @param value
+     */
     public void setEnableOriginLines(boolean value) {
         enableOriginLines = value;
         Log.i(TAG, "enableOriginLines: " + value);
     }
 
+    /**
+     * 
+     * @param element
+     */
     public void addElementToScene(SceneElement element) {
         this.elements.add(element);
     }
 
+    /**
+     * 
+     * @param index
+     */
     public void removeElementFromScene(int index) {
         this.elements.remove(index);
     }
 
+    /**
+     * 
+     * @param element
+     */
     public void removeElementFromScene(SceneElement element) {
         this.elements.remove(element);
     }
 
+    /**
+     * 
+     * @return
+     */
     public ArrayList<SceneElement> getElements() {
         return this.elements;
     }

@@ -21,14 +21,27 @@ public class ObjWrapper {
     private short[] textureCoordinatesIndexData;
     private short[] normalIndexData;
 
+    /**
+     * 
+     */
     private ObjWrapper() {
         Log.i(TAG, "Creation complete.");
     }
 
+    /**
+     * 
+     * @return
+     */
     public static ObjWrapper getInstance() {
         return instance;
     }
 
+    /**
+     * 
+     * @param dataFile
+     * @param fileName
+     * @return
+     */
     public EvoObj createObjFromFile(String dataFile, String fileName) {
         Log.i(TAG, "Wrapping the following file: " + fileName + ".obj");
         /*----------------------------------------------------------------------*/
@@ -37,9 +50,16 @@ public class ObjWrapper {
         EvoObj obj = wrap(lines, fileName);
         /*----------------------------------------------------------------------*/
         Log.i(TAG, "Wrapping completed. File: " + fileName + ".obj");
+        
         return obj;
     }
 
+    /**
+     * 
+     * @param lines
+     * @param name
+     * @return
+     */
     private EvoObj wrap(String[] lines, String name) {
         String[] lineParts;
         String[] indexesParts;

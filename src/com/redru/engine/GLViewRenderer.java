@@ -12,8 +12,7 @@ import android.util.Log;
 
 import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.SceneContext;
-import com.redru.engine.scene.elements.complex.SceneComplexEvoObject;
-import com.redru.engine.utils.ShaderFactory;
+import com.redru.engine.scene.elements.complex.DefaultSceneObject;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.EvoObj;
 import com.redru.engine.wrapper.ObjFactory;
@@ -32,6 +31,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
     private ArrayList<EvoObj> sceneObjects = new ArrayList<EvoObj>();
 
+    /**
+     * 
+     */
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // Set the background frame color
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -54,6 +56,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         Log.i(TAG, "Creation complete.");
     }
 
+    /**
+     * 
+     */
     public void onDrawFrame(GL10 unused) {
         handleUserInput();
         drawShapes();
@@ -65,6 +70,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         }
     }
 
+    /**
+     * 
+     */
     private void drawShapes() {
         // Redraw background color
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
@@ -73,6 +81,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         scene.drawScene();
     }
 
+    /**
+     * 
+     */
     private void handleUserInput() {
         if (!handler.isRotationHandled()) {
             Point rotation = handler.getRotation();
@@ -97,17 +108,23 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         }
     }
 
+    /**
+     * 
+     */
     private void elementsStartup() {
         EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
 
         if (obj != null) {
             sceneObjects.add(obj);
-            scene.addElementToScene(new SceneComplexEvoObject(obj));
+            scene.addElementToScene(new DefaultSceneObject(obj, "Car"));
         }
 
 
     }
 
+    /**
+     * 
+     */
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         // Reset object buffers after app minimize
         scene.raiseSceneElements();

@@ -26,8 +26,9 @@ public class Camera {
     private float xCam = 0.0f, yCam = 0.0f, zCam = 0.0f;
     private int xRotation = 0, yRotation = 0, zRotation = 0;
 
-
-
+    /**
+     * 
+     */
     private Camera() {
         this.modelViewMatrix = new float[16];
         this.perspectiveMatrix = new float[16];
@@ -36,9 +37,9 @@ public class Camera {
         updateCamera();
         Log.i(TAG, "Creation complete.");
     }
-
-    /*
-     * Updates the camera, doing again the calculations on the mvpMatrix
+    
+    /**
+     * Updates the camera, doing the calculations on the mvpMatrix
      */
     private void updateCamera() {
         Matrix.setIdentityM(this.modelViewMatrix, 0);
@@ -60,8 +61,12 @@ public class Camera {
         //printCameraData();
     }
 
-    /*
+    /**
      * Move the camera by the same upset given by the arguments
+     * 
+     * @param upsetX
+     * @param upsetY
+     * @param upsetZ
      */
     public void move(float upsetX, float upsetY, float upsetZ) {
         this.xCam += upsetX;
@@ -70,9 +75,13 @@ public class Camera {
 
         this.updateCamera();
     }
-
-    /*
+    
+    /**
      * Rotate the camera by the same degrees given by the arguments
+     * 
+     * @param xRotationDegrees
+     * @param yRotationDegrees
+     * @param zRotationDegrees
      */
     public void rotate(float xRotationDegrees, float yRotationDegrees, float zRotationDegrees) {
         this.xRotation += xRotationDegrees;
@@ -81,41 +90,32 @@ public class Camera {
 
         this.updateCamera();
     }
-
-    /*
+    
+    /**
      * Set the aspect ratio used for the perspective matrix
+     * 
+     * @param aspectRatio
      */
     public void setAspectRatio(float aspectRatio) {
         this.aspectRatio = aspectRatio;
 
         this.updateCamera();
     }
-
-    /*
+    
+    /**
      * Get the MVP Matrix
-     * return float[]
+     * 
+     * @return
      */
     public float[] getMvpMatrix() {
         return this.mvpMatrix;
     }
 
+    /**
+     * 
+     * @return
+     */
     public FloatBuffer getMvpMatrixAsFloatBuffer() {
-        /*this.mvpMatrix[0] = 2.3048906f;
-        this.mvpMatrix[1] = 0.0f;
-        this.mvpMatrix[2] = 0.0f;
-        this.mvpMatrix[3] = 0.0f;
-        this.mvpMatrix[4] = 0.0f;
-        this.mvpMatrix[5] = 1.7320509f;
-        this.mvpMatrix[6] = 0.0f;
-        this.mvpMatrix[7] = 0.0f;
-        this.mvpMatrix[8] = 0.0f;
-        this.mvpMatrix[9] = 0.0f;
-        this.mvpMatrix[10] = -1.004008f;
-        this.mvpMatrix[11] = -1.0f;
-        this.mvpMatrix[12] = 0.0f;
-        this.mvpMatrix[13] = 0.0f;
-        this.mvpMatrix[14] = 78.31664f;
-        this.mvpMatrix[15] = 80.0f;*/
         FloatBuffer buffer = ByteBuffer.allocateDirect(this.mvpMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         buffer.put(this.mvpMatrix).position(0);
@@ -123,6 +123,10 @@ public class Camera {
         return buffer;
     }
 
+    /**
+     * 
+     * @return
+     */
     public static Camera getInstance() {
         if (instance == null) {
             instance = new Camera();
@@ -131,6 +135,9 @@ public class Camera {
         return instance;
     }
 
+    /**
+     * 
+     */
     public void printMVPMatrix() {
         Log.i(TAG,
                 "MVP MATRIX" +
@@ -142,6 +149,9 @@ public class Camera {
         );
     }
 
+    /**
+     * 
+     */
     public void printCameraData() {
         Log.i(TAG, "Camera DATA:" +
                    "\nxCam: " + xCam + "   yCam: " + yCam + "   zCam: " + zCam +

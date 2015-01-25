@@ -8,7 +8,6 @@ import java.nio.ShortBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.redru.engine.scene.SceneElement;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
@@ -17,7 +16,7 @@ import com.redru.engine.wrapper.EvoObj;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class SceneComplexEvoObject implements SceneElement {
+public class EvoObjDrawHandler {
 
     private static final String TAG = "SceneComplexObject";
 
@@ -35,11 +34,18 @@ public class SceneComplexEvoObject implements SceneElement {
     private int[] VBOIds = new int[2];
     private int[] VAOIds = new int[1];
 
-    public SceneComplexEvoObject() {
+    /**
+     * 
+     */
+    public EvoObjDrawHandler() {
         this(null);
     }
 
-    public SceneComplexEvoObject(EvoObj evoObj) {
+    /**
+     * 
+     * @param evoObj
+     */
+    public EvoObjDrawHandler(EvoObj evoObj) {
         this.evoObj = evoObj;
         VERTEX_SIZE = evoObj.getSinglePositionSize();
         NUM_VERTICES = evoObj.getVertexes();
@@ -50,7 +56,9 @@ public class SceneComplexEvoObject implements SceneElement {
         Log.i(TAG, "Creation complete.");
     }
 
-    @Override
+    /**
+     * 
+     */
     public void setup() {
         Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------
@@ -94,7 +102,9 @@ public class SceneComplexEvoObject implements SceneElement {
         Log.i(TAG, "Buffers setup: complete.");
     }
 
-    @Override
+    /**
+     * 
+     */
     public void draw() {
         GLES30.glUseProgram(ShaderFactory.getInstance().complexObjectProgram);
 
@@ -109,15 +119,5 @@ public class SceneComplexEvoObject implements SceneElement {
                GLES30.GL_UNSIGNED_SHORT, 0);
 
         GLES30.glBindVertexArray(0);
-    }
-
-    @Override
-    public void translate(float xUpset, float yUpset, float zUpset) {
-    	evoObj.translate(xUpset, yUpset, zUpset);
-    }
-
-    @Override
-    public void rotate() {
-    	evoObj.rotate();
     }
 }

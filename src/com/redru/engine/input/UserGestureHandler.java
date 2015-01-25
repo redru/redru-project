@@ -11,6 +11,9 @@ class UserGestureHandler extends ScaleGestureDetector.SimpleOnScaleGestureListen
 
     private float scale = 0.0f;
 
+    /**
+     * 
+     */
     @Override
     public boolean onScale(ScaleGestureDetector detector) {
         double scaleVal = detector.getScaleFactor();
@@ -28,12 +31,19 @@ class UserGestureHandler extends ScaleGestureDetector.SimpleOnScaleGestureListen
         return true;
     }
 
+    /**
+     * 
+     */
     @Override
     public void onScaleEnd(ScaleGestureDetector detector) {
         scale = 0.0f;
         UserInputHandler.getInstance().scaling = false;
     }
 
+    /**
+     * 
+     * @return
+     */
     public float getScale() {
         return scale;
     }

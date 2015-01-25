@@ -1,4 +1,4 @@
-package com.redru.engine.scene.elements.complex;
+package com.redru.engine.scene.elements.simple;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -47,11 +47,17 @@ public class OriginLines implements SceneElement {
     private int[] VBOIds = new int[2];
     private int[] VAOIds = new int[1];
 
+    /**
+     * 
+     */
     public OriginLines() {
         setup();
         Log.i(TAG, "Creation complete.");
     }
 
+    /**
+     * 
+     */
     @Override
     public void setup() {
         Log.i(TAG, "Buffers setup: start.");
@@ -98,6 +104,9 @@ public class OriginLines implements SceneElement {
         Log.i(TAG, "Buffers setup: complete.");
     }
 
+    /**
+     * 
+     */
     @Override
     public void draw() {
         GLES30.glUseProgram (ShaderFactory.getInstance().defaultProgram);
@@ -138,6 +147,9 @@ public class OriginLines implements SceneElement {
         //GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
+    /**
+     * 
+     */
     @Override
 	public void translate(float xUpset, float yUpset, float zUpset) {
 		// TODO Auto-generated method stub

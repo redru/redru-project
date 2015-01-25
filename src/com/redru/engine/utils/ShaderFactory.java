@@ -24,12 +24,16 @@ public class ShaderFactory {
 
     public int defaultProgram;
     public int complexObjectProgram;
+    
     public int MVP_LOC;
     public int ENABLE_COLOR_VECTOR;
 
     private static IntBuffer shaderCompileError = IntBuffer.allocate(1);
     private static String shaderCompileInfoLog;
 
+    /**
+     * 
+     */
     private ShaderFactory() {
         int vertexShader = loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderCode);
         int complexObjectVertexShader = loadShader(GLES30.GL_VERTEX_SHADER, complexObjectVertexShaderCode);
@@ -46,10 +50,16 @@ public class ShaderFactory {
         GLES30.glLinkProgram(complexObjectProgram);
 
         // Get the uniform locations
-        ENABLE_COLOR_VECTOR = GLES30.glGetUniformLocation (defaultProgram, "enableColorVector");
-        MVP_LOC = GLES30.glGetUniformLocation (defaultProgram, "u_mvpMatrix");
+        //ENABLE_COLOR_VECTOR = GLES30.glGetUniformLocation (complexObjectProgram, "enableColorVector");
+        MVP_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "u_mvpMatrix");
     }
 
+    /**
+     * 
+     * @param type
+     * @param shaderCode
+     * @return
+     */
     private int loadShader(int type, String shaderCode) {
         shaderCompileError.clear();
 
@@ -74,6 +84,10 @@ public class ShaderFactory {
         return shader;
     }
     
+    /**
+     * 
+     * @return
+     */
     public static ShaderFactory getInstance() {
     	if (instance == null) {
     		instance = new ShaderFactory();

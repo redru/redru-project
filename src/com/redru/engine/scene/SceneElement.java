@@ -5,7 +5,7 @@ package com.redru.engine.scene;
  */
 public interface SceneElement {
 
-    public void setup();
+	public void setup();
 
     public void draw();
 
