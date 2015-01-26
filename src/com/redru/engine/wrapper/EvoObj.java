@@ -423,7 +423,7 @@ public class EvoObj implements Cloneable {
      * @param zUpset
      */
     public void translate(float xUpset, float yUpset, float zUpset) {
-    	this.setPositionData(OpenGLUtils.translateMatrixOfPositions(this.positionData, xUpset, yUpset, zUpset));
+    	OpenGLUtils.translateUnifiedMatrixData(this.unifiedData, xUpset, yUpset, zUpset);
     }
     
     /**

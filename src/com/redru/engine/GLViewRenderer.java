@@ -61,6 +61,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      */
     public void onDrawFrame(GL10 unused) {
         handleUserInput();
+        scene.getElements().get(0).translate(0.0f, 0.0f, 0.1f);
         drawShapes();
 
         try {
@@ -112,13 +113,20 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     private void elementsStartup() {
+    	EvoObj ak = objFactory.getStockedObject(objFactory.getObjFiles()[0]);
         EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
+        EvoObj farm = objFactory.getStockedObject(objFactory.getObjFiles()[2]);
 
-        if (obj != null) {
-            sceneObjects.add(obj);
-            scene.addElementToScene(new DefaultSceneObject(obj, "Car"));
-        }
-
+        sceneObjects.add(obj);
+        scene.addElementToScene(new DefaultSceneObject(obj, "Car"));
+            
+        sceneObjects.add(ak);
+        scene.addElementToScene(new DefaultSceneObject(ak, "AK"));
+        ak.translate(5, 0, 0);
+            
+        sceneObjects.add(farm);
+        scene.addElementToScene(new DefaultSceneObject(farm, "Farm"));
+        farm.translate(20, 0, 20);
 
     }
 

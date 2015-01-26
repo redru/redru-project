@@ -101,6 +101,24 @@ public class EvoObjDrawHandler {
         //----------------------------------------------------------------------------------------
         Log.i(TAG, "Buffers setup: complete.");
     }
+    
+    public void updateBuffers() {
+    	GLES30.glBindVertexArray(VAOIds[0]);
+    	
+    	GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
+    	vertexBuffer = ( ( ByteBuffer ) GLES30.glMapBufferRange (
+                GLES30.GL_ARRAY_BUFFER, 0, evoObj.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
+                GLES30.GL_MAP_WRITE_BIT | GLES30.GL_MAP_INVALIDATE_BUFFER_BIT )
+           ).order ( ByteOrder.nativeOrder() ).asFloatBuffer();
+    	vertexBuffer.put(evoObj.getUnifiedData());    	    	
+    	
+    	if (!GLES30.glUnmapBuffer(GLES30.GL_ARRAY_BUFFER)) {
+    		Log.i(TAG, "Problems unmapping buffer in object: " + evoObj.getName());
+    	}
+    	
+    	GLES30.glBindVertexArray(0);
+    	
+    }
 
     /**
      * 

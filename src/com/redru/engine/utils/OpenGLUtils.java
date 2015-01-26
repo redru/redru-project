@@ -62,6 +62,31 @@ public class OpenGLUtils {
 	
 	/**
 	 * 
+	 * @param unifiedData
+	 * @param xUpset
+	 * @param yUpset
+	 * @param zUpset
+	 */
+	public static void translateUnifiedMatrixData(float[] unifiedData, float xUpset, float yUpset, float zUpset) {
+		for (int i = 0; i < unifiedData.length; i++) {
+			for (int e = 0; e < 3; e++) {
+				if (e == 0) {
+					unifiedData[i] += xUpset;
+				} else if (e == 1) {
+					unifiedData[i] += yUpset;
+				} else if (e == 2) {
+					unifiedData[i] += zUpset;
+				}
+				
+				i++;
+			}
+			
+			i += 4;
+		}
+	}
+	
+	/**
+	 * 
 	 * @param positions
 	 * @param textures
 	 * @param normals

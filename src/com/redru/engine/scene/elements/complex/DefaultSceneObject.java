@@ -62,6 +62,7 @@ public class DefaultSceneObject implements SceneElement {
     			   "\nZ: " + this.zUpset);
     	
 		obj.translate(xUpset, yUpset, zUpset);
+		drawHandler.updateBuffers();
 	}
 
 	/**
