@@ -14,13 +14,6 @@ public class ObjWrapper {
     private static final String TAG = "ObjWrapper";
 
     private static ObjWrapper instance = new ObjWrapper();
-    private float[][] positionData;
-    private float[][] textureCoordinatesData;
-    private float[][] normalData;
-
-    private short[] positionIndexData;
-    private short[] textureCoordinatesIndexData;
-    private short[] normalIndexData;
 
     /**
      * 
@@ -63,154 +56,86 @@ public class ObjWrapper {
      */
     private EvoObj wrap(String[] lines, String name) {
         String[] lineParts;
-        String[] indexesParts;
-        int indexCount = 0;
+        String[] indicesParts;
 
-        ArrayList<float[]> positions = new ArrayList<float[]>();
-        ArrayList<float[]> textures = new ArrayList<float[]>();
-        ArrayList<float[]> normals = new ArrayList<float[]>();
-
-        ArrayList<ArrayList<Short>> positionsIndex = new ArrayList<ArrayList<Short>>();
-        ArrayList<ArrayList<Short>> texturesIndex = new ArrayList<ArrayList<Short>>();
-        ArrayList<ArrayList<Short>> normalsIndex = new ArrayList<ArrayList<Short>>();
-
+        ArrayList<Float> positions = new ArrayList<Float>();
+        ArrayList<Float> textures = new ArrayList<Float>();
+        ArrayList<Float> normals = new ArrayList<Float>();
+        ArrayList<short[]> indices = new ArrayList<short[]>();
+        
         for (int index = 0; index < lines.length; index++) {
 
             if (lines[index].startsWith("v ")) {
             	lines[index] = lines[index].substring(2);
                 lineParts = lines[index].split(" ");
-                float[] tmp = new float[lineParts.length];
 
                 for (int i = 0; i < OpenGLConstants.SINGLE_V_SIZE; i++) {
-                    tmp[i] = Float.parseFloat(lineParts[i]);
+                    positions.add(Float.parseFloat(lineParts[i]));
                 }
-
-                positions.add(tmp);
 
             } else if (lines[index].startsWith("vt ")) {
             	lines[index] = lines[index].substring(3);
                 lineParts = lines[index].split(" ");
-                float[] tmp = new float[lineParts.length];
 
                 for (int i = 0; i < OpenGLConstants.SINGLE_VT_SIZE; i++) {
-                    tmp[i] = Float.parseFloat(lineParts[i]);
+                	textures.add(Float.parseFloat(lineParts[i]));
                 }
-
-                textures.add(tmp);
 
             } else if (lines[index].startsWith("vn ")) {
             	lines[index] = lines[index].substring(3);
                 lineParts = lines[index].split(" ");
-                float[] tmp = new float[lineParts.length];
 
                 for (int i = 0; i < OpenGLConstants.SINGLE_VN_SIZE; i++) {
-                    tmp[i] = Float.parseFloat(lineParts[i]);
+                	normals.add(Float.parseFloat(lineParts[i]));
                 }
-
-                normals.add(tmp);
-
+                
             } else if (lines[index].startsWith("f ")) {
-                ArrayList<Short> tmp0 = new ArrayList<Short>();
-                ArrayList<Short> tmp1 = new ArrayList<Short>();
-                ArrayList<Short> tmp2 = new ArrayList<Short>();
-
                 lines[index] = lines[index].substring(2);
                 lineParts = lines[index].split(" ");
-                indexCount += lineParts.length;
 
                 for (int i = 0; i < OpenGLConstants.SINGLE_F_SIZE; i++) {
-                    indexesParts = lineParts[i].split("/");
+                    indicesParts = lineParts[i].split("/");
 
-                    if (indexesParts.length > 0) {
+                    if (indicesParts.length > 0) {
+                    	short[] tmp = new short[3];
+                    	
                         for (int e = 0; e < OpenGLConstants.SINGLE_F_INDICES_SIZE; e++) {
-                            if (e == 0) {
-                                tmp0.add(Short.parseShort(indexesParts[0]));
-                            } else if (e == 1) {
-                                tmp1.add(Short.parseShort(indexesParts[1]));
-                            } else if (e == 2) {
-                                tmp2.add(Short.parseShort(indexesParts[2]));
-                            }
+                            tmp[e] = Short.parseShort(indicesParts[e]);
                         }
-                    } else {
-                        tmp0.add(Short.parseShort(lineParts[i]));
+                        
+                        indices.add(tmp);
                     }
 
                 }
 
-                positionsIndex.add(tmp0);
-                texturesIndex.add(tmp1);
-                normalsIndex.add(tmp2);
-
             }
 
-        }
-
-        positionData = new float[positions.size()][OpenGLConstants.SINGLE_V_SIZE];
-        textureCoordinatesData = new float[textures.size()][OpenGLConstants.SINGLE_VT_SIZE];
-        normalData = new float[normals.size()][OpenGLConstants.SINGLE_VN_SIZE];
-
-        for (int i = 0; i < positions.size(); i++) {
-            for (int e = 0; e < OpenGLConstants.SINGLE_V_SIZE; e++) {
-                positionData[i][e] = positions.get(i)[e];
-            }
-        }
-
-        for (int i = 0; i < textures.size(); i++) {
-            for (int e = 0; e < OpenGLConstants.SINGLE_VT_SIZE; e++) {
-                textureCoordinatesData[i][e] = textures.get(i)[e];
-            }
-        }
-
-        for (int i = 0; i < normals.size(); i++) {
-            for (int e = 0; e < OpenGLConstants.SINGLE_VN_SIZE; e++) {
-                normalData[i][e] = normals.get(i)[e];
-            }
-        }
-
-        positionIndexData = new short[indexCount + positionsIndex.size() - 1];
-        textureCoordinatesIndexData = new short[indexCount + texturesIndex.size() - 1];
-        normalIndexData = new short[indexCount + normalsIndex.size() - 1];
-
-        for (int i = 0, x = 0; i < positionsIndex.size(); i++, x++) {
-            for (int e = 0; e < positionsIndex.get(i).size(); e++, x++) {
-
-                positionIndexData[x] = positionsIndex.get(i).get(e);
-                // Obj indexes starts from '1' and not from 0. Then we have to adjust the indexes
-                positionIndexData[x]--;
-            }
-
-            if (x < positionIndexData.length) {
-                positionIndexData[x] = Short.MAX_VALUE;
-            }
-        }
-
-        for (int i = 0, x = 0; x < texturesIndex.size(); i++, x++) {
-            for (int e = 0; e < texturesIndex.get(i).size(); e++, x++) {
-                textureCoordinatesIndexData[x] = texturesIndex.get(i).get(e);
-                // Obj indexes starts from '1' and not from 0. Then we have to adjust the indexes
-                textureCoordinatesIndexData[x]--;
-            }
-
-            if (texturesIndex.get(i).size() != 0) {
-                textureCoordinatesIndexData[x] = Short.MAX_VALUE;
-                // Obj indexes starts from '1' and not from 0. Then we have to adjust the indexes
-                textureCoordinatesIndexData[x]--;
-            }
-        }
-
-        for (int i = 0, x = 0; x < normalsIndex.size(); i++, x++) {
-            for (int e = 0; e < normalsIndex.get(i).size(); e++, x++) {
-                normalIndexData[x] = normalsIndex.get(i).get(e);
-            }
-
-            if (normalsIndex.get(i).size() != 0) {
-                normalIndexData[x] = Short.MAX_VALUE;
-            }
         }
         
-        float[] unifiedData = OpenGLUtils.generateUnifiedData(positionData, textureCoordinatesData, normalData, positionsIndex, texturesIndex, normalsIndex);
-
-        EvoObj obj  = new EvoObj(positionData, textureCoordinatesData, normalData, positionIndexData, textureCoordinatesIndexData, normalIndexData, unifiedData, name);
+        float[] positionsTmp = new float[positions.size()];
+        for (int i = 0; i < positions.size(); i++) {
+        	positionsTmp[i] = positions.get(i);
+        }
+        
+        float[] texturesTmp = new float[textures.size()];
+        for (int i = 0; i < textures.size(); i++) {
+        	texturesTmp[i] = textures.get(i);
+        }
+        
+        float[] normalsTmp = new float[normals.size()];
+        for (int i = 0; i < normals.size(); i++) {
+        	normalsTmp[i] = normals.get(i);
+        }
+        
+        short[][] indicesTmp = new short[indices.size()][indices.get(0).length];
+        for (int i = 0; i < indices.size(); i++) {
+        	for (int e = 0; e < indices.get(0).length; e++) {
+        		indicesTmp[i][e] = (short) (indices.get(i)[e] - 1);
+        	}
+        }
+        
+        float[] unifiedData = OpenGLUtils.generateUnifiedData(positionsTmp, texturesTmp, normalsTmp, indicesTmp);
+        EvoObj obj  = new EvoObj(positionsTmp, texturesTmp, normalsTmp, unifiedData, name);
 
         return obj;
     }

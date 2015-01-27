@@ -28,6 +28,7 @@ public class DefaultSceneObject implements SceneElement {
 	 */
 	public DefaultSceneObject(EvoObj obj, String name) {
 		this.obj = obj;
+		this.obj.setName(name);
 		this.drawHandler = new EvoObjDrawHandler(obj);
 	}
 

@@ -3,7 +3,6 @@ package com.redru.engine.scene.elements.complex;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 import android.opengl.GLES30;
 import android.util.Log;
@@ -17,19 +16,13 @@ import com.redru.engine.wrapper.EvoObj;
  * Created by Luca on 22/01/2015.
  */
 public class EvoObjDrawHandler {
-
     private static final String TAG = "SceneComplexObject";
 
-    private int VERTEX_SIZE = -1;
     private int COLOR_SIZE = 4;
-    private int STRIDE = VERTEX_SIZE + COLOR_SIZE;
-    private int NUM_VERTICES = -1;
-    private int INDICES_SIZE = -1;
 
     private EvoObj evoObj;
 
     private FloatBuffer vertexBuffer;
-    private ShortBuffer indexBuffer;
 
     private int[] VBOIds = new int[2];
     private int[] VAOIds = new int[1];
@@ -47,10 +40,6 @@ public class EvoObjDrawHandler {
      */
     public EvoObjDrawHandler(EvoObj evoObj) {
         this.evoObj = evoObj;
-        VERTEX_SIZE = evoObj.getSinglePositionSize();
-        NUM_VERTICES = evoObj.getVertexes();
-        evoObj.getIndices();
-        INDICES_SIZE = evoObj.getPositionIndexData().length;
 
         setup();
         Log.i(TAG, "Creation complete.");

@@ -20,7 +20,7 @@ public class Camera {
 
     private float[] modelViewMatrix, perspectiveMatrix, mvpMatrix;
 
-    private float fov = 60.0f, nearZ = 1.0f, farZ = 500.0f;
+    private float fov = 60.0f, nearZ = 1.0f, farZ = 100.0f;
     private float aspectRatio = 0.0f;
 
     private float xCam = 0.0f, yCam = 0.0f, zCam = 0.0f;

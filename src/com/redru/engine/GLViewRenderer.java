@@ -13,6 +13,7 @@ import android.util.Log;
 import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.scene.elements.complex.DefaultSceneObject;
+import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.EvoObj;
 import com.redru.engine.wrapper.ObjFactory;
@@ -75,11 +76,16 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     private void drawShapes() {
+    	TimeManager.setStart();
+    	
         // Redraw background color
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
         // Draw the scene
         scene.drawScene();
+        TimeManager.setEnd();
+        TimeManager.getDifferenceInMicroseconds();
+        Log.i(TAG, "Time average: '" + TimeManager.getAverage() + "' microseconds");
     }
 
     /**
@@ -113,20 +119,25 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     private void elementsStartup() {
-    	EvoObj ak = objFactory.getStockedObject(objFactory.getObjFiles()[0]);
+    	//EvoObj ak = objFactory.getStockedObject(objFactory.getObjFiles()[0]);
         EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
-        EvoObj farm = objFactory.getStockedObject(objFactory.getObjFiles()[2]);
+        EvoObj objII = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
+        //EvoObj farm = objFactory.getStockedObject(objFactory.getObjFiles()[2]);
 
         sceneObjects.add(obj);
         scene.addElementToScene(new DefaultSceneObject(obj, "Car"));
+        
+        sceneObjects.add(objII);
+        scene.addElementToScene(new DefaultSceneObject(objII, "Car 2"));
+        objII.translate(3.0f, 0.0f, 0.0f);
             
-        sceneObjects.add(ak);
+        /*sceneObjects.add(ak);
         scene.addElementToScene(new DefaultSceneObject(ak, "AK"));
         ak.translate(5, 0, 0);
             
         sceneObjects.add(farm);
         scene.addElementToScene(new DefaultSceneObject(farm, "Farm"));
-        farm.translate(20, 0, 20);
+        farm.translate(20, 0, 20);*/
 
     }
 

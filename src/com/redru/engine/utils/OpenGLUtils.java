@@ -141,4 +141,39 @@ public class OpenGLUtils {
 		return tmp;
 	}
 	
+	/**
+	 * 
+	 * @param positions
+	 * @param textures
+	 * @param normals
+	 * @param indices
+	 * @return
+	 */
+	public static float[] generateUnifiedData(float[] positions, float[] textures, float[] normals, short[][] indices) {
+		float[] tmp = new float[(OpenGLConstants.SINGLE_V_SIZE + OpenGLConstants.SINGLE_VT_SIZE + OpenGLConstants.SINGLE_VN_SIZE) * indices.length * 3];
+		
+		for (int i = 0, x = 0; i < indices.length; i++) {
+			for (int e = 0; e < indices[i].length; e++) {
+				if (e == 0) {
+					for (int w = 0; w < OpenGLConstants.SINGLE_V_SIZE; w++) {
+						tmp[x] = positions[indices[i][e] * OpenGLConstants.SINGLE_V_SIZE + w];
+						x++;
+					}
+				} else if (e == 1) {
+					for (int w = 0; w < OpenGLConstants.SINGLE_VT_SIZE; w++) {
+						tmp[x] = textures[indices[i][e] * OpenGLConstants.SINGLE_VT_SIZE + w];
+						x++;
+					}
+				} else if (e == 2) {
+					for (int w = 0; w < OpenGLConstants.SINGLE_VN_SIZE; w++) {
+						tmp[x] = normals[indices[i][e] * OpenGLConstants.SINGLE_VN_SIZE + w];
+						x++;
+					}
+				}
+			}
+		}
+		
+		return tmp;
+	}
+	
 }
