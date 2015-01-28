@@ -7,6 +7,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Window;
 
 import com.redru.engine.GLView;
 import com.redru.engine.input.UserInputHandler;
@@ -19,6 +20,9 @@ public class Redru extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		//Remove title bar
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    
         context = this;
 
         setContentView(new GLView(this));

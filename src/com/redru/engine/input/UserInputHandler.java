@@ -66,8 +66,8 @@ public class UserInputHandler {
 
                     rotation.set(p2.x - p1.x, p2.y - p1.y);
 
-                    //Log.i(TAG, "x: " + distance.x);
-                    //Log.i(TAG, "y: " + distance.y);
+                    Log.i(TAG, "x: " + rotation.x);
+                    Log.i(TAG, "y: " + rotation.y);
                     rotationHandled = false;
 
                     p1.set(p2.x, p2.y); // p1 prende il valore di p2

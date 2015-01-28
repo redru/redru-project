@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.SceneContext;
+import com.redru.engine.scene.SceneElement;
 import com.redru.engine.scene.elements.complex.DefaultSceneObject;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
@@ -30,7 +31,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private SceneContext scene;
     private UserInputHandler handler = UserInputHandler.getInstance();
 
-    private ArrayList<EvoObj> sceneObjects = new ArrayList<EvoObj>();
+    private ArrayList<SceneElement> sceneObjects = new ArrayList<SceneElement>();
 
     /**
      * 
@@ -46,7 +47,8 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
         // Initialize and setup the Camera
         camera = Camera.getInstance();
-        camera.move(0.0f, 0.0f, -20.0f);
+        camera.move(0.0f, 0.0f, -16.0f);
+        camera.rotate(30.0f, 180.0f, 0.0f);
 
         // Initialize Scene Context
         scene = SceneContext.getInstance();
@@ -62,11 +64,10 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      */
     public void onDrawFrame(GL10 unused) {
         handleUserInput();
-        scene.getElements().get(0).translate(0.0f, 0.0f, 0.1f);
         drawShapes();
 
         try {
-            Thread.sleep(16);
+            Thread.sleep(12);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -85,7 +86,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         scene.drawScene();
         TimeManager.setEnd();
         TimeManager.getDifferenceInMicroseconds();
-        Log.i(TAG, "Time average: '" + TimeManager.getAverage() + "' microseconds");
+        //Log.i(TAG, "Time average: '" + TimeManager.getAverage() + "' microseconds");
     }
 
     /**
@@ -107,37 +108,30 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
                 rotation.y = 2;
             }
 
-            camera.rotate(-rotation.y, -rotation.x, 0.0f);
+//            camera.rotate(-rotation.y, -rotation.x, 0.0f);
+            if (rotation.x > 0) {
+            	camera.move(0.8f, 0.0f, 0.0f);
+            	sceneObjects.get(0).translate(0.8f, 0.0f, 0.0f);
+            } else {
+            	camera.move(-0.8f, 0.0f, 0.0f);
+            	sceneObjects.get(0).translate(-0.8f, 0.0f, 0.0f);
+            }
         }
 
-        if (!handler.isScaleHandled()) {
+        /*if (!handler.isScaleHandled()) {
             camera.move(0.0f, 0.0f, -handler.getScale());
-        }
+        }*/
     }
 
     /**
      * 
      */
     private void elementsStartup() {
-    	//EvoObj ak = objFactory.getStockedObject(objFactory.getObjFiles()[0]);
-        EvoObj obj = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
-        EvoObj objII = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
-        //EvoObj farm = objFactory.getStockedObject(objFactory.getObjFiles()[2]);
-
-        sceneObjects.add(obj);
-        scene.addElementToScene(new DefaultSceneObject(obj, "Car"));
-        
-        sceneObjects.add(objII);
-        scene.addElementToScene(new DefaultSceneObject(objII, "Car 2"));
-        objII.translate(3.0f, 0.0f, 0.0f);
-            
-        /*sceneObjects.add(ak);
-        scene.addElementToScene(new DefaultSceneObject(ak, "AK"));
-        ak.translate(5, 0, 0);
-            
-        sceneObjects.add(farm);
-        scene.addElementToScene(new DefaultSceneObject(farm, "Farm"));
-        farm.translate(20, 0, 20);*/
+    	EvoObj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
+    	DefaultSceneObject objB2Spirit = new DefaultSceneObject(b2spirit, "B-2 Spirit");
+    	scene.addElementToScene(objB2Spirit);
+    	sceneObjects.add(objB2Spirit);
+    	b2spirit.translate(0.0f, 0.0f, -5.0f);
 
     }
 
