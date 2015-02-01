@@ -38,12 +38,9 @@ public class ResourceUtils {
 		StringBuilder body = new StringBuilder();
 
 		try {
-			InputStream inputStream = context.getResources().openRawResource(
-					resourceId);
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					inputStream);
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
+			InputStream inputStream = context.getResources().openRawResource(resourceId);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 			String nextLine;
 			while ((nextLine = bufferedReader.readLine()) != null) {
@@ -67,7 +64,7 @@ public class ResourceUtils {
 	 * @param suffix
 	 * @return
 	 */
-	public static String[] getFilesList(String suffix) {
+	public static ArrayList<String> getFilesList(String suffix) {
 		Field[] fields = R.raw.class.getFields();
 		ArrayList<String> tmp = new ArrayList<String>();
 
@@ -78,10 +75,7 @@ public class ResourceUtils {
 			}
 		}
 
-		String[] list = new String[tmp.size()];
-		list = tmp.toArray(list);
-
-		return list;
+		return tmp;
 	}
 
 	/**
@@ -112,7 +106,7 @@ public class ResourceUtils {
 		try {
 			if (props == null) {
 				props = new Properties();
-				InputStream inputStream = Redru.getContext().getClassLoader().getResourceAsStream("application.properties");
+				InputStream inputStream = Redru.getContext().getResources().openRawResource(R.raw.application);
 				props.load(inputStream);
 			}
 		} catch (IOException e) {

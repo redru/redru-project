@@ -1,5 +1,6 @@
 package com.redru.engine.wrapper;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class ObjFactory {
 
     private static ObjFactory instance = new ObjFactory();
     private Map<String, EvoObj> objStock = new Hashtable<String, EvoObj>();
-    private String[] objFiles;
+    private ArrayList<String> objFiles;
 
     /**
      * 
@@ -41,17 +42,27 @@ public class ObjFactory {
      */
     private void loadObjStock() {
         Log.i(TAG, "Starting loading obj stock.");
-
-        for (int fIndex = 0; fIndex < objFiles.length; fIndex++) {
-            int id = Redru.getContext().getResources().getIdentifier(objFiles[fIndex], "raw", Redru.getContext().getPackageName());
-            String file = ResourceUtils.readTextFileFromResource(Redru.getContext(), id);
-            objStock.put(objFiles[fIndex], ObjWrapper.getInstance().createObjFromFile(file, objFiles[fIndex]));
+        
+        for (int fIndex = 0; fIndex < objFiles.size(); fIndex++) {
+        	
+        	// Objects are only loaded if they are not in the exception list in the properties file
+        	if (!ResourceUtils.getApplicationProperty("loader_obj_exception").contains(objFiles.get(fIndex))) {
+        		
+        		// Load the object and save into the objects stock
+	            int id = Redru.getContext().getResources().getIdentifier(objFiles.get(fIndex), "raw", Redru.getContext().getPackageName());
+	            String file = ResourceUtils.readTextFileFromResource(Redru.getContext(), id);
+	            objStock.put(objFiles.get(fIndex), ObjWrapper.getInstance().createObjFromFile(file, objFiles.get(fIndex)));
+        	} else {
+        		Log.i(TAG, "The object '" + objFiles.get(fIndex) + "' was in the exceptions list. It won't be loaded.");
+        		objFiles.remove(fIndex);
+        		fIndex--;
+        	}
         }
 
-        if (objFiles.length == 0) {
+        if (objFiles.size() == 0) {
             Log.i(TAG, "There was not files obj_");
         } else {
-            Log.i(TAG, "Obj stock loading complete. Correctly loaded '" + objFiles.length + "' files.");
+            Log.i(TAG, "Obj stock loading complete. Correctly loaded '" + objFiles.size() + "' files.");
         }
     }
 
@@ -59,7 +70,7 @@ public class ObjFactory {
      * 
      * @return
      */
-    public String[] getObjFiles() {
+    public ArrayList<String> getObjFiles() {
         return objFiles;
     }
 

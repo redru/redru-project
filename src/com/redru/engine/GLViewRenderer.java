@@ -111,7 +111,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
                 rotation.y = 2;
             }
 
-//            camera.rotate(-rotation.y, -rotation.x, 0.0f);
             if (rotation.x > 0) {
             	camera.move(0.8f, 0.0f, 0.0f);
             	sceneObjects.get(0).translate(0.8f, 0.0f, 0.0f);
@@ -120,22 +119,25 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
             	sceneObjects.get(0).translate(-0.8f, 0.0f, 0.0f);
             }
         }
-
-        /*if (!handler.isScaleHandled()) {
-            camera.move(0.0f, 0.0f, -handler.getScale());
-        }*/
     }
 
     /**
      * 
      */
     private void elementsStartup() {
-    	EvoObj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
+    	EvoObj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
     	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	DefaultSceneObject objB2Spirit = new DefaultSceneObject(b2spirit, "B-2 Spirit");
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
-    	b2spirit.translate(0.0f, 0.0f, -5.0f);
+    	b2spirit.translate(0.0f, 0.0f, -6.0f);
+    	
+    	EvoObj b2spirit2 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+    	DefaultSceneObject objB2Spirit2 = new DefaultSceneObject(b2spirit2, "B-2 Spirit2");
+    	scene.addElementToScene(objB2Spirit2);
+    	sceneObjects.add(objB2Spirit2);
+    	b2spirit2.translate(0.0f, 2.0f, 16.0f);
 
     }
 

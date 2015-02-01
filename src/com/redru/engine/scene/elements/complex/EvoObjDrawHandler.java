@@ -9,6 +9,7 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
+import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.EvoObj;
@@ -49,19 +50,22 @@ public class EvoObjDrawHandler {
      * 
      */
     public void setup() {
-    	StringBuilder str = new StringBuilder();
-    	
-    	for (int i = 0, x = 0, y = 0; i < evoObj.getUnifiedData().length; i++) {
-    		str.append(evoObj.getUnifiedData()[i] + ", ");
-    		if (x % 7 == 0 && x != 0) {
-    			Log.i(TAG, "UNIFIED DATA " + y + ": " + str);
-    			str.delete(0, str.length());
-    			x = 0;
-    			y++;
-    		} else {
-    			x++;
-    		}
-    	}    	
+    	// If the advanced logs are actived, log the unifiedData of the object
+    	if (Boolean.parseBoolean(ResourceUtils.getApplicationProperty("advanced_logs"))) {
+	    	StringBuilder str = new StringBuilder();
+	    	
+	    	for (int i = 0, x = 0, y = 0; i < evoObj.getUnifiedData().length; i++) {
+	    		str.append(evoObj.getUnifiedData()[i] + ", ");
+	    		if (x % 7 == 0 && x != 0) {
+	    			Log.i(TAG, "UNIFIED DATA " + y + ": " + str);
+	    			str.delete(0, str.length());
+	    			x = 0;
+	    			y++;
+	    		} else {
+	    			x++;
+	    		}
+	    	}
+    	}
     	
         Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------

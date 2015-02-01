@@ -11,7 +11,6 @@ import com.redru.engine.utils.OpenGLUtils;
 public class EvoObj implements Cloneable {
     private static final String TAG = "EvoObj";
     public static final float[] EMPTY_FLOAT_ARRAY = { 0.0f };
-    public static final short[] EMPTY_SHORT_ARRAY = { 0 };
     public static final String DEFAULT_NAME = "EVO_OBJ";
     
     private String name;
@@ -314,9 +313,37 @@ public class EvoObj implements Cloneable {
     	
     }
 	
-	@Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public EvoObj clone() throws CloneNotSupportedException {
+
+        float[] tmpPositions = new float[this.positions.length];
+        float[] tmpTextures = new float[this.textures.length];
+        float[] tmpNormals = new float[this.normals.length];
+        float[] tmpUnifiedData = new float[this.unifiedData.length];
+    	
+    	for (int i = 0; i < this.positions.length; i++) {
+    		tmpPositions[i] = this.positions[i];
+    	}
+    	
+    	for (int i = 0; i < this.textures.length; i++) {
+    		tmpTextures[i] = this.textures[i];
+    	}
+    	
+    	for (int i = 0; i < this.normals.length; i++) {
+    		tmpNormals[i] = this.normals[i];
+    	}
+    	
+    	for (int i = 0; i < this.unifiedData.length; i++) {
+    		tmpUnifiedData[i] = this.unifiedData[i];
+    	}
+    	
+    	EvoObj tmp = new EvoObj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, DEFAULT_NAME);
+    	tmp.setTotalTextures(this.totalTextures);
+    	tmp.setTotalTextures(this.totalTextures);
+    	tmp.setTotalNormals(this.totalNormals);
+    	tmp.setTotalIndices(this.totalIndices);
+    	tmp.setTotalFaces(this.totalFaces);
+        
+        return tmp;
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.util.Log;
 
 import com.redru.engine.scene.elements.simple.OriginLines;
+import com.redru.engine.utils.ResourceUtils;
 
 /**
  * Created by Luca on 20/01/2015.
@@ -18,7 +19,7 @@ public class SceneContext {
     private ArrayList<SceneElement> elements;
     private SceneElement originLines;
 
-    private boolean enableOriginLines = true;
+    private boolean enableOriginLines;
 
     /**
      * 
@@ -26,7 +27,7 @@ public class SceneContext {
     private SceneContext() {
         elements = new ArrayList<SceneElement>();
         originLines = new OriginLines();
-        setEnableOriginLines(true);
+        setEnableOriginLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("origin_lines")));
 
         Log.i(TAG, "Creation complete.");
     }

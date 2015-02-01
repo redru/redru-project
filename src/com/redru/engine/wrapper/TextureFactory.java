@@ -1,5 +1,6 @@
 package com.redru.engine.wrapper;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -13,7 +14,7 @@ public class TextureFactory {
 	
 	private static TextureFactory instance;
 	private Map<String, Texture> textureStock = new Hashtable<String, Texture>();
-	private String[] texFiles;
+	private ArrayList<String> texFiles;
 	
 	private TextureFactory() {
 		this.texFiles = ResourceUtils.getFilesList("tex_");
@@ -23,15 +24,15 @@ public class TextureFactory {
 	}
 	
 	private void loadTextures() {
-		for (int fIndex = 0; fIndex < texFiles.length; fIndex++) {
-            int id = Redru.getContext().getResources().getIdentifier(texFiles[fIndex], "raw", Redru.getContext().getPackageName());
-            textureStock.put(texFiles[fIndex], ResourceUtils.importTexture(Redru.getContext(), id));
+		for (int fIndex = 0; fIndex < texFiles.size(); fIndex++) {
+            int id = Redru.getContext().getResources().getIdentifier(texFiles.get(fIndex), "raw", Redru.getContext().getPackageName());
+            textureStock.put(texFiles.get(fIndex), ResourceUtils.importTexture(Redru.getContext(), id));
         }
 		
-		if (texFiles.length == 0) {
+		if (texFiles.size() == 0) {
             Log.i(TAG, "There was not files tex_");
         } else {
-            Log.i(TAG, "Obj stock loading complete. Correctly loaded '" + texFiles.length + "' files.");
+            Log.i(TAG, "Texture stock loading complete. Correctly loaded '" + texFiles.size() + "' files.");
         }
 	}
 	
