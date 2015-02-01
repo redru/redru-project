@@ -79,15 +79,15 @@ public class ObjFactory {
      * @param objectName
      * @return
      */
-    public EvoObj getStockedObject(String objectName) {
+    public EvoObj getStockedObject(String objStockKey, String name) {
         EvoObj obj = null;
 
         try {
-            if (objStock.containsKey(objectName)) {
-                obj = (EvoObj) objStock.get(objectName).clone();
-                Log.i(TAG, "Requested object '" + objectName + "' was correctly created from the factory.");
+            if (objStock.containsKey(objStockKey)) {
+                obj = (EvoObj) objStock.get(objStockKey).clone(name);
+                Log.i(TAG, "Requested object '" + objStockKey + "' was correctly created from the factory.");
             } else {
-                Log.i(TAG, "Requested object '" + objectName + "' was not in the objects stock.");
+                Log.i(TAG, "Requested object '" + objStockKey + "' was not in the objects stock.");
             }
         } catch(CloneNotSupportedException e) {
             e.printStackTrace();

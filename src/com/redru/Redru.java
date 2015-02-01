@@ -3,7 +3,6 @@ package com.redru;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -11,6 +10,10 @@ import android.view.Window;
 
 import com.redru.engine.GLView;
 import com.redru.engine.input.UserInputHandler;
+import com.redru.engine.scene.SceneContext;
+import com.redru.engine.view.Camera;
+import com.redru.engine.wrapper.ObjFactory;
+import com.redru.engine.wrapper.TextureFactory;
 
 public class Redru extends Activity {
 	
@@ -24,6 +27,12 @@ public class Redru extends Activity {
 	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    
         context = this;
+        
+        // Starting Application Framework
+        Camera.getInstance();
+        ObjFactory.getInstance();
+        TextureFactory.getInstance();
+        SceneContext.getInstance();
 
         setContentView(new GLView(this));
 	}
@@ -50,12 +59,6 @@ public class Redru extends Activity {
 	@Override
     public boolean onTouchEvent(MotionEvent event) {
         return UserInputHandler.getInstance().handleMotionEvent(event);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        finish();
-        return true;
     }
 
     /**

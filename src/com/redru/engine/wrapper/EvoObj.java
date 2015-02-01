@@ -313,7 +313,7 @@ public class EvoObj implements Cloneable {
     	
     }
 	
-    public EvoObj clone() throws CloneNotSupportedException {
+    public EvoObj clone(String name) throws CloneNotSupportedException {
 
         float[] tmpPositions = new float[this.positions.length];
         float[] tmpTextures = new float[this.textures.length];
@@ -336,7 +336,7 @@ public class EvoObj implements Cloneable {
     		tmpUnifiedData[i] = this.unifiedData[i];
     	}
     	
-    	EvoObj tmp = new EvoObj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, DEFAULT_NAME);
+    	EvoObj tmp = new EvoObj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, name);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalNormals(this.totalNormals);

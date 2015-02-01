@@ -11,11 +11,9 @@ import com.redru.engine.utils.ResourceUtils;
  * Created by Luca on 20/01/2015.
  */
 public class SceneContext {
-
     private static final String TAG = "SceneContext";
 
     private static SceneContext instance;
-
     private ArrayList<SceneElement> elements;
     private SceneElement originLines;
 
@@ -26,8 +24,6 @@ public class SceneContext {
      */
     private SceneContext() {
         elements = new ArrayList<SceneElement>();
-        originLines = new OriginLines();
-        setEnableOriginLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("origin_lines")));
 
         Log.i(TAG, "Creation complete.");
     }
@@ -108,6 +104,11 @@ public class SceneContext {
      */
     public ArrayList<SceneElement> getElements() {
         return this.elements;
+    }
+    
+    public void originLinesStartup() {
+        originLines = new OriginLines();
+        setEnableOriginLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("origin_lines")));
     }
 
 }

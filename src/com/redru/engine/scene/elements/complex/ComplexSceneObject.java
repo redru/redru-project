@@ -5,7 +5,7 @@ import android.util.Log;
 import com.redru.engine.scene.SceneElement;
 import com.redru.engine.wrapper.EvoObj;
 
-public class DefaultSceneObject implements SceneElement {
+public class ComplexSceneObject implements SceneElement {
 	private static String TAG = "DefaultSceneObject";
 	
 	private EvoObj obj;
@@ -17,8 +17,8 @@ public class DefaultSceneObject implements SceneElement {
 	/**
 	 * 
 	 */
-	public DefaultSceneObject() {
-		this(null, "");
+	public ComplexSceneObject() {
+		this(null);
 	}
 	
 	/**
@@ -26,9 +26,8 @@ public class DefaultSceneObject implements SceneElement {
 	 * @param obj
 	 * @param name
 	 */
-	public DefaultSceneObject(EvoObj obj, String name) {
+	public ComplexSceneObject(EvoObj obj) {
 		this.obj = obj;
-		this.obj.setName(name);
 		this.drawHandler = new EvoObjDrawHandler(obj);
 	}
 

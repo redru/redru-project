@@ -13,7 +13,7 @@ import android.util.Log;
 import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.scene.SceneElement;
-import com.redru.engine.scene.elements.complex.DefaultSceneObject;
+import com.redru.engine.scene.elements.complex.ComplexSceneObject;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.EvoObj;
@@ -24,15 +24,13 @@ import com.redru.engine.wrapper.TextureFactory;
  * Created by Luca on 16/01/2015.
  */
 public class GLViewRenderer implements GLSurfaceView.Renderer {
-
     private static final String TAG = "GLViewRenderer";
-
-    private ObjFactory objFactory;
-    private TextureFactory texFactory;
-    private Camera camera;
-    private SceneContext scene;
+    
+    private Camera camera = Camera.getInstance();
+    private SceneContext scene = SceneContext.getInstance();
+    private ObjFactory objFactory = ObjFactory.getInstance();
+    private TextureFactory texFactory = TextureFactory.getInstance();
     private UserInputHandler handler = UserInputHandler.getInstance();
-
     private ArrayList<SceneElement> sceneObjects = new ArrayList<SceneElement>();
 
     /**
@@ -44,17 +42,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
 
-        // Initialize Object Factory
-        objFactory = ObjFactory.getInstance();
-        texFactory = TextureFactory.getInstance();
-
         // Initialize and setup the Camera
-        camera = Camera.getInstance();
         camera.move(0.0f, 0.0f, -16.0f);
         camera.rotate(30.0f, 180.0f, 0.0f);
-
-        // Initialize Scene Context
-        scene = SceneContext.getInstance();
 
         // Load .obj elements
         this.elementsStartup();
@@ -125,20 +115,21 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     private void elementsStartup() {
-    	EvoObj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	scene.originLinesStartup();
+    	
+    	EvoObj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit");
     	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	DefaultSceneObject objB2Spirit = new DefaultSceneObject(b2spirit, "B-2 Spirit");
+    	ComplexSceneObject objB2Spirit = new ComplexSceneObject(b2spirit);
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
     	b2spirit.translate(0.0f, 0.0f, -6.0f);
     	
-    	EvoObj b2spirit2 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	EvoObj b2spirit2 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit2");
     	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	DefaultSceneObject objB2Spirit2 = new DefaultSceneObject(b2spirit2, "B-2 Spirit2");
+    	ComplexSceneObject objB2Spirit2 = new ComplexSceneObject(b2spirit2);
     	scene.addElementToScene(objB2Spirit2);
     	sceneObjects.add(objB2Spirit2);
     	b2spirit2.translate(0.0f, 2.0f, 16.0f);
-
     }
 
     /**
