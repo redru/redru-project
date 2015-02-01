@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import android.graphics.Point;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.redru.engine.input.UserInputHandler;
+import com.redru.engine.actions.ActionsManager;
+import com.redru.engine.actions.impl.UserInputAction;
+import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
-import com.redru.engine.scene.SceneElement;
 import com.redru.engine.scene.elements.complex.ComplexSceneObject;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
@@ -30,8 +30,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private SceneContext scene = SceneContext.getInstance();
     private ObjFactory objFactory = ObjFactory.getInstance();
     private TextureFactory texFactory = TextureFactory.getInstance();
-    private UserInputHandler handler = UserInputHandler.getInstance();
-    private ArrayList<SceneElement> sceneObjects = new ArrayList<SceneElement>();
+    private ActionsManager actionsManager = ActionsManager.getInstance();
+    
+    private ArrayList<IntSceneElement> sceneObjects = new ArrayList<IntSceneElement>();
 
     /**
      * 
@@ -48,6 +49,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
         // Load .obj elements
         this.elementsStartup();
+        
+        // Load game actions
+        this.actionsStartup();
 
         Log.i(TAG, "Creation complete.");
     }
@@ -56,7 +60,16 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     public void onDrawFrame(GL10 unused) {
-        handleUserInput();
+        actionsManager.executeAction(UserInputAction.class.getSimpleName(), sceneObjects);
+        
+        //TMP
+        for (IntSceneElement element : this.sceneObjects) {
+        	if (!((ComplexSceneObject) element).getObj().getName().equals("B-2 Spirit")) {
+        		element.translate(0.0f, 0.0f, -1.0f);
+        	}
+        }
+        //--------
+        
         drawShapes();
 
         try {
@@ -81,34 +94,12 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         TimeManager.getDifferenceInMicroseconds();
         //Log.i(TAG, "Time average: '" + TimeManager.getAverage() + "' microseconds");
     }
-
+    
     /**
      * 
      */
-    private void handleUserInput() {
-        if (!handler.isRotationHandled()) {
-            Point rotation = handler.getRotation();
-
-            if (rotation.x > 0) {
-                rotation.x = -2;
-            } else if (rotation.x < 0) {
-                rotation.x = 2;
-            }
-
-            if (rotation.y > 0) {
-                rotation.y = -2;
-            } else if (rotation.y < 0) {
-                rotation.y = 2;
-            }
-
-            if (rotation.x > 0) {
-            	camera.move(0.8f, 0.0f, 0.0f);
-            	sceneObjects.get(0).translate(0.8f, 0.0f, 0.0f);
-            } else {
-            	camera.move(-0.8f, 0.0f, 0.0f);
-            	sceneObjects.get(0).translate(-0.8f, 0.0f, 0.0f);
-            }
-        }
+    private void actionsStartup() {
+    	actionsManager.addAction(new UserInputAction());
     }
 
     /**
@@ -122,14 +113,35 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	ComplexSceneObject objB2Spirit = new ComplexSceneObject(b2spirit);
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
-    	b2spirit.translate(0.0f, 0.0f, -6.0f);
+    	b2spirit.translate(0.0f, 2.0f, -6.0f);
     	
     	EvoObj b2spirit2 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit2");
     	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	ComplexSceneObject objB2Spirit2 = new ComplexSceneObject(b2spirit2);
     	scene.addElementToScene(objB2Spirit2);
     	sceneObjects.add(objB2Spirit2);
-    	b2spirit2.translate(0.0f, 2.0f, 16.0f);
+    	b2spirit2.translate(3.0f, 5.0f, 120.0f);
+    	
+    	EvoObj b2spirit3 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit3");
+    	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+    	ComplexSceneObject objB2Spirit3 = new ComplexSceneObject(b2spirit3);
+    	scene.addElementToScene(objB2Spirit3);
+    	sceneObjects.add(objB2Spirit3);
+    	b2spirit3.translate(10.0f, 2.0f, 100.0f);
+    	
+    	EvoObj b2spirit4 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit4");
+    	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+    	ComplexSceneObject objB2Spirit4 = new ComplexSceneObject(b2spirit4);
+    	scene.addElementToScene(objB2Spirit4);
+    	sceneObjects.add(objB2Spirit4);
+    	b2spirit4.translate(8.0f, 7.0f, 40.0f);
+    	
+    	EvoObj b2spirit5 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit5");
+    	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+    	ComplexSceneObject objB2Spirit5 = new ComplexSceneObject(b2spirit5);
+    	scene.addElementToScene(objB2Spirit5);
+    	sceneObjects.add(objB2Spirit5);
+    	b2spirit5.translate(5.0f, -3.0f, 80.0f);
     }
 
     /**

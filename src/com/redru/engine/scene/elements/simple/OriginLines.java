@@ -8,7 +8,7 @@ import java.nio.ShortBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.redru.engine.scene.SceneElement;
+import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
@@ -16,7 +16,7 @@ import com.redru.engine.view.Camera;
 /**
  * Created by Luca on 20/01/2015.
  */
-public class OriginLines implements SceneElement {
+public class OriginLines implements IntSceneElement {
 
     private static final String TAG = "OriginLines";
 

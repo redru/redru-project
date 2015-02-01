@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.Window;
 
 import com.redru.engine.GLView;
+import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.view.Camera;
@@ -33,6 +34,8 @@ public class Redru extends Activity {
         ObjFactory.getInstance();
         TextureFactory.getInstance();
         SceneContext.getInstance();
+        UserInputHandler.getInstance();
+        ActionsManager.getInstance();
 
         setContentView(new GLView(this));
 	}

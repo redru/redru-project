@@ -2,10 +2,10 @@ package com.redru.engine.scene.elements.complex;
 
 import android.util.Log;
 
-import com.redru.engine.scene.SceneElement;
+import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.EvoObj;
 
-public class ComplexSceneObject implements SceneElement {
+public class ComplexSceneObject implements IntSceneElement {
 	private static String TAG = "DefaultSceneObject";
 	
 	private EvoObj obj;

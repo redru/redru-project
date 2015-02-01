@@ -14,8 +14,8 @@ public class SceneContext {
     private static final String TAG = "SceneContext";
 
     private static SceneContext instance;
-    private ArrayList<SceneElement> elements;
-    private SceneElement originLines;
+    private ArrayList<IntSceneElement> elements;
+    private IntSceneElement originLines;
 
     private boolean enableOriginLines;
 
@@ -23,7 +23,7 @@ public class SceneContext {
      * 
      */
     private SceneContext() {
-        elements = new ArrayList<SceneElement>();
+        elements = new ArrayList<IntSceneElement>();
 
         Log.i(TAG, "Creation complete.");
     }
@@ -46,7 +46,7 @@ public class SceneContext {
     public void raiseSceneElements() {
         originLines.setup();
 
-        for (SceneElement element : elements) {
+        for (IntSceneElement element : elements) {
             element.setup();
         }
     }
@@ -60,7 +60,7 @@ public class SceneContext {
             originLines.draw();
         }
 
-        for (SceneElement element : elements) {
+        for (IntSceneElement element : elements) {
             element.draw();
         }
     }
@@ -78,7 +78,7 @@ public class SceneContext {
      * 
      * @param element
      */
-    public void addElementToScene(SceneElement element) {
+    public void addElementToScene(IntSceneElement element) {
         this.elements.add(element);
     }
 
@@ -94,7 +94,7 @@ public class SceneContext {
      * 
      * @param element
      */
-    public void removeElementFromScene(SceneElement element) {
+    public void removeElementFromScene(IntSceneElement element) {
         this.elements.remove(element);
     }
 
@@ -102,7 +102,7 @@ public class SceneContext {
      * 
      * @return
      */
-    public ArrayList<SceneElement> getElements() {
+    public ArrayList<IntSceneElement> getElements() {
         return this.elements;
     }
     
