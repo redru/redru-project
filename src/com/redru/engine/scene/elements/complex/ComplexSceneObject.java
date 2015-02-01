@@ -3,7 +3,7 @@ package com.redru.engine.scene.elements.complex;
 import android.util.Log;
 
 import com.redru.engine.scene.SceneElement;
-import com.redru.engine.wrapper.EvoObj;
+import com.redru.engine.wrapper.objects.EvoObj;
 
 public class ComplexSceneObject implements SceneElement {
 	private static String TAG = "DefaultSceneObject";

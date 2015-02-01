@@ -12,7 +12,7 @@ import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.EvoObj;
+import com.redru.engine.wrapper.objects.EvoObj;
 
 /**
  * Created by Luca on 22/01/2015.

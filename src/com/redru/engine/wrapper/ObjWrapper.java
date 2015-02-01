@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.OpenGLUtils;
+import com.redru.engine.wrapper.objects.EvoObj;
 
 /**
  * Created by Luca on 22/01/2015.

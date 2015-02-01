@@ -16,7 +16,7 @@ import android.util.Log;
 
 import com.redru.R;
 import com.redru.Redru;
-import com.redru.engine.wrapper.Texture;
+import com.redru.engine.wrapper.objects.Texture;
 
 /**
  * Created by Luca on 16/01/2015.

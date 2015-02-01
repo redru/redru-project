@@ -16,9 +16,9 @@ import com.redru.engine.scene.SceneElement;
 import com.redru.engine.scene.elements.complex.ComplexSceneObject;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.EvoObj;
 import com.redru.engine.wrapper.ObjFactory;
 import com.redru.engine.wrapper.TextureFactory;
+import com.redru.engine.wrapper.objects.EvoObj;
 
 /**
  * Created by Luca on 16/01/2015.
