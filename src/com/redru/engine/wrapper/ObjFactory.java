@@ -22,8 +22,8 @@ public class ObjFactory {
      * 
      */
     private ObjFactory() {
-        objFiles = ResourceUtils.getFilesList("obj_");
-        loadObjStock();
+        this.objFiles = ResourceUtils.getFilesList("obj_");
+        this.loadObjStock();
 
         Log.i(TAG, "Creation complete.");
     }

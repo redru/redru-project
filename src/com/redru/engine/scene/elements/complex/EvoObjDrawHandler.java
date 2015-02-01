@@ -61,10 +61,7 @@ public class EvoObjDrawHandler {
     		} else {
     			x++;
     		}
-    	}
-    	
-    	Log.i(TAG, "UNIFIED DATA: LOGGED");
-    	
+    	}    	
     	
         Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------

@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -14,12 +15,15 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.redru.R;
+import com.redru.Redru;
 import com.redru.engine.wrapper.Texture;
 
 /**
  * Created by Luca on 16/01/2015.
  */
 public class ResourceUtils {
+	
+	private static Properties props;
 
 	private static final String TAG = "ResourceUtils";
 
@@ -98,4 +102,24 @@ public class ResourceUtils {
     	
     	return tex;
     }
+	
+	/**
+	 * 
+	 * @param property
+	 * @return
+	 */
+	public static String getApplicationProperty(String property) {
+		try {
+			if (props == null) {
+				props = new Properties();
+				InputStream inputStream = Redru.getContext().getClassLoader().getResourceAsStream("application.properties");
+				props.load(inputStream);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return props.getProperty(property);
+	}
+	
 }
