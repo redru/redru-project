@@ -2,6 +2,7 @@ package com.redru.engine.wrapper;
 
 import android.util.Log;
 
+import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.OpenGLUtils;
 
 /**
@@ -14,20 +15,18 @@ public class EvoObj implements Cloneable {
     public static final String DEFAULT_NAME = "EVO_OBJ";
     
     private String name;
-
-    private int positionsCount = -1;
-    private int texturesCount = -1;
-    private int normalsCount = -1;
-
-    private int singlePositionSize = -1;
-    private int singleTextureSize = -1;
-    private int singleNormalSize = -1;
+    private int totalVertexes = -1;
+    private int totalTextures = -1;
+    private int totalNormals = -1;
+    private int totalIndices = -1;
+    private int totalFaces = -1;
 
     private float[] positions;
     private float[] textures;
     private float[] normals;
     private float[] unifiedData;
-    private int[] indicesStride;
+    
+    private Texture texture;
 
     /**
      * Default constructor. Initializes all arrays to NULL.
@@ -80,9 +79,9 @@ public class EvoObj implements Cloneable {
      * @param unifiedData
      * @param name
      */
-    public EvoObj(float[] positionIndexData,
-    			  float[] textureCoordinatesIndexData,
-    			  float[] normalIndexData,
+    public EvoObj(float[] positions,
+    			  float[] textures,
+    			  float[] normals,
     			  float[] unifiedData,
     			  String name) {
         if (name == null || name.equals("")) {
@@ -93,8 +92,14 @@ public class EvoObj implements Cloneable {
 
         Log.i(TAG, "Creating new EvoObj '" + this.name + "'.");
 
-        // Init Arrays
+        this.setPositions(positions);
+        this.setTotalVertexes(positions.length / OpenGLConstants.SINGLE_V_SIZE);
+        this.setTextures(textures);
+        this.setTotalTextures(textures.length / OpenGLConstants.SINGLE_VT_SIZE);
+        this.setNormals(normals);
+        this.setTotalNormals(normals.length / OpenGLConstants.SINGLE_VN_SIZE);
         this.setUnifiedData(unifiedData);
+        this.setTotalFaces(unifiedData.length / 8 / 3);
         
         // Log Object Data
         logEvoObjInformation();
@@ -102,6 +107,134 @@ public class EvoObj implements Cloneable {
     }
 
     /**
+     * 
+     * @return
+     */
+    public int getTotalVertexes() {
+		return totalVertexes;
+	}
+
+    /**
+     * 
+     * @param totalVertexes
+     */
+	public void setTotalVertexes(int totalVertexes) {
+		this.totalVertexes = totalVertexes;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getTotalTextures() {
+		return totalTextures;
+	}
+
+	/**
+	 * 
+	 * @param totalTextures
+	 */
+	public void setTotalTextures(int totalTextures) {
+		this.totalTextures = totalTextures;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getTotalNormals() {
+		return totalNormals;
+	}
+
+	/**
+	 * 
+	 * @param totalNormals
+	 */
+	public void setTotalNormals(int totalNormals) {
+		this.totalNormals = totalNormals;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getTotalIndices() {
+		return totalIndices;
+	}
+
+	/**
+	 * 
+	 * @param totalIndices
+	 */
+	public void setTotalIndices(int totalIndices) {
+		this.totalIndices = totalIndices;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getTotalFaces() {
+		return totalFaces;
+	}
+
+	/**
+	 * 
+	 * @param totalFaces
+	 */
+	public void setTotalFaces(int totalFaces) {
+		this.totalFaces = totalFaces;
+	}
+
+	/**
+     * 
+     * @return
+     */
+    public float[] getPositions() {
+		return positions;
+	}
+
+    /**
+     * 
+     * @param positions
+     */
+	public void setPositions(float[] positions) {
+		this.positions = positions;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public float[] getTextures() {
+		return textures;
+	}
+
+	/**
+	 * 
+	 * @param textures
+	 */
+	public void setTextures(float[] textures) {
+		this.textures = textures;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public float[] getNormals() {
+		return normals;
+	}
+
+	/**
+	 * 
+	 * @param normals
+	 */
+	public void setNormals(float[] normals) {
+		this.normals = normals;
+	}
+
+	/**
      * 
      * @return
      */
@@ -132,6 +265,22 @@ public class EvoObj implements Cloneable {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Texture getTexture() {
+		return texture;
+	}
+
+	/**
+	 * 
+	 * @param texture
+	 */
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
     
     /**
      * Writes to the log the object most important information
@@ -140,10 +289,10 @@ public class EvoObj implements Cloneable {
         StringBuilder info = new StringBuilder();
         info.append("EvoObj Info Data:");
         info.append("\n-----------------------------------");
-        info.append("\nTOTAL VERTICES: " + "vertices");
-        info.append("\nTOTAL TEXTURE COORDINATES: " + textures);
-        info.append("\nTOTAL NORMALS: " + normals);
-        info.append("\nTOTAL INDICES: " + "indices");
+        info.append("\nTOTAL VERTICES: " + this.totalVertexes);
+        info.append("\nTOTAL TEXTURE COORDINATES: " + this.totalTextures);
+        info.append("\nTOTAL NORMALS: " + this.totalNormals);
+        info.append("\nTOTAL FACES: " + this.totalFaces);
         info.append("\n-----------------------------------");
         Log.i(TAG, info.toString());
     }

@@ -15,18 +15,21 @@ public class ShaderFactory {
     private static final String TAG = "ShaderFactory";
     private static ShaderFactory instance;
     
+    // Vertex Shader
     public final int LAYOUT_VERTEX = 0;
     public final int LAYOUT_COLOR = 1;
+    public final int LAYOUT_TEXTURE = 1;
 
     private final String vertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_default);
     private final String complexObjectVertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_complex_object);
     private final String fragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_default);
+    private final String complexFragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_complex_object);
 
     public int defaultProgram;
     public int complexObjectProgram;
     
     public int MVP_LOC;
-    public int ENABLE_COLOR_VECTOR;
+    public int SAMPLER_S_TEXTURE;
 
     private static IntBuffer shaderCompileError = IntBuffer.allocate(1);
     private static String shaderCompileInfoLog;
@@ -38,6 +41,7 @@ public class ShaderFactory {
         int vertexShader = loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderCode);
         int complexObjectVertexShader = loadShader(GLES30.GL_VERTEX_SHADER, complexObjectVertexShaderCode);
         int fragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShaderCode);
+        int complexFragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, complexFragmentShaderCode);
 
         defaultProgram = GLES30.glCreateProgram();
         GLES30.glAttachShader(defaultProgram, vertexShader);
@@ -46,12 +50,13 @@ public class ShaderFactory {
 
         complexObjectProgram = GLES30.glCreateProgram();
         GLES30.glAttachShader(complexObjectProgram, complexObjectVertexShader);
-        GLES30.glAttachShader(complexObjectProgram, fragmentShader);
+        GLES30.glAttachShader(complexObjectProgram, complexFragmentShader);
         GLES30.glLinkProgram(complexObjectProgram);
 
         // Get the uniform locations
         //ENABLE_COLOR_VECTOR = GLES30.glGetUniformLocation (complexObjectProgram, "enableColorVector");
         MVP_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "u_mvpMatrix");
+        SAMPLER_S_TEXTURE = GLES30.glGetUniformLocation (complexObjectProgram, "s_texture");
     }
 
     /**

@@ -5,6 +5,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
 import android.opengl.GLES30;
+import android.opengl.GLUtils;
 import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
@@ -18,14 +19,13 @@ import com.redru.engine.wrapper.EvoObj;
 public class EvoObjDrawHandler {
     private static final String TAG = "SceneComplexObject";
 
-    private int COLOR_SIZE = 4;
-
     private EvoObj evoObj;
 
     private FloatBuffer vertexBuffer;
 
-    private int[] VBOIds = new int[2];
+    private int[] VBOIds = new int[1];
     private int[] VAOIds = new int[1];
+    private int[] textureId = new int[1];
 
     /**
      * 
@@ -41,7 +41,7 @@ public class EvoObjDrawHandler {
     public EvoObjDrawHandler(EvoObj evoObj) {
         this.evoObj = evoObj;
 
-        setup();
+        this.setup();
         Log.i(TAG, "Creation complete.");
     }
 
@@ -49,43 +49,65 @@ public class EvoObjDrawHandler {
      * 
      */
     public void setup() {
+    	StringBuilder str = new StringBuilder();
+    	
+    	for (int i = 0, x = 0, y = 0; i < evoObj.getUnifiedData().length; i++) {
+    		str.append(evoObj.getUnifiedData()[i] + ", ");
+    		if (x % 7 == 0 && x != 0) {
+    			Log.i(TAG, "UNIFIED DATA " + y + ": " + str);
+    			str.delete(0, str.length());
+    			x = 0;
+    			y++;
+    		} else {
+    			x++;
+    		}
+    	}
+    	
+    	Log.i(TAG, "UNIFIED DATA: LOGGED");
+    	
+    	
         Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------
         vertexBuffer = ByteBuffer.allocateDirect(evoObj.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuffer.put(evoObj.getUnifiedData()).position(0);
-
-        // initialize indices byte buffer for shape coordinates-----------------------------------
-        /*indexBuffer = ByteBuffer.allocateDirect(INDICES_SIZE * OpenGLConstants.BYTES_PER_SHORT)
-                .order(ByteOrder.nativeOrder()).asShortBuffer();
-        indexBuffer.put(evoObj.getPositionIndexData()).position(0);*/
-        //---------------------------------------------------------------------------------------
-        GLES30.glGenBuffers(2, VBOIds, 0);
+        //VERTEX DATA CONFIGURATION------------------------------------------------------------------
+        GLES30.glGenBuffers(1, VBOIds, 0);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, evoObj.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
                 vertexBuffer, GLES30.GL_STATIC_DRAW);
-
-        /*GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
-        GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, INDICES_SIZE * OpenGLConstants.BYTES_PER_SHORT,
-                indexBuffer, GLES30.GL_STATIC_DRAW);*/
-        //----------------------------------------------------------------------------------------
+        //TEXTURE CONFIGURATION----------------------------------------------------------------------
+        GLES30.glGenTextures(1, textureId, 0);
+        
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, evoObj.getTexture().getBitmap(), 0);
+        
+        
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);       
+      //----------------------------------------------------------------------------------------------
         // Vertex Array Object (VAO) configuration
         GLES30.glGenVertexArrays(1, VAOIds, 0);
         GLES30.glBindVertexArray(VAOIds[0]);
 
+        // TEXTURES
+        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
+        GLES30.glUniform1i(ShaderFactory.getInstance().SAMPLER_S_TEXTURE, 0);
+        // TEXTURES END
+        
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        //GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
-
+        
         GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
-        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_COLOR);
+        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_TEXTURE);
 
         GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_VERTEX, 3,
                 GLES30.GL_FLOAT, false, 8 * OpenGLConstants.BYTES_PER_FLOAT, 0);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_COLOR, COLOR_SIZE,
-                GLES30.GL_FLOAT, false, 3 * OpenGLConstants.BYTES_PER_FLOAT, 0);
-
+        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_TEXTURE, 2,
+                GLES30.GL_FLOAT, false, 8 * OpenGLConstants.BYTES_PER_FLOAT, 3 * OpenGLConstants.BYTES_PER_FLOAT);
+        
         GLES30.glBindVertexArray(0);
         //----------------------------------------------------------------------------------------
         Log.i(TAG, "Buffers setup: complete.");
@@ -121,9 +143,6 @@ public class EvoObjDrawHandler {
 
         // Bind this object Vertex Array Object (VAO) state and then draw the object
         GLES30.glBindVertexArray(VAOIds[0]);
-
-        /* GLES30.glDrawElements(GLES30.GL_TRIANGLE_STRIP, evoObj.getPositionIndexData().length,
-               GLES30.GL_UNSIGNED_SHORT, 0); */
         
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, evoObj.getUnifiedData().length);
 

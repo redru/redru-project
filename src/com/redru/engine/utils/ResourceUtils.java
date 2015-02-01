@@ -9,68 +9,93 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.redru.R;
+import com.redru.engine.wrapper.Texture;
 
 /**
  * Created by Luca on 16/01/2015.
  */
 public class ResourceUtils {
 
-    private static final String TAG = "ResourceUtils";
+	private static final String TAG = "ResourceUtils";
 
-    /**
-     * 
-     * @param context
-     * @param resourceId
-     * @return
-     */
-    public static String readTextFileFromResource(Context context, int resourceId) {
-        StringBuilder body = new StringBuilder();
+	/**
+	 * 
+	 * @param context
+	 * @param resourceId
+	 * @return
+	 */
+	public static String readTextFileFromResource(Context context,
+			int resourceId) {
+		StringBuilder body = new StringBuilder();
 
-        try {
-            InputStream inputStream = context.getResources().openRawResource(resourceId);
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		try {
+			InputStream inputStream = context.getResources().openRawResource(
+					resourceId);
+			InputStreamReader inputStreamReader = new InputStreamReader(
+					inputStream);
+			BufferedReader bufferedReader = new BufferedReader(
+					inputStreamReader);
 
-            String nextLine;
-            while ((nextLine = bufferedReader.readLine()) != null) {
-                body.append(nextLine);
-                body.append('\n');
-            }
+			String nextLine;
+			while ((nextLine = bufferedReader.readLine()) != null) {
+				body.append(nextLine);
+				body.append('\n');
+			}
 
-            bufferedReader.close();
-        } catch (IOException e) {
-            throw new RuntimeException(
-                    "Could not open resource: " + resourceId, e);
-        } catch (Resources.NotFoundException nfe) {
-            throw new RuntimeException("Resource not found: " + resourceId, nfe);
-        }
+			bufferedReader.close();
+		} catch (IOException e) {
+			throw new RuntimeException(
+					"Could not open resource: " + resourceId, e);
+		} catch (Resources.NotFoundException nfe) {
+			throw new RuntimeException("Resource not found: " + resourceId, nfe);
+		}
 
-        return body.toString();
+		return body.toString();
+	}
+
+	/**
+	 * 
+	 * @param suffix
+	 * @return
+	 */
+	public static String[] getFilesList(String suffix) {
+		Field[] fields = R.raw.class.getFields();
+		ArrayList<String> tmp = new ArrayList<String>();
+
+		for (int i = 0; i < fields.length; i++) {
+			if (fields[i].getName().startsWith(suffix)) {
+				tmp.add(fields[i].getName());
+				Log.i(TAG, suffix + " file: " + fields[i].getName());
+			}
+		}
+
+		String[] list = new String[tmp.size()];
+		list = tmp.toArray(list);
+
+		return list;
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param resourceId
+	 * @return
+	 */
+	public static Texture importTexture(Context context, int resourceId) {
+    	Texture tex = null;
+    	
+    	final BitmapFactory.Options options = new BitmapFactory.Options();
+    	options.inScaled = false;
+    	final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+    	
+    	tex = new Texture("Spirit Texture");
+    	tex.setBitmap(bitmap);
+    	
+    	return tex;
     }
-
-    /**
-     * 
-     * @param suffix
-     * @return
-     */
-    public static String[] getFilesList(String suffix) {
-        Field[] fields = R.raw.class.getFields();
-        ArrayList<String> tmp = new ArrayList<String>();
-
-        for(int i = 0; i < fields.length; i++){
-            if (fields[i].getName().startsWith(suffix)) {
-                tmp.add(fields[i].getName());
-                Log.i(TAG, suffix + " file: " + fields[i].getName());
-            }
-        }
-
-        String[] list = new String[tmp.size()];
-        list = tmp.toArray(list);
-
-        return list;
-    }
-
 }

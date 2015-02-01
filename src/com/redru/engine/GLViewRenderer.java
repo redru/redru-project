@@ -18,6 +18,7 @@ import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.EvoObj;
 import com.redru.engine.wrapper.ObjFactory;
+import com.redru.engine.wrapper.TextureFactory;
 
 /**
  * Created by Luca on 16/01/2015.
@@ -27,6 +28,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "GLViewRenderer";
 
     private ObjFactory objFactory;
+    private TextureFactory texFactory;
     private Camera camera;
     private SceneContext scene;
     private UserInputHandler handler = UserInputHandler.getInstance();
@@ -44,6 +46,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
         // Initialize Object Factory
         objFactory = ObjFactory.getInstance();
+        texFactory = TextureFactory.getInstance();
 
         // Initialize and setup the Camera
         camera = Camera.getInstance();
@@ -128,6 +131,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      */
     private void elementsStartup() {
     	EvoObj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles()[1]);
+    	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	DefaultSceneObject objB2Spirit = new DefaultSceneObject(b2spirit, "B-2 Spirit");
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
