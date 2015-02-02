@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.OpenGLUtils;
-import com.redru.engine.wrapper.objects.EvoObj;
+import com.redru.engine.wrapper.objects.Obj;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -37,12 +37,12 @@ public class ObjWrapper {
      * @param fileName
      * @return
      */
-    public EvoObj createObjFromFile(String dataFile, String fileName) {
+    public Obj createObjFromFile(String dataFile, String fileName) {
         Log.i(TAG, "Wrapping the following file: " + fileName + ".obj");
         /*----------------------------------------------------------------------*/
         String[] lines = dataFile.split("\n");
 
-        EvoObj obj = wrap(lines, fileName);
+        Obj obj = wrap(lines, fileName);
         /*----------------------------------------------------------------------*/
         Log.i(TAG, "Wrapping completed. File: " + fileName + ".obj");
         
@@ -55,7 +55,7 @@ public class ObjWrapper {
      * @param name
      * @return
      */
-    private EvoObj wrap(String[] lines, String name) {
+    private Obj wrap(String[] lines, String name) {
         String[] lineParts;
         String[] indicesParts;
 
@@ -136,7 +136,7 @@ public class ObjWrapper {
         }
         
         float[] unifiedData = OpenGLUtils.generateUnifiedData(positionsTmp, texturesTmp, normalsTmp, indicesTmp);
-        EvoObj obj  = new EvoObj(positionsTmp, texturesTmp, normalsTmp, unifiedData, name);
+        Obj obj  = new Obj(positionsTmp, texturesTmp, normalsTmp, unifiedData, name);
 
         return obj;
     }

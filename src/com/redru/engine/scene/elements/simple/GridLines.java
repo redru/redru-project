@@ -3,7 +3,6 @@ package com.redru.engine.scene.elements.simple;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 import android.opengl.GLES30;
 import android.util.Log;
@@ -13,44 +12,63 @@ import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
 
-/**
- * Created by Luca on 20/01/2015.
- */
-public class OriginLines implements IntSceneElement {
+public class GridLines implements IntSceneElement {
 
-    private static final String TAG = "OriginLines";
+	private static final String TAG = "OriginLines";
 
     private static int VERTEX_SIZE = 3;
     private static int COLOR_SIZE = 4;
     private static int STRIDE = VERTEX_SIZE + COLOR_SIZE;
-    private static int NUM_VERTICES = 6;
-    private static int NUM_INDICES = 6;
+    private static int NUM_VERTICES = 240;
+    
+    private static float MIN_VERTEX = -50.0f;
+    private static float MAX_VERTEX = 50.0f;
 
-    private float[] vertexData = {
-            /* VERTEX */ 0.0f, 0.0f, 0.0f,   /* COLOR */ 0.0f, 1.0f, 0.0f, 1.0f,
-            /* VERTEX */ 100.0f, 0.0f, 0.0f, /* COLOR */ 0.0f, 1.0f, 0.0f, 1.0f,
-            /* VERTEX */ 0.0f, 0.0f, 0.0f,   /* COLOR */ 1.0f, 0.0f, 0.0f, 1.0f,
-            /* VERTEX */ 0.0f, 100.0f, 0.0f, /* COLOR */ 1.0f, 0.0f, 0.0f, 1.0f,
-            /* VERTEX */ 0.0f, 0.0f, 0.0f,   /* COLOR */ 0.0f, 0.0f, 1.0f, 1.0f,
-            /* VERTEX */ 0.0f, 0.0f, 100.0f, /* COLOR */ 0.0f, 0.0f, 1.0f, 1.0f
-    };
-
-    private short[] indexData = {
-            0, 1,
-            2, 3,
-            4, 5
-    };
+    private float[] vertexData = new float[NUM_VERTICES * 7];
 
     private FloatBuffer vertexBuffer;
-    private ShortBuffer indexBuffer;
 
-    private int[] VBOIds = new int[2];
+    private int[] VBOIds = new int[1];
     private int[] VAOIds = new int[1];
 
     /**
      * 
      */
-    public OriginLines() {
+	public GridLines() {
+		for (int count = -30, i = 0; count < 30; count++) {
+			for (int e = 0; e < 4; e++) {
+				if (e == 2) {
+					vertexData[i] = MIN_VERTEX;
+				} else if (e == 3) {
+					vertexData[i] = MAX_VERTEX;
+				} else {
+					vertexData[i] = (float) count;
+				}
+				
+				i++;
+				vertexData[i] = 0;
+				i++;
+				
+				if (e == 0) {
+					vertexData[i] = MIN_VERTEX;
+				} else if (e == 1) {
+					vertexData[i] = MAX_VERTEX;
+				} else {
+					vertexData[i] = (float) count;
+				}
+				
+				i++;
+				vertexData[i] = 1.0f;
+				i++;
+				vertexData[i] = 1.0f;
+				i++;
+				vertexData[i] = 1.0f;
+				i++;
+				vertexData[i] = 1.0f;
+				i++;
+			}
+		}
+    	
         setup();
         Log.i(TAG, "Creation complete.");
     }
@@ -65,30 +83,20 @@ public class OriginLines implements IntSceneElement {
         vertexBuffer = ByteBuffer.allocateDirect(vertexData.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuffer.put(vertexData).position(0);
-
-        // initialize indices byte buffer for shape coordinates-----------------------------------
-        indexBuffer = ByteBuffer.allocateDirect(indexData.length * OpenGLConstants.BYTES_PER_SHORT)
-                .order(ByteOrder.nativeOrder()).asShortBuffer();
-        indexBuffer.put(indexData).position(0);
         //---------------------------------------------------------------------------------------
-        GLES30.glGenBuffers(2, VBOIds, 0);
+        GLES30.glGenBuffers(1, VBOIds, 0);
 
         //vertexBuffer.position( 0 );
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
         GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, NUM_VERTICES * STRIDE * OpenGLConstants.BYTES_PER_FLOAT,
                 vertexBuffer, GLES30.GL_STATIC_DRAW);
-
-        //indexBuffer.position( 0 );
-        GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
-        GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, NUM_INDICES * OpenGLConstants.BYTES_PER_SHORT,
-                indexBuffer, GLES30.GL_STATIC_DRAW);
         //----------------------------------------------------------------------------------------
         // Vertex Array Object (VAO) configuration
         GLES30.glGenVertexArrays(1, VAOIds, 0);
         GLES30.glBindVertexArray(VAOIds[0]);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
+        GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[0]);
 
         GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
         GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_COLOR);
@@ -118,8 +126,7 @@ public class OriginLines implements IntSceneElement {
         GLES30.glBindVertexArray(VAOIds[0]);
 
         // Draw the triangle based on the indices
-        GLES30.glDrawElements(GLES30.GL_LINES, 6,
-                GLES30.GL_UNSIGNED_SHORT, 0);
+        GLES30.glDrawArrays(GLES30.GL_LINES, 0, NUM_VERTICES);
 
         GLES30.glBindVertexArray(0);
     }
@@ -136,7 +143,7 @@ public class OriginLines implements IntSceneElement {
     @Override
     public void rotate() {
     	// TODO Auto-generated method stub
-		
+    	
     }
 
 	@Override
@@ -150,5 +157,5 @@ public class OriginLines implements IntSceneElement {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

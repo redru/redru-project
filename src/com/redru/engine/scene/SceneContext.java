@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
+import com.redru.engine.scene.elements.simple.GridLines;
 import com.redru.engine.scene.elements.simple.OriginLines;
 import com.redru.engine.utils.ResourceUtils;
 
@@ -16,8 +17,10 @@ public class SceneContext {
     private static SceneContext instance;
     private ArrayList<IntSceneElement> elements;
     private IntSceneElement originLines;
+    private IntSceneElement gridLines;
 
     private boolean enableOriginLines;
+    private boolean enableGridLines;
 
     /**
      * 
@@ -45,6 +48,7 @@ public class SceneContext {
      */
     public void raiseSceneElements() {
         originLines.setup();
+        gridLines.setup();
 
         for (IntSceneElement element : elements) {
             element.setup();
@@ -59,6 +63,11 @@ public class SceneContext {
         if (enableOriginLines) {
             originLines.draw();
         }
+        
+        // Draw gridLines only if requested
+        if (enableGridLines) {
+        	gridLines.draw();
+        }
 
         for (IntSceneElement element : elements) {
             element.draw();
@@ -72,6 +81,15 @@ public class SceneContext {
     public void setEnableOriginLines(boolean value) {
         enableOriginLines = value;
         Log.i(TAG, "enableOriginLines: " + value);
+    }
+    
+    /**
+     * 
+     * @param value
+     */
+    public void setEnableGridLines(boolean value) {
+        enableGridLines = value;
+        Log.i(TAG, "enableGridLines: " + value);
     }
 
     /**
@@ -106,9 +124,12 @@ public class SceneContext {
         return this.elements;
     }
     
-    public void originLinesStartup() {
+    public void linesStartup() {
         originLines = new OriginLines();
         setEnableOriginLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("origin_lines")));
+        
+        gridLines = new GridLines();
+        setEnableGridLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("grid_lines")));
     }
 
 }

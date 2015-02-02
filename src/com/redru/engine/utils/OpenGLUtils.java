@@ -87,6 +87,31 @@ public class OpenGLUtils {
 	
 	/**
 	 * 
+	 * @param unifiedData
+	 * @param xUpset
+	 * @param yUpset
+	 * @param zUpset
+	 */
+	public static void scaleUnifiedMatrixData(float[] unifiedData, float xScale, float yScale, float zScale) {
+		for (int i = 0; i < unifiedData.length; i++) {
+			for (int e = 0; e < 3; e++) {
+				if (e == 0 && xScale != 0) {
+					unifiedData[i] *= xScale;
+				} else if (e == 1 && yScale != 0) {
+					unifiedData[i] *= yScale;
+				} else if (e == 2 && zScale != 0) {
+					unifiedData[i] *= zScale;
+				}
+				
+				i++;
+			}
+			
+			i += 4;
+		}
+	}
+	
+	/**
+	 * 
 	 * @param positions
 	 * @param textures
 	 * @param normals

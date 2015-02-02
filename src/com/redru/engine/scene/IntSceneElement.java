@@ -11,6 +11,10 @@ public interface IntSceneElement {
 
     public void translate(float xUpset, float yUpset, float zUpset);
 
+    public void scale(float xScale, float yScale, float zScale);
+    
     public void rotate();
+    
+    public void move();
 
 }

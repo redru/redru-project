@@ -8,7 +8,7 @@ import com.redru.engine.utils.OpenGLUtils;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class EvoObj implements Cloneable {
+public class Obj implements Cloneable {
     private static final String TAG = "EvoObj";
     public static final float[] EMPTY_FLOAT_ARRAY = { 0.0f };
     public static final String DEFAULT_NAME = "EVO_OBJ";
@@ -30,7 +30,7 @@ public class EvoObj implements Cloneable {
     /**
      * Default constructor. Initializes all arrays to NULL.
      */
-    public EvoObj() {
+    public Obj() {
         this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, DEFAULT_NAME);
     }
     
@@ -39,7 +39,7 @@ public class EvoObj implements Cloneable {
      * @param positionIndexData
      * @param name
      */
-    public EvoObj(float[] positions,
+    public Obj(float[] positions,
     			  String name) {
         this(positions, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, name);
     }
@@ -50,7 +50,7 @@ public class EvoObj implements Cloneable {
      * @param textureCoordinatesIndexData
      * @param name
      */
-    public EvoObj(float[] positions,
+    public Obj(float[] positions,
     			  float[] textures,
     			  String name) {
         this(positions, textures, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, name);
@@ -63,7 +63,7 @@ public class EvoObj implements Cloneable {
      * @param normalIndexData
      * @param name
      */
-    public EvoObj(float[] positions,
+    public Obj(float[] positions,
     			  float[] textures,
     			  float[] normals,
     			  String name) {
@@ -78,7 +78,7 @@ public class EvoObj implements Cloneable {
      * @param unifiedData
      * @param name
      */
-    public EvoObj(float[] positions,
+    public Obj(float[] positions,
     			  float[] textures,
     			  float[] normals,
     			  float[] unifiedData,
@@ -308,12 +308,22 @@ public class EvoObj implements Cloneable {
     
     /**
      * 
+     * @param xScale
+     * @param yScale
+     * @param zScale
+     */
+    public void scale(float xScale, float yScale, float zScale) {
+    	OpenGLUtils.scaleUnifiedMatrixData(this.unifiedData, xScale, yScale, zScale);
+    }
+	
+    /**
+     * 
      */
     public void rotate() {
     	
     }
-	
-    public EvoObj clone(String name) throws CloneNotSupportedException {
+    
+    public Obj clone(String name) throws CloneNotSupportedException {
 
         float[] tmpPositions = new float[this.positions.length];
         float[] tmpTextures = new float[this.textures.length];
@@ -336,7 +346,7 @@ public class EvoObj implements Cloneable {
     		tmpUnifiedData[i] = this.unifiedData[i];
     	}
     	
-    	EvoObj tmp = new EvoObj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, name);
+    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, name);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalNormals(this.totalNormals);

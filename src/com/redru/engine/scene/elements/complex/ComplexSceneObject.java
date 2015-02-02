@@ -3,16 +3,19 @@ package com.redru.engine.scene.elements.complex;
 import android.util.Log;
 
 import com.redru.engine.scene.IntSceneElement;
-import com.redru.engine.wrapper.objects.EvoObj;
+import com.redru.engine.wrapper.objects.Obj;
 
 public class ComplexSceneObject implements IntSceneElement {
 	private static String TAG = "DefaultSceneObject";
 	
-	private EvoObj obj;
+	private Obj obj;
 	private EvoObjDrawHandler drawHandler;
 	
 	private float xUpset = 0.0f, yUpset = 0.0f, zUpset = 0.0f;
 	private float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
+	private float xAcc = 0.0f, yAcc = 0.0f, zAcc = 0.0f;
+	
+	private boolean moving = false;
 
 	/**
 	 * 
@@ -26,7 +29,7 @@ public class ComplexSceneObject implements IntSceneElement {
 	 * @param obj
 	 * @param name
 	 */
-	public ComplexSceneObject(EvoObj obj) {
+	public ComplexSceneObject(Obj obj) {
 		this.obj = obj;
 		this.drawHandler = new EvoObjDrawHandler(obj);
 	}
@@ -69,15 +72,41 @@ public class ComplexSceneObject implements IntSceneElement {
 	 * 
 	 */
 	@Override
+	public void scale(float xScale, float yScale, float zScale) {
+		obj.scale(xScale, yScale, zScale);
+		drawHandler.updateBuffers();
+	}
+
+	/**
+	 * 
+	 */
+	@Override
 	public void rotate() {
 		obj.rotate();
+	}
+
+	@Override
+	public void move() {
+		if (moving) {
+			Log.i(TAG, "Starting " + this.obj.getName() + " movement.");
+	    	this.xUpset += xUpset;
+	    	this.yUpset += yUpset;
+	    	this.zUpset += zUpset;
+	    	Log.i(TAG, "New positions for " + this.obj.getName() + ":" +
+	    			   "\nX: " + this.xUpset +
+	    			   "\nY: " + this.yUpset +
+	    			   "\nZ: " + this.zUpset);
+	    	
+			obj.translate(xUpset, yUpset, zUpset);
+			drawHandler.updateBuffers();
+		}
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public EvoObj getObj() {
+	public Obj getObj() {
 		return obj;
 	}
 
@@ -85,7 +114,7 @@ public class ComplexSceneObject implements IntSceneElement {
 	 * 
 	 * @param obj
 	 */
-	public void setObj(EvoObj obj) {
+	public void setObj(Obj obj) {
 		this.obj = obj;
 	}
 
@@ -106,18 +135,22 @@ public class ComplexSceneObject implements IntSceneElement {
 
 	/**
 	 * 
+	 * @param xVel
+	 * @param yVel
+	 * @param zVel
+	 */
+	public void setVel(float xVel, float yVel, float zVel) {
+		this.xVel = xVel;
+		this.yVel = yVel;
+		this.zVel = zVel;
+	}
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public float getxVel() {
 		return xVel;
-	}
-
-	/**
-	 * 
-	 * @param xVel
-	 */
-	public void setxVel(float xVel) {
-		this.xVel = xVel;
 	}
 
 	/**
@@ -130,26 +163,10 @@ public class ComplexSceneObject implements IntSceneElement {
 
 	/**
 	 * 
-	 * @param yVel
-	 */
-	public void setyVel(float yVel) {
-		this.yVel = yVel;
-	}
-
-	/**
-	 * 
 	 * @return
 	 */
 	public float getzVel() {
 		return zVel;
-	}
-
-	/**
-	 * 
-	 * @param zVel
-	 */
-	public void setzVel(float zVel) {
-		this.zVel = zVel;
 	}
 
 	/**
@@ -174,6 +191,58 @@ public class ComplexSceneObject implements IntSceneElement {
 	 */
 	public float getzUpset() {
 		return zUpset;
+	}
+	
+	/**
+	 * 
+	 * @param xAcc
+	 * @param yAcc
+	 * @param zAcc
+	 */
+	public void setAcc(float xAcc, float yAcc, float zAcc) {
+		this.xAcc = xAcc;
+		this.yAcc = yAcc;
+		this.zAcc = zAcc;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public float getxAcc() {
+		return this.xAcc;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public float getyAcc() {
+		return this.yAcc;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public float getzAcc() {
+		return this.zAcc;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isMoving() {
+		return this.moving;
+	}
+
+	/**
+	 * 
+	 * @param moving
+	 */
+	public void setMoving(boolean moving) {
+		this.moving = moving;
 	}
 	
 }

@@ -12,7 +12,7 @@ import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.objects.EvoObj;
+import com.redru.engine.wrapper.objects.Obj;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -20,7 +20,7 @@ import com.redru.engine.wrapper.objects.EvoObj;
 public class EvoObjDrawHandler {
     private static final String TAG = "SceneComplexObject";
 
-    private EvoObj evoObj;
+    private Obj evoObj;
 
     private FloatBuffer vertexBuffer;
 
@@ -39,7 +39,7 @@ public class EvoObjDrawHandler {
      * 
      * @param evoObj
      */
-    public EvoObjDrawHandler(EvoObj evoObj) {
+    public EvoObjDrawHandler(Obj evoObj) {
         this.evoObj = evoObj;
 
         this.setup();

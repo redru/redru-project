@@ -8,7 +8,7 @@ import android.util.Log;
 
 import com.redru.Redru;
 import com.redru.engine.utils.ResourceUtils;
-import com.redru.engine.wrapper.objects.EvoObj;
+import com.redru.engine.wrapper.objects.Obj;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -17,7 +17,7 @@ public class ObjFactory {
     private static final String TAG = "ObjFactory";
 
     private static ObjFactory instance = new ObjFactory();
-    private Map<String, EvoObj> objStock = new Hashtable<String, EvoObj>();
+    private Map<String, Obj> objStock = new Hashtable<String, Obj>();
     private ArrayList<String> objFiles;
 
     /**
@@ -80,12 +80,12 @@ public class ObjFactory {
      * @param objectName
      * @return
      */
-    public EvoObj getStockedObject(String objStockKey, String name) {
-        EvoObj obj = null;
+    public Obj getStockedObject(String objStockKey, String name) {
+        Obj obj = null;
 
         try {
             if (objStock.containsKey(objStockKey)) {
-                obj = (EvoObj) objStock.get(objStockKey).clone(name);
+                obj = (Obj) objStock.get(objStockKey).clone(name);
                 Log.i(TAG, "Requested object '" + objStockKey + "' was correctly created from the factory.");
             } else {
                 Log.i(TAG, "Requested object '" + objStockKey + "' was not in the objects stock.");
