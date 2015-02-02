@@ -6,7 +6,14 @@ import com.redru.engine.actions.IntAction;
 import com.redru.engine.scene.elements.complex.ComplexSceneObject;
 
 public class SceneObjectsTranslateAction implements IntAction {
+	private static final String TAG = "SceneObjectsTranslateAction";
 
+	private static SceneObjectsTranslateAction instance;
+	
+	private SceneObjectsTranslateAction() {
+		
+	}
+	
 	@Override
 	public void execute(ArrayList<?> actionObjects) {
 		for (Object element : actionObjects) {
@@ -14,6 +21,14 @@ public class SceneObjectsTranslateAction implements IntAction {
         		((ComplexSceneObject) element).translate(0.0f, 0.0f, -1.0f);
         	}
         }
+	}
+	
+	public static SceneObjectsTranslateAction getInstance() {
+		if (instance == null) {
+			instance = new SceneObjectsTranslateAction();
+		}
+		
+		return instance;
 	}
 
 }

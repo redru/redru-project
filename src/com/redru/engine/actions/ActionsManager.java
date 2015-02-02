@@ -45,14 +45,14 @@ public class ActionsManager {
 				}
 
 			}
-			
+
 			this.actions.add(newAction);
 			Log.i(TAG, "Action '" + newAction.getClass().getSimpleName() + "' was correctly loaded.");
 		} catch (ActionAlreadyExistsException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param name
@@ -60,34 +60,42 @@ public class ActionsManager {
 	 */
 	public IntAction getAction(String name) {
 		IntAction action = null;
-		
+
 		for (IntAction tmp : this.actions) {
 			if (tmp.getClass().getSimpleName().equals(name)) {
 				action = tmp;
 				break;
 			}
 		}
-		
+
 		return action;
 	}
-	
+
 	/**
 	 * 
 	 * @param name
 	 */
 	public void executeAction(String name) {
-		this.getAction(name).execute(null);
+		IntAction action = this.getAction(name);
+
+		if (action != null) {
+			action.execute(null);
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param name
 	 * @param args
 	 */
 	public void executeAction(String name, ArrayList<?> args) {
-		this.getAction(name).execute(args);
+		IntAction action = this.getAction(name);
+
+		if (action != null) {
+			action.execute(args);
+		}
 	}
-	
+
 	/**
 	 * 
 	 * @param name
@@ -95,7 +103,7 @@ public class ActionsManager {
 	public void removeAction(String name) {
 		try {
 			boolean found = true;
-			
+
 			for (IntAction action : this.actions) {
 				if (action.getClass().getSimpleName().equals(name)) {
 					this.actions.remove(action);
@@ -103,11 +111,11 @@ public class ActionsManager {
 					break;
 				}
 			}
-			
+
 			if (!found) {
 				throw new NotFoundException(name);
 			}
-			
+
 		} catch (NotFoundException e) {
 			e.printStackTrace();
 		}

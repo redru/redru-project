@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.actions.impl.SceneObjectsTranslateAction;
-import com.redru.engine.actions.impl.UserInputAction;
+import com.redru.engine.actions.impl.SensorInputAction;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.scene.elements.complex.ComplexSceneObject;
@@ -61,7 +61,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     public void onDrawFrame(GL10 unused) {
-        actionsManager.executeAction(UserInputAction.class.getSimpleName(), sceneObjects);
+        actionsManager.executeAction(SensorInputAction.class.getSimpleName(), sceneObjects);
         actionsManager.executeAction(SceneObjectsTranslateAction.class.getSimpleName(), sceneObjects);
         
         drawShapes();
@@ -93,8 +93,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addAction(new UserInputAction());
-    	actionsManager.addAction(new SceneObjectsTranslateAction());
+    	//actionsManager.addAction(new UserInputAction());
+    	actionsManager.addAction(SensorInputAction.getInstance());
+    	actionsManager.addAction(SceneObjectsTranslateAction.getInstance());
     }
 
     /**

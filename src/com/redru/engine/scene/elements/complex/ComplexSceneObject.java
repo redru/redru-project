@@ -1,12 +1,10 @@
 package com.redru.engine.scene.elements.complex;
 
-import android.util.Log;
-
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.Obj;
 
 public class ComplexSceneObject implements IntSceneElement {
-	private static String TAG = "DefaultSceneObject";
+	private static String TAG = "ComplexSceneObject";
 	
 	private Obj obj;
 	private EvoObjDrawHandler drawHandler;
@@ -55,14 +53,14 @@ public class ComplexSceneObject implements IntSceneElement {
 	 */
 	@Override
 	public void translate(float xUpset, float yUpset, float zUpset) {
-		Log.i(TAG, "Starting " + this.obj.getName() + " translation.");
+//		Log.i(TAG, "Starting " + this.obj.getName() + " translation.");
     	this.xUpset += xUpset;
     	this.yUpset += yUpset;
     	this.zUpset += zUpset;
-    	Log.i(TAG, "New positions for " + this.obj.getName() + ":" +
-    			   "\nX: " + this.xUpset +
-    			   "\nY: " + this.yUpset +
-    			   "\nZ: " + this.zUpset);
+//    	Log.i(TAG, "New positions for " + this.obj.getName() + ":" +
+//    			   "\nX: " + this.xUpset +
+//    			   "\nY: " + this.yUpset +
+//    			   "\nZ: " + this.zUpset);
     	
 		obj.translate(xUpset, yUpset, zUpset);
 		drawHandler.updateBuffers();
@@ -88,14 +86,14 @@ public class ComplexSceneObject implements IntSceneElement {
 	@Override
 	public void move() {
 		if (moving) {
-			Log.i(TAG, "Starting " + this.obj.getName() + " movement.");
+//			Log.i(TAG, "Starting " + this.obj.getName() + " movement.");
 	    	this.xUpset += xUpset;
 	    	this.yUpset += yUpset;
 	    	this.zUpset += zUpset;
-	    	Log.i(TAG, "New positions for " + this.obj.getName() + ":" +
-	    			   "\nX: " + this.xUpset +
-	    			   "\nY: " + this.yUpset +
-	    			   "\nZ: " + this.zUpset);
+//	    	Log.i(TAG, "New positions for " + this.obj.getName() + ":" +
+//	    			   "\nX: " + this.xUpset +
+//	    			   "\nY: " + this.yUpset +
+//	    			   "\nZ: " + this.zUpset);
 	    	
 			obj.translate(xUpset, yUpset, zUpset);
 			drawHandler.updateBuffers();
