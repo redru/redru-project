@@ -6,7 +6,7 @@ import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.Obj;
 
 public class StarshipObject implements IntSceneElement {
-	private static String TAG = "ComplexSceneObject";
+	private static String TAG = "StarshipObject";
 	
 	private Obj obj;
 	private EvoObjDrawHandler drawHandler;
