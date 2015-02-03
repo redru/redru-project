@@ -32,8 +32,6 @@ public class SensorInputAction implements IntAction, SensorEventListener {
 		this.axisX = event.values[0];
 		this.axisY = event.values[1];
 		this.axisZ = event.values[2];
-	    
-	    Log.i(TAG, "axisX: " + this.axisX + "\naxisY: " + this.axisY + "\naxisZ: " + this.axisZ);
 	}
 	
 	@Override
