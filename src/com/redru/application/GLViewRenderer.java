@@ -1,4 +1,4 @@
-package com.redru.engine;
+package com.redru.application;
 
 import java.util.ArrayList;
 
@@ -9,12 +9,12 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import com.redru.application.actions.SceneObjectsTranslateAction;
+import com.redru.application.actions.SensorInputAction;
+import com.redru.application.scene.complex.ComplexSceneObject;
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.actions.impl.SceneObjectsTranslateAction;
-import com.redru.engine.actions.impl.SensorInputAction;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
-import com.redru.engine.scene.elements.complex.ComplexSceneObject;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.ObjFactory;

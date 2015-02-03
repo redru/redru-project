@@ -1,4 +1,4 @@
-package com.redru.engine.input;
+package com.redru.application.input;
 
 import android.view.ScaleGestureDetector;
 

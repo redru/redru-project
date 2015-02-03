@@ -1,4 +1,4 @@
-package com.redru.engine;
+package com.redru.application;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;

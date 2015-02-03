@@ -10,10 +10,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
 
-import com.redru.engine.GLView;
+import com.redru.application.GLView;
+import com.redru.application.actions.SensorInputAction;
+import com.redru.application.input.UserInputHandler;
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.actions.impl.SensorInputAction;
-import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.ObjFactory;

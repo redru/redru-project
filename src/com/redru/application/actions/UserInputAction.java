@@ -1,11 +1,11 @@
-package com.redru.engine.actions.impl;
+package com.redru.application.actions;
 
 import java.util.ArrayList;
 
 import android.graphics.Point;
 
+import com.redru.application.input.UserInputHandler;
 import com.redru.engine.actions.IntAction;
-import com.redru.engine.input.UserInputHandler;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.view.Camera;
 

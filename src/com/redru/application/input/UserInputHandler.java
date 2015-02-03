@@ -1,4 +1,4 @@
-package com.redru.engine.input;
+package com.redru.application.input;
 
 import com.redru.Redru;
 

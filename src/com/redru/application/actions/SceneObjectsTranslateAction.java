@@ -1,9 +1,9 @@
-package com.redru.engine.actions.impl;
+package com.redru.application.actions;
 
 import java.util.ArrayList;
 
+import com.redru.application.scene.complex.ComplexSceneObject;
 import com.redru.engine.actions.IntAction;
-import com.redru.engine.scene.elements.complex.ComplexSceneObject;
 
 public class SceneObjectsTranslateAction implements IntAction {
 	private static final String TAG = "SceneObjectsTranslateAction";

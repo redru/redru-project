@@ -1,4 +1,4 @@
-package com.redru.engine.scene.elements.complex;
+package com.redru.application.scene.complex;
 
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.Obj;
