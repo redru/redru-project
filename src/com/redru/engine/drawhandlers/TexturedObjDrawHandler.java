@@ -17,7 +17,7 @@ import com.redru.engine.wrapper.objects.Obj;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class TexturedObjDrawHandler {
+public class TexturedObjDrawHandler implements IntDrawHandler {
     private static final String TAG = "TexturedObjDrawHandler";
 
     private Obj evoObj;
@@ -27,13 +27,6 @@ public class TexturedObjDrawHandler {
     private int[] VBOIds = new int[1];
     private int[] VAOIds = new int[1];
     private int[] textureId = new int[1];
-
-    /**
-     * 
-     */
-    public TexturedObjDrawHandler() {
-        this(null);
-    }
 
     /**
      * 
@@ -49,7 +42,7 @@ public class TexturedObjDrawHandler {
     /**
      * 
      */
-    public void setup() {
+    private void setup() {
     	// If the advanced logs are actived, log the unifiedData of the object
     	if (Boolean.parseBoolean(ResourceUtils.getApplicationProperty("advanced_logs"))) {
 	    	StringBuilder str = new StringBuilder();
@@ -111,6 +104,10 @@ public class TexturedObjDrawHandler {
         //----------------------------------------------------------------------------------------
     }
     
+    /**
+     * 
+     */
+    @Override
     public void updateBuffers() {
     	GLES30.glBindVertexArray(VAOIds[0]);
     	
@@ -132,6 +129,7 @@ public class TexturedObjDrawHandler {
     /**
      * 
      */
+    @Override
     public void draw() {
         GLES30.glUseProgram(ShaderFactory.getInstance().complexObjectProgram);
 

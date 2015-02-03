@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper.objects;
+package com.redru.engine.wrapper.textures;
 
 import android.graphics.Bitmap;
 import android.util.Log;

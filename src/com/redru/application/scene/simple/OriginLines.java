@@ -149,4 +149,16 @@ public class OriginLines implements IntSceneElement {
 		
 	}
 
+	@Override
+	public void setStartingPositions(float startX, float startY, float startZ) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void toStartingPositions() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

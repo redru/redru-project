@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper;
+package com.redru.engine.wrapper.objects;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.OpenGLUtils;
-import com.redru.engine.wrapper.objects.Obj;
 
 /**
  * Created by Luca on 22/01/2015.

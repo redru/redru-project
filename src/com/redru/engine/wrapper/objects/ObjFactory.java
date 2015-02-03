@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper;
+package com.redru.engine.wrapper.objects;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.redru.Redru;
 import com.redru.engine.utils.ResourceUtils;
-import com.redru.engine.wrapper.objects.Obj;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -80,12 +79,12 @@ public class ObjFactory {
      * @param objectName
      * @return
      */
-    public Obj getStockedObject(String objStockKey, String name) {
+    public Obj getStockedObject(String objStockKey) {
         Obj obj = null;
 
         try {
             if (objStock.containsKey(objStockKey)) {
-                obj = (Obj) objStock.get(objStockKey).clone(name);
+                obj = (Obj) objStock.get(objStockKey).clone();
                 Log.i(TAG, "Requested object '" + objStockKey + "' was correctly created from the factory.");
             } else {
                 Log.i(TAG, "Requested object '" + objStockKey + "' was not in the objects stock.");

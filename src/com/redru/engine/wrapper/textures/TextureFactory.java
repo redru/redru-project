@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper;
+package com.redru.engine.wrapper.textures;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.redru.Redru;
 import com.redru.engine.utils.ResourceUtils;
-import com.redru.engine.wrapper.objects.Texture;
 
 public class TextureFactory {
 	private static final String TAG = "TextureFactory";

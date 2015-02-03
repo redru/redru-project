@@ -19,6 +19,7 @@ public class Redru extends Activity {
 	public static final String TAG = "MainActivity";
     private static Context context;
     
+    private GLView glView;
 	private SensorManager sensorManager;
 
 	@Override
@@ -31,7 +32,8 @@ public class Redru extends Activity {
 	    sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    sensorManager.registerListener(SensorInputAction.getInstance(), sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 
-        setContentView(new GLView(this));
+	    glView = new GLView(this);
+        setContentView(glView);
 	}
 
 	@Override

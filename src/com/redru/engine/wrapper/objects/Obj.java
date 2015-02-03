@@ -4,13 +4,13 @@ import android.util.Log;
 
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.OpenGLUtils;
+import com.redru.engine.wrapper.textures.Texture;
 
 /**
  * Created by Luca on 22/01/2015.
  */
 public class Obj implements Cloneable {
     private static final String TAG = "EvoObj";
-    public static final float[] EMPTY_FLOAT_ARRAY = { 0.0f };
     public static final String DEFAULT_NAME = "EVO_OBJ";
     
     private String name;
@@ -25,50 +25,10 @@ public class Obj implements Cloneable {
     private float[] normals;
     private float[] unifiedData;
     
+    private float[] startingPositions;
+    private float[] startingUnifiedData;
+    
     private Texture texture;
-
-    /**
-     * Default constructor. Initializes all arrays to NULL.
-     */
-    public Obj() {
-        this(EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, DEFAULT_NAME);
-    }
-    
-    /**
-     * 
-     * @param positionIndexData
-     * @param name
-     */
-    public Obj(float[] positions,
-    			  String name) {
-        this(positions, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, name);
-    }
-    
-    /**
-     * 
-     * @param positionIndexData
-     * @param textureCoordinatesIndexData
-     * @param name
-     */
-    public Obj(float[] positions,
-    			  float[] textures,
-    			  String name) {
-        this(positions, textures, EMPTY_FLOAT_ARRAY, EMPTY_FLOAT_ARRAY, name);
-    }
-
-    /**
-     * 
-     * @param positionIndexData
-     * @param textureCoordinatesIndexData
-     * @param normalIndexData
-     * @param name
-     */
-    public Obj(float[] positions,
-    			  float[] textures,
-    			  float[] normals,
-    			  String name) {
-    	this(positions, textures, normals, EMPTY_FLOAT_ARRAY, name);
-    }
     
     /**
      * 
@@ -78,11 +38,7 @@ public class Obj implements Cloneable {
      * @param unifiedData
      * @param name
      */
-    public Obj(float[] positions,
-    			  float[] textures,
-    			  float[] normals,
-    			  float[] unifiedData,
-    			  String name) {
+    protected Obj(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
         } else {
@@ -100,190 +56,122 @@ public class Obj implements Cloneable {
         this.setUnifiedData(unifiedData);
         this.setTotalFaces(unifiedData.length / 8 / 3);
         
+        this.setStartingPositions(positions);
+        this.setStartingUnifiedData(unifiedData);
+        
         // Log Object Data
         logEvoObjInformation();
         Log.i(TAG, "EvoObj '" + this.name + "' was successfully created.");
     }
 
-    /**
-     * 
-     * @return
-     */
     public int getTotalVertexes() {
 		return totalVertexes;
 	}
 
-    /**
-     * 
-     * @param totalVertexes
-     */
 	public void setTotalVertexes(int totalVertexes) {
 		this.totalVertexes = totalVertexes;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public int getTotalTextures() {
 		return totalTextures;
 	}
 
-	/**
-	 * 
-	 * @param totalTextures
-	 */
 	public void setTotalTextures(int totalTextures) {
 		this.totalTextures = totalTextures;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public int getTotalNormals() {
 		return totalNormals;
 	}
 
-	/**
-	 * 
-	 * @param totalNormals
-	 */
 	public void setTotalNormals(int totalNormals) {
 		this.totalNormals = totalNormals;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public int getTotalIndices() {
 		return totalIndices;
 	}
 
-	/**
-	 * 
-	 * @param totalIndices
-	 */
 	public void setTotalIndices(int totalIndices) {
 		this.totalIndices = totalIndices;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public int getTotalFaces() {
 		return totalFaces;
 	}
 
-	/**
-	 * 
-	 * @param totalFaces
-	 */
 	public void setTotalFaces(int totalFaces) {
 		this.totalFaces = totalFaces;
 	}
 
-	/**
-     * 
-     * @return
-     */
     public float[] getPositions() {
 		return positions;
 	}
 
-    /**
-     * 
-     * @param positions
-     */
 	public void setPositions(float[] positions) {
 		this.positions = positions;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public float[] getTextures() {
 		return textures;
 	}
 
-	/**
-	 * 
-	 * @param textures
-	 */
 	public void setTextures(float[] textures) {
 		this.textures = textures;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public float[] getNormals() {
 		return normals;
 	}
 
-	/**
-	 * 
-	 * @param normals
-	 */
 	public void setNormals(float[] normals) {
 		this.normals = normals;
 	}
 
-	/**
-     * 
-     * @return
-     */
     public float[] getUnifiedData() {
 		return unifiedData;
 	}
 
-    /**
-     * 
-     * @param unifiedData
-     */
 	public void setUnifiedData(float[] unifiedData) {
 		this.unifiedData = unifiedData;
 	}
 
-    /**
-     * 
-     * @return
-     */
+    public float[] getStartingPositions() {
+		return startingPositions;
+	}
+
+	public void setStartingPositions(float[] startingPositions) {
+		this.startingPositions = new float[startingPositions.length];
+		
+		for (int i = 0; i < this.startingPositions.length; i++) {
+			this.startingPositions[i] = startingPositions[i];
+		}
+	}
+
+	public float[] getStartingUnifiedData() {
+		return startingUnifiedData;
+	}
+
+	public void setStartingUnifiedData(float[] startingUnifiedData) {
+		this.startingUnifiedData = new float[startingUnifiedData.length];
+		
+		for (int i = 0; i < this.startingUnifiedData.length; i++) {
+			this.startingUnifiedData[i] = startingUnifiedData[i];
+		}
+	}
+
     public String getName() {
 		return name;
 	}
-
-    /**
-     * 
-     * @param name
-     */
-	public void setName(String name) {
-		this.name = name;
-	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public Texture getTexture() {
 		return texture;
 	}
 
-	/**
-	 * 
-	 * @param texture
-	 */
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
-    
-    /**
-     * Writes to the log the object most important information
-     */
+
     public void logEvoObjInformation() {
         StringBuilder info = new StringBuilder();
         info.append("EvoObj Info Data:");
@@ -296,22 +184,14 @@ public class Obj implements Cloneable {
         Log.i(TAG, info.toString());
     }
     
-    /**
-     * 
-     * @param xUpset
-     * @param yUpset
-     * @param zUpset
-     */
     public void translate(float xUpset, float yUpset, float zUpset) {
     	OpenGLUtils.translateUnifiedMatrixData(this.unifiedData, xUpset, yUpset, zUpset);
     }
     
-    /**
-     * 
-     * @param xScale
-     * @param yScale
-     * @param zScale
-     */
+    public void moveToPosition(float xUpset, float yUpset, float zUpset) {
+    	OpenGLUtils.translateUnifiedMatrixDataToPosition(unifiedData, startingUnifiedData, xUpset, yUpset, zUpset);
+    }
+    
     public void scale(float xScale, float yScale, float zScale) {
     	OpenGLUtils.scaleUnifiedMatrixData(this.unifiedData, xScale, yScale, zScale);
     }
@@ -323,7 +203,7 @@ public class Obj implements Cloneable {
     	
     }
     
-    public Obj clone(String name) throws CloneNotSupportedException {
+    public Obj clone() throws CloneNotSupportedException {
 
         float[] tmpPositions = new float[this.positions.length];
         float[] tmpTextures = new float[this.textures.length];
@@ -346,7 +226,7 @@ public class Obj implements Cloneable {
     		tmpUnifiedData[i] = this.unifiedData[i];
     	}
     	
-    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, name);
+    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, this.name);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalNormals(this.totalNormals);

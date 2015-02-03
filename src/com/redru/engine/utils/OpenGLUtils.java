@@ -88,6 +88,32 @@ public class OpenGLUtils {
 	/**
 	 * 
 	 * @param unifiedData
+	 * @param startingUnifiedData
+	 * @param xUpset
+	 * @param yUpset
+	 * @param zUpset
+	 */
+	public static void translateUnifiedMatrixDataToPosition(float[] unifiedData, float[] startingUnifiedData, float xUpset, float yUpset, float zUpset) {
+		for (int i = 0; i < unifiedData.length; i++) {
+			for (int e = 0; e < 3; e++) {
+				if (e == 0) {
+					unifiedData[i] = startingUnifiedData[i] + xUpset;
+				} else if (e == 1) {
+					unifiedData[i] = startingUnifiedData[i] + yUpset;
+				} else if (e == 2) {
+					unifiedData[i] = startingUnifiedData[i] + zUpset;
+				}
+				
+				i++;
+			}
+			
+			i += 4;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param unifiedData
 	 * @param xUpset
 	 * @param yUpset
 	 * @param zUpset
