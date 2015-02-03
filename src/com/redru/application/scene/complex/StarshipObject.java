@@ -2,6 +2,7 @@ package com.redru.application.scene.complex;
 
 import android.util.Log;
 
+import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.Obj;
 
@@ -9,7 +10,7 @@ public class StarshipObject implements IntSceneElement {
 	private static String TAG = "StarshipObject";
 	
 	private Obj obj;
-	private EvoObjDrawHandler drawHandler;
+	private TexturedObjDrawHandler drawHandler;
 	
 	private float xUpset = 0.0f, yUpset = 0.0f, zUpset = 0.0f;
 	private float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
@@ -31,7 +32,7 @@ public class StarshipObject implements IntSceneElement {
 	 */
 	public StarshipObject(Obj obj) {
 		this.obj = obj;
-		this.drawHandler = new EvoObjDrawHandler(obj);
+		this.drawHandler = new TexturedObjDrawHandler(obj);
 		Log.i(TAG, "Creation complete.");
 	}
 
@@ -123,7 +124,7 @@ public class StarshipObject implements IntSceneElement {
 	 * 
 	 * @return
 	 */
-	public EvoObjDrawHandler getDrawHandler() {
+	public TexturedObjDrawHandler getDrawHandler() {
 		return drawHandler;
 	}
 
@@ -131,7 +132,7 @@ public class StarshipObject implements IntSceneElement {
 	 * 
 	 */
 	public void resetDrawHandler() {
-		this.drawHandler = new EvoObjDrawHandler(this.obj);
+		this.drawHandler = new TexturedObjDrawHandler(this.obj);
 	}
 
 	/**

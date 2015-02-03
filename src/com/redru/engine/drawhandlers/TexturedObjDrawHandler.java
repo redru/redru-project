@@ -1,4 +1,4 @@
-package com.redru.application.scene.complex;
+package com.redru.engine.drawhandlers;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -17,8 +17,8 @@ import com.redru.engine.wrapper.objects.Obj;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class EvoObjDrawHandler {
-    private static final String TAG = "SceneComplexObject";
+public class TexturedObjDrawHandler {
+    private static final String TAG = "TexturedObjDrawHandler";
 
     private Obj evoObj;
 
@@ -31,7 +31,7 @@ public class EvoObjDrawHandler {
     /**
      * 
      */
-    public EvoObjDrawHandler() {
+    public TexturedObjDrawHandler() {
         this(null);
     }
 
@@ -39,7 +39,7 @@ public class EvoObjDrawHandler {
      * 
      * @param evoObj
      */
-    public EvoObjDrawHandler(Obj evoObj) {
+    public TexturedObjDrawHandler(Obj evoObj) {
         this.evoObj = evoObj;
 
         this.setup();
