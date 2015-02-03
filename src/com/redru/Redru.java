@@ -13,11 +13,6 @@ import android.view.Window;
 import com.redru.application.GLView;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.input.UserInputHandler;
-import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.scene.SceneContext;
-import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.ObjFactory;
-import com.redru.engine.wrapper.TextureFactory;
 
 public class Redru extends Activity {
 	
@@ -35,14 +30,6 @@ public class Redru extends Activity {
 	    
 	    sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    sensorManager.registerListener(SensorInputAction.getInstance(), sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
-        
-        // Starting Application Framework
-        Camera.getInstance();
-        ObjFactory.getInstance();
-        TextureFactory.getInstance();
-        SceneContext.getInstance();
-        UserInputHandler.getInstance();
-        ActionsManager.getInstance();
 
         setContentView(new GLView(this));
 	}

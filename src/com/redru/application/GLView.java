@@ -17,7 +17,6 @@ public class GLView extends GLSurfaceView {
 
         // Create an OpenGL ES 3.0 context
         setEGLContextClientVersion(3);
-
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(new GLViewRenderer());
 
