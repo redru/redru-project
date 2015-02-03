@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.util.Log;
 
 import com.redru.engine.actions.IntAction;
 import com.redru.engine.scene.IntSceneElement;
