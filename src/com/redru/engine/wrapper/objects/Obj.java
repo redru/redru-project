@@ -30,14 +30,7 @@ public class Obj implements Cloneable {
     
     private Texture texture;
     
-    /**
-     * 
-     * @param positionIndexData
-     * @param textureCoordinatesIndexData
-     * @param normalIndexData
-     * @param unifiedData
-     * @param name
-     */
+    // CONSTRUCTOR ----------------------------------------------------------------------------------------
     protected Obj(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
@@ -63,6 +56,73 @@ public class Obj implements Cloneable {
         logEvoObjInformation();
         Log.i(TAG, "EvoObj '" + this.name + "' was successfully created.");
     }
+    // METHODS --------------------------------------------------------------------------------------------
+    
+    public void translate(float xUpset, float yUpset, float zUpset) {
+    	OpenGLUtils.translateUnifiedMatrixData(this.unifiedData, xUpset, yUpset, zUpset);
+    }
+    
+    public void moveToPosition(float xUpset, float yUpset, float zUpset) {
+    	OpenGLUtils.translateUnifiedMatrixDataToPosition(unifiedData, startingUnifiedData, xUpset, yUpset, zUpset);
+    }
+    
+    public void scale(float xScale, float yScale, float zScale) {
+    	OpenGLUtils.scaleUnifiedMatrixData(this.unifiedData, xScale, yScale, zScale);
+    }
+    
+    public void rotate() {
+    	
+    }
+
+    public void logEvoObjInformation() {
+        StringBuilder info = new StringBuilder();
+        info.append("EvoObj Info Data:");
+        info.append("\n-----------------------------------");
+        info.append("\nTOTAL VERTICES: " + this.totalVertexes);
+        info.append("\nTOTAL TEXTURE COORDINATES: " + this.totalTextures);
+        info.append("\nTOTAL NORMALS: " + this.totalNormals);
+        info.append("\nTOTAL FACES: " + this.totalFaces);
+        info.append("\n-----------------------------------");
+        Log.i(TAG, info.toString());
+    }
+    
+    public Obj clone() throws CloneNotSupportedException {
+
+        float[] tmpPositions = new float[this.positions.length];
+        float[] tmpTextures = new float[this.textures.length];
+        float[] tmpNormals = new float[this.normals.length];
+        float[] tmpUnifiedData = new float[this.unifiedData.length];
+    	
+    	for (int i = 0; i < this.positions.length; i++) {
+    		tmpPositions[i] = this.positions[i];
+    	}
+    	
+    	for (int i = 0; i < this.textures.length; i++) {
+    		tmpTextures[i] = this.textures[i];
+    	}
+    	
+    	for (int i = 0; i < this.normals.length; i++) {
+    		tmpNormals[i] = this.normals[i];
+    	}
+    	
+    	for (int i = 0; i < this.unifiedData.length; i++) {
+    		tmpUnifiedData[i] = this.unifiedData[i];
+    	}
+    	
+    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, this.name);
+    	tmp.setTotalTextures(this.totalTextures);
+    	tmp.setTotalTextures(this.totalTextures);
+    	tmp.setTotalNormals(this.totalNormals);
+    	tmp.setTotalIndices(this.totalIndices);
+    	tmp.setTotalFaces(this.totalFaces);
+        
+        return tmp;
+    }
+    
+    // SETTERS AND GETTERS --------------------------------------------------------------------------------
+    public String getName() {
+		return name;
+	}
 
     public int getTotalVertexes() {
 		return totalVertexes;
@@ -159,10 +219,6 @@ public class Obj implements Cloneable {
 			this.startingUnifiedData[i] = startingUnifiedData[i];
 		}
 	}
-
-    public String getName() {
-		return name;
-	}
 	
 	public Texture getTexture() {
 		return texture;
@@ -171,69 +227,6 @@ public class Obj implements Cloneable {
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
-
-    public void logEvoObjInformation() {
-        StringBuilder info = new StringBuilder();
-        info.append("EvoObj Info Data:");
-        info.append("\n-----------------------------------");
-        info.append("\nTOTAL VERTICES: " + this.totalVertexes);
-        info.append("\nTOTAL TEXTURE COORDINATES: " + this.totalTextures);
-        info.append("\nTOTAL NORMALS: " + this.totalNormals);
-        info.append("\nTOTAL FACES: " + this.totalFaces);
-        info.append("\n-----------------------------------");
-        Log.i(TAG, info.toString());
-    }
-    
-    public void translate(float xUpset, float yUpset, float zUpset) {
-    	OpenGLUtils.translateUnifiedMatrixData(this.unifiedData, xUpset, yUpset, zUpset);
-    }
-    
-    public void moveToPosition(float xUpset, float yUpset, float zUpset) {
-    	OpenGLUtils.translateUnifiedMatrixDataToPosition(unifiedData, startingUnifiedData, xUpset, yUpset, zUpset);
-    }
-    
-    public void scale(float xScale, float yScale, float zScale) {
-    	OpenGLUtils.scaleUnifiedMatrixData(this.unifiedData, xScale, yScale, zScale);
-    }
-	
-    /**
-     * 
-     */
-    public void rotate() {
-    	
-    }
-    
-    public Obj clone() throws CloneNotSupportedException {
-
-        float[] tmpPositions = new float[this.positions.length];
-        float[] tmpTextures = new float[this.textures.length];
-        float[] tmpNormals = new float[this.normals.length];
-        float[] tmpUnifiedData = new float[this.unifiedData.length];
-    	
-    	for (int i = 0; i < this.positions.length; i++) {
-    		tmpPositions[i] = this.positions[i];
-    	}
-    	
-    	for (int i = 0; i < this.textures.length; i++) {
-    		tmpTextures[i] = this.textures[i];
-    	}
-    	
-    	for (int i = 0; i < this.normals.length; i++) {
-    		tmpNormals[i] = this.normals[i];
-    	}
-    	
-    	for (int i = 0; i < this.unifiedData.length; i++) {
-    		tmpUnifiedData[i] = this.unifiedData[i];
-    	}
-    	
-    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, this.name);
-    	tmp.setTotalTextures(this.totalTextures);
-    	tmp.setTotalTextures(this.totalTextures);
-    	tmp.setTotalNormals(this.totalNormals);
-    	tmp.setTotalIndices(this.totalIndices);
-    	tmp.setTotalFaces(this.totalFaces);
-        
-        return tmp;
-    }
+	//-----------------------------------------------------------------------------------------------------
 
 }

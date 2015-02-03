@@ -1,4 +1,4 @@
-package com.redru.application.scene.simple;
+package com.redru.engine.scene;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -8,7 +8,6 @@ import java.nio.ShortBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
@@ -50,7 +49,7 @@ public class OriginLines implements IntSceneElement {
     /**
      * 
      */
-    public OriginLines() {
+    protected OriginLines() {
         setup();
         Log.i(TAG, "Creation complete.");
     }

@@ -36,15 +36,16 @@ public class StarshipObject implements IntSceneElement {
 		
 		Log.i(TAG, "Creation complete.");
 	}
-
+	
 	@Override
-	public void setup() {
-		
+	public void scale(float xScale, float yScale, float zScale) {
+		obj.scale(xScale, yScale, zScale);
+		drawHandler.updateBuffers();
 	}
 
 	@Override
-	public void draw() {
-		drawHandler.draw();
+	public void rotate() {
+		obj.rotate();
 	}
 	
 	@Override
@@ -58,26 +59,26 @@ public class StarshipObject implements IntSceneElement {
 	}
 
 	@Override
-	public void scale(float xScale, float yScale, float zScale) {
-		obj.scale(xScale, yScale, zScale);
-		drawHandler.updateBuffers();
-	}
-
-	@Override
-	public void rotate() {
-		obj.rotate();
-	}
-
-	@Override
 	public void move() {
 		if (moving) {
-	    	this.xUpset += xUpset;
-	    	this.yUpset += yUpset;
-	    	this.zUpset += zUpset;
 	    	
+		}
+		
+		this.xUpset += xVel;
+    	this.yUpset += yVel;
+    	this.zUpset += zVel;
+    	
+    	if (xVel != 0.0f && yVel != 0.0f && zVel != 0.0f) {
 			obj.translate(xUpset, yUpset, zUpset);
 			drawHandler.updateBuffers();
-		}
+    	}
+	}
+	
+	@Override
+	public void setStartingPositions(float startX, float startY, float startZ) {
+		this.startX = startX;
+		this.startY = startY;
+		this.startZ = startZ;
 	}
 	
 	@Override
@@ -89,12 +90,15 @@ public class StarshipObject implements IntSceneElement {
     	this.yUpset = 0;
     	this.zUpset = 0;
 	}
-	
+
 	@Override
-	public void setStartingPositions(float startX, float startY, float startZ) {
-		this.startX = startX;
-		this.startY = startY;
-		this.startZ = startZ;
+	public void setup() {
+		
+	}
+
+	@Override
+	public void draw() {
+		drawHandler.draw();
 	}
 	
 	public String getIdentifier() {

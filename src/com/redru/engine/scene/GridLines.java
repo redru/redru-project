@@ -1,4 +1,4 @@
-package com.redru.application.scene.simple;
+package com.redru.engine.scene;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -7,7 +7,6 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
@@ -34,7 +33,7 @@ public class GridLines implements IntSceneElement {
     /**
      * 
      */
-	public GridLines() {
+	protected GridLines() {
 		for (int count = -30, i = 0; count < 30; count++) {
 			for (int e = 0; e < 4; e++) {
 				if (e == 2) {

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
-import com.redru.application.scene.simple.GridLines;
-import com.redru.application.scene.simple.OriginLines;
 import com.redru.engine.utils.ResourceUtils;
 
 /**

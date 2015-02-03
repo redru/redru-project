@@ -136,7 +136,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit2.toStartingPositions();
     	scene.addElementToScene(objB2Spirit2);
     	sceneObjects.add(objB2Spirit2);
-//    	b2spirit2.translate(3.0f, 5.0f, 120.0f);
     	
     	Obj b2spirit3 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
     	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
@@ -145,7 +144,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit3.toStartingPositions();
     	scene.addElementToScene(objB2Spirit3);
     	sceneObjects.add(objB2Spirit3);
-//    	b2spirit3.translate(10.0f, 2.0f, 100.0f);
     	
     	Obj b2spirit4 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
     	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
@@ -154,7 +152,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit4.toStartingPositions();
     	scene.addElementToScene(objB2Spirit4);
     	sceneObjects.add(objB2Spirit4);
-//    	b2spirit4.translate(8.0f, 7.0f, 40.0f);
     	
     	Obj b2spirit5 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
     	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
@@ -163,7 +160,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit5.toStartingPositions();
     	scene.addElementToScene(objB2Spirit5);
     	sceneObjects.add(objB2Spirit5);
-//    	b2spirit5.translate(5.0f, -3.0f, 80.0f);
     }
 
 }
