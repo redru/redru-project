@@ -1,9 +1,11 @@
 package com.redru.application.scene.complex;
 
+import android.util.Log;
+
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.Obj;
 
-public class ComplexSceneObject implements IntSceneElement {
+public class StarshipObject implements IntSceneElement {
 	private static String TAG = "ComplexSceneObject";
 	
 	private Obj obj;
@@ -18,7 +20,7 @@ public class ComplexSceneObject implements IntSceneElement {
 	/**
 	 * 
 	 */
-	public ComplexSceneObject() {
+	public StarshipObject() {
 		this(null);
 	}
 	
@@ -27,9 +29,10 @@ public class ComplexSceneObject implements IntSceneElement {
 	 * @param obj
 	 * @param name
 	 */
-	public ComplexSceneObject(Obj obj) {
+	public StarshipObject(Obj obj) {
 		this.obj = obj;
 		this.drawHandler = new EvoObjDrawHandler(obj);
+		Log.i(TAG, "Creation complete.");
 	}
 
 	/**

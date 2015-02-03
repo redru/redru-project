@@ -11,7 +11,7 @@ import android.util.Log;
 
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
-import com.redru.application.scene.complex.ComplexSceneObject;
+import com.redru.application.scene.complex.StarshipObject;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
@@ -106,7 +106,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	
     	Obj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit");
     	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	ComplexSceneObject objB2Spirit = new ComplexSceneObject(b2spirit);
+    	StarshipObject objB2Spirit = new StarshipObject(b2spirit);
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
     	b2spirit.scale(0.5f, 0.5f, 0.5f);
@@ -114,28 +114,28 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	
     	Obj b2spirit2 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit2");
     	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	ComplexSceneObject objB2Spirit2 = new ComplexSceneObject(b2spirit2);
+    	StarshipObject objB2Spirit2 = new StarshipObject(b2spirit2);
     	scene.addElementToScene(objB2Spirit2);
     	sceneObjects.add(objB2Spirit2);
     	b2spirit2.translate(3.0f, 5.0f, 120.0f);
     	
     	Obj b2spirit3 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit3");
     	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	ComplexSceneObject objB2Spirit3 = new ComplexSceneObject(b2spirit3);
+    	StarshipObject objB2Spirit3 = new StarshipObject(b2spirit3);
     	scene.addElementToScene(objB2Spirit3);
     	sceneObjects.add(objB2Spirit3);
     	b2spirit3.translate(10.0f, 2.0f, 100.0f);
     	
     	Obj b2spirit4 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit4");
     	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	ComplexSceneObject objB2Spirit4 = new ComplexSceneObject(b2spirit4);
+    	StarshipObject objB2Spirit4 = new StarshipObject(b2spirit4);
     	scene.addElementToScene(objB2Spirit4);
     	sceneObjects.add(objB2Spirit4);
     	b2spirit4.translate(8.0f, 7.0f, 40.0f);
     	
     	Obj b2spirit5 = objFactory.getStockedObject(objFactory.getObjFiles().get(0), "B-2 Spirit5");
     	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	ComplexSceneObject objB2Spirit5 = new ComplexSceneObject(b2spirit5);
+    	StarshipObject objB2Spirit5 = new StarshipObject(b2spirit5);
     	scene.addElementToScene(objB2Spirit5);
     	sceneObjects.add(objB2Spirit5);
     	b2spirit5.translate(5.0f, -3.0f, 80.0f);

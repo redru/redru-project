@@ -2,7 +2,7 @@ package com.redru.application.actions;
 
 import java.util.ArrayList;
 
-import com.redru.application.scene.complex.ComplexSceneObject;
+import com.redru.application.scene.complex.StarshipObject;
 import com.redru.engine.actions.IntAction;
 
 public class SceneObjectsTranslateAction implements IntAction {
@@ -17,8 +17,8 @@ public class SceneObjectsTranslateAction implements IntAction {
 	@Override
 	public void execute(ArrayList<?> actionObjects) {
 		for (Object element : actionObjects) {
-        	if (!((ComplexSceneObject) element).getObj().getName().equals("B-2 Spirit")) {
-        		((ComplexSceneObject) element).translate(0.0f, 0.0f, -1.0f);
+        	if (!((StarshipObject) element).getObj().getName().equals("B-2 Spirit")) {
+        		((StarshipObject) element).translate(0.0f, 0.0f, -1.0f);
         	}
         }
 	}
