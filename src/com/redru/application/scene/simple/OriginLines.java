@@ -60,7 +60,6 @@ public class OriginLines implements IntSceneElement {
      */
     @Override
     public void setup() {
-        Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------
         vertexBuffer = ByteBuffer.allocateDirect(vertexData.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -101,7 +100,6 @@ public class OriginLines implements IntSceneElement {
 
         GLES30.glBindVertexArray(0);
         //----------------------------------------------------------------------------------------
-        Log.i(TAG, "Buffers setup: complete.");
     }
 
     /**

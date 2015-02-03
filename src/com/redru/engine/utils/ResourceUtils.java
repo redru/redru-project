@@ -1,6 +1,7 @@
 package com.redru.engine.utils;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -87,12 +88,19 @@ public class ResourceUtils {
 	public static Texture importTexture(Context context, int resourceId) {
     	Texture tex = null;
     	
-    	final BitmapFactory.Options options = new BitmapFactory.Options();
-    	options.inScaled = false;
-    	final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+//    	final BitmapFactory.Options options = new BitmapFactory.Options();
+//    	options.inScaled = false;
+//    	final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+    	
+    	InputStream inputStream = context.getResources().openRawResource(resourceId);
+    	Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+    	
+    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    	bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
     	
     	tex = new Texture("Spirit Texture");
     	tex.setBitmap(bitmap);
+    	tex.setTextureData(stream.toByteArray());
     	
     	return tex;
     }

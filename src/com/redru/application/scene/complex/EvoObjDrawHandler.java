@@ -67,7 +67,6 @@ public class EvoObjDrawHandler {
 	    	}
     	}
     	
-        Log.i(TAG, "Buffers setup: start.");
         // initialize vertex byte buffer for shape coordinates------------------------------------
         vertexBuffer = ByteBuffer.allocateDirect(evoObj.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -84,16 +83,15 @@ public class EvoObjDrawHandler {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
         GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, evoObj.getTexture().getBitmap(), 0);
         
-        
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);       
       //----------------------------------------------------------------------------------------------
         // Vertex Array Object (VAO) configuration
         GLES30.glGenVertexArrays(1, VAOIds, 0);
+        
         GLES30.glBindVertexArray(VAOIds[0]);
 
         // TEXTURES
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
         GLES30.glUniform1i(ShaderFactory.getInstance().SAMPLER_S_TEXTURE, 0);
         // TEXTURES END
@@ -111,7 +109,6 @@ public class EvoObjDrawHandler {
         
         GLES30.glBindVertexArray(0);
         //----------------------------------------------------------------------------------------
-        Log.i(TAG, "Buffers setup: complete.");
     }
     
     public void updateBuffers() {
