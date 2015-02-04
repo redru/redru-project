@@ -7,7 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
 import com.redru.engine.actions.IntAction;
-import com.redru.engine.scene.IntSceneElement;
+import com.redru.engine.scene.IntDynamicElement;
 import com.redru.engine.view.Camera;
 
 public class SensorInputAction implements IntAction, SensorEventListener {
@@ -23,7 +23,7 @@ public class SensorInputAction implements IntAction, SensorEventListener {
 	@Override
 	public void execute(ArrayList<?> actionObjects) {
 		Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
-        ((IntSceneElement) actionObjects.get(0)).translate(-axisY / 2, 0.0f, 0.0f);
+        ((IntDynamicElement) actionObjects.get(0)).translate(-axisY / 2, 0.0f, 0.0f);
 	}
 	
 	@Override

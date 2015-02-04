@@ -4,10 +4,11 @@ import android.util.Log;
 
 import com.redru.engine.drawhandlers.IntDrawHandler;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
+import com.redru.engine.scene.IntDynamicElement;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.objects.Obj;
 
-public class StarshipObject implements IntSceneElement {
+public class StarshipObject implements IntSceneElement, IntDynamicElement {
 	private static String TAG = "StarshipObject";
 	
 	private String identifier = "";

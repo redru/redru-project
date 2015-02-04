@@ -121,43 +121,4 @@ public class OriginLines implements IntSceneElement {
         GLES30.glBindVertexArray(0);
     }
 
-    /**
-     * 
-     */
-    @Override
-	public void translate(float xUpset, float yUpset, float zUpset) {
-		// TODO Auto-generated method stub
-		
-	}
-
-    @Override
-    public void rotate() {
-    	// TODO Auto-generated method stub
-		
-    }
-
-	@Override
-	public void scale(float xScale, float yScale, float zScale) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setStartingPositions(float startX, float startY, float startZ) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void toStartingPositions() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -6,6 +6,7 @@ import android.graphics.Point;
 
 import com.redru.application.input.UserInputHandler;
 import com.redru.engine.actions.IntAction;
+import com.redru.engine.scene.IntDynamicElement;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.view.Camera;
 
@@ -34,10 +35,10 @@ public class UserInputAction implements IntAction {
 
             if (rotation.x > 0) {
             	Camera.getInstance().move(0.8f, 0.0f, 0.0f);
-            	((IntSceneElement) actionObjects.get(0)).translate(0.8f, 0.0f, 0.0f);
+            	((IntDynamicElement) actionObjects.get(0)).translate(0.8f, 0.0f, 0.0f);
             } else {
             	Camera.getInstance().move(-0.8f, 0.0f, 0.0f);
-            	((IntSceneElement) actionObjects.get(0)).translate(-0.8f, 0.0f, 0.0f);
+            	((IntDynamicElement) actionObjects.get(0)).translate(-0.8f, 0.0f, 0.0f);
             }
         }
 	}
