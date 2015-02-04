@@ -13,7 +13,7 @@ import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.scene.complex.StarshipObject;
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.scene.IntSceneElement;
+import com.redru.engine.scene.IntDynamicElement;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
@@ -34,7 +34,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private TextureFactory texFactory = TextureFactory.getInstance();
     private ActionsManager actionsManager = ActionsManager.getInstance();
     
-    private ArrayList<IntSceneElement> sceneObjects = new ArrayList<IntSceneElement>();
+    private ArrayList<IntDynamicElement> sceneObjects = new ArrayList<IntDynamicElement>();
     
     private GLViewRenderer() { }
     
@@ -68,8 +68,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
-        actionsManager.executeAction(SensorInputAction.class.getSimpleName(), sceneObjects);
-        actionsManager.executeAction(SceneObjectsTranslateAction.class.getSimpleName(), sceneObjects);
+    	actionsManager.executeAllContextActions();
         
         drawShapes();
 
@@ -111,8 +110,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addAction(SensorInputAction.getInstance());
-    	actionsManager.addAction(SceneObjectsTranslateAction.getInstance());
+    	actionsManager.addContextValues("SceneElements", sceneObjects);
+    	actionsManager.addContextAction(SensorInputAction.getInstance(), "SceneElements");
+    	actionsManager.addContextAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }
 
     /**

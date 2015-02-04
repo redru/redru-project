@@ -1,16 +1,19 @@
 package com.redru.engine.actions;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Set;
 
-import android.content.res.Resources.NotFoundException;
 import android.util.Log;
 
 public class ActionsManager {
 	private static final String TAG = "ActionsManager";
 
 	private static ActionsManager instance;
-	private LinkedList<IntAction> actions = new LinkedList<IntAction>();
+	
+	private Map<IntAction, String> contextActions = new Hashtable<IntAction, String>();
+	private Map<String, ArrayList<?>> contextValues = new Hashtable<String, ArrayList<?>>();
 
 	/**
 	 * 
@@ -30,102 +33,64 @@ public class ActionsManager {
 
 		return instance;
 	}
-
-	/**
-	 * 
-	 * @param action
-	 */
-	public void addAction(IntAction newAction) {
+	
+	//--------------------------------------------------------------------------------------------------------------------
+	
+	public void addContextAction(IntAction action, String context, ArrayList<?> values) {
 		try {
-			for (IntAction action : this.actions) {
-
-				// Verify if exist two actions with the same name
-				if (action.getClass().getSimpleName().equals(newAction.getClass().getSimpleName())) {
+			Set<IntAction> conAct = this.contextActions.keySet();
+			
+			for (IntAction tmp : conAct) {
+				if (tmp.getClass().getSimpleName().equals(action.getClass().getSimpleName())) {
 					throw new ActionAlreadyExistsException();
 				}
-
 			}
-
-			this.actions.add(newAction);
-			Log.i(TAG, "Action '" + newAction.getClass().getSimpleName() + "' was correctly loaded.");
+			
+			this.contextActions.put(action, context);
+			this.contextValues.put(context, values);
 		} catch (ActionAlreadyExistsException e) {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * 
-	 * @param name
-	 * @return
-	 */
-	public IntAction getAction(String name) {
-		IntAction action = null;
-
-		for (IntAction tmp : this.actions) {
-			if (tmp.getClass().getSimpleName().equals(name)) {
-				action = tmp;
-				break;
-			}
-		}
-
-		return action;
-	}
-
-	/**
-	 * 
-	 * @param name
-	 */
-	public void executeAction(String name) {
-		IntAction action = this.getAction(name);
-
-		if (action != null) {
-			action.execute(null);
-		}
-	}
-
-	/**
-	 * 
-	 * @param name
-	 * @param args
-	 */
-	public void executeAction(String name, ArrayList<?> args) {
-		IntAction action = this.getAction(name);
-
-		if (action != null) {
-			action.execute(args);
-		}
-	}
-
-	/**
-	 * 
-	 * @param name
-	 */
-	public void removeAction(String name) {
+	
+	public void addContextAction(IntAction action, String context) {
 		try {
-			boolean found = true;
-
-			for (IntAction action : this.actions) {
-				if (action.getClass().getSimpleName().equals(name)) {
-					this.actions.remove(action);
-					Log.i(TAG, "Action '" + name + "' has been destroyed.");
-					break;
+			Set<IntAction> conAct = this.contextActions.keySet();
+			
+			for (IntAction tmp : conAct) {
+				if (tmp.getClass().getSimpleName().equals(action.getClass().getSimpleName())) {
+					throw new ActionAlreadyExistsException();
 				}
 			}
-
-			if (!found) {
-				throw new NotFoundException(name);
-			}
-
-		} catch (NotFoundException e) {
+			
+			this.contextActions.put(action, context);
+		} catch (ActionAlreadyExistsException e) {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public LinkedList<IntAction> getActions() {
-		return this.actions;
+	
+	public ArrayList<?> addContextValues(String context, ArrayList<?> values) {
+		return this.contextValues.put(context, values);
 	}
+	
+	public void executeActionsByContext(String context) {
+		Set<IntAction> conAct = this.contextActions.keySet();
+		
+		for (IntAction tmp : conAct) {
+			if (this.contextActions.get(tmp).equals(context)) {
+				tmp.execute(this.contextValues.get(context));
+			}
+		}
+	}
+	
+	public void executeAllContextActions() {
+		Set<IntAction> conAct = this.contextActions.keySet();
+		
+		for (IntAction tmp : conAct) {
+			tmp.execute(this.contextValues.get(this.contextActions.get(tmp)));
+		}
+	}
+	
+	//--------------------------------------------------------------------------------------------------------------------
+	
 }
