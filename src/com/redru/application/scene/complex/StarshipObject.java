@@ -17,9 +17,10 @@ public class StarshipObject implements IntSceneElement, IntDynamicElement {
 	private IntDrawHandler drawHandler;
 	
 	private float startX = 0.0f, startY = 0.0f, startZ = 0.0f;
-	private float xUpset = 0.0f, yUpset = 0.0f, zUpset = 0.0f;
+	private float xPos = 0.0f, yPos = 0.0f, zPos = 0.0f;
 	private float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
 	private float xAcc = 0.0f, yAcc = 0.0f, zAcc = 0.0f;
+	private float xRot = 0.0f, yRot = 0.0f, zRot = 0.0f;
 	
 	private boolean moving = false;
 
@@ -45,15 +46,34 @@ public class StarshipObject implements IntSceneElement, IntDynamicElement {
 	}
 
 	@Override
-	public void rotate() {
-		obj.rotate();
+	public void rotate(int angle, float xAxis, float yAxis, float zAxis) {
+		obj.rotate(angle, xAxis, yAxis, zAxis);
+	}
+	
+	@Override
+	public void rotateAndTranslate(int angle, float xAxis, float yAxis, float zAxis, float xUpset, float yUpset, float zUpset) {
+		this.xPos += xUpset;
+    	this.yPos += yUpset;
+    	this.zPos += zUpset;
+		this.addRotation(angle * xAxis, angle * yAxis, angle * zAxis);
+		
+		obj.rotate(1000, this.xRot, this.yRot, this.zRot);
+		obj.translate(this.startX + this.xPos, this.startY + this.yPos, this.startZ + this.zPos);
+		drawHandler.updateBuffers();
+	}
+	
+	@Override
+	public void rotateAndMoveTo(int angle, float xAxis, float yAxis, float zAxis, float xUpset, float yUpset, float zUpset) {
+		this.addRotation(angle * xAxis, angle * yAxis, angle * zAxis);
+		obj.rotateAndMoveTo(this.xRot, this.yRot, this.zRot, xUpset, yUpset, zUpset);
+		drawHandler.updateBuffers();
 	}
 	
 	@Override
 	public void translate(float xUpset, float yUpset, float zUpset) {
-    	this.xUpset += xUpset;
-    	this.yUpset += yUpset;
-    	this.zUpset += zUpset;
+    	this.xPos += xUpset;
+    	this.yPos += yUpset;
+    	this.zPos += zUpset;
     	
 		obj.translate(xUpset, yUpset, zUpset);
 		drawHandler.updateBuffers();
@@ -65,12 +85,12 @@ public class StarshipObject implements IntSceneElement, IntDynamicElement {
 	    	
 		}
 		
-		this.xUpset += xVel;
-    	this.yUpset += yVel;
-    	this.zUpset += zVel;
+		this.xPos += xVel;
+    	this.yPos += yVel;
+    	this.zPos += zVel;
     	
     	if (xVel != 0.0f && yVel != 0.0f && zVel != 0.0f) {
-			obj.translate(xUpset, yUpset, zUpset);
+			obj.translate(xPos, yPos, zPos);
 			drawHandler.updateBuffers();
     	}
 	}
@@ -87,9 +107,9 @@ public class StarshipObject implements IntSceneElement, IntDynamicElement {
 		obj.moveToPosition(this.startX, this.startY, this.startZ);
 		drawHandler.updateBuffers();
 		
-		this.xUpset = 0;
-    	this.yUpset = 0;
-    	this.zUpset = 0;
+		this.xPos = 0;
+    	this.yPos = 0;
+    	this.zPos = 0;
 	}
 
 	@Override
@@ -157,16 +177,16 @@ public class StarshipObject implements IntSceneElement, IntDynamicElement {
 		return zVel;
 	}
 
-	public float getxUpset() {
-		return xUpset;
+	public float getxPos() {
+		return xPos;
 	}
 
-	public float getyUpset() {
-		return yUpset;
+	public float getyPos() {
+		return yPos;
 	}
 
-	public float getzUpset() {
-		return zUpset;
+	public float getzPos() {
+		return zPos;
 	}
 	
 	public void setAcc(float xAcc, float yAcc, float zAcc) {
@@ -193,6 +213,31 @@ public class StarshipObject implements IntSceneElement, IntDynamicElement {
 
 	public void setMoving(boolean moving) {
 		this.moving = moving;
+	}
+	
+	public void addRotation(float xRot, float yRot, float zRot) {
+		this.xRot += xRot;
+		this.yRot += yRot;
+		this.zRot += zRot;
+		
+		if (xRot > 360) {
+			xRot -= 360;
+		} else if (xRot < 0) {
+			xRot += 360;
+		}
+		
+		if (yRot > 360) {
+			yRot -= 360;
+		} else if (yRot < 0) {
+			yRot += 360;
+		}
+		
+		if (zRot > 360) {
+			zRot -= 360;
+		} else if (zRot < 0) {
+			zRot += 360;
+		}
+		
 	}
 	
 }

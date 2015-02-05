@@ -57,12 +57,10 @@ public class SceneContext {
      * 
      */
     public void drawScene() {
-        // Draw originLines only if requested
         if (enableOriginLines) {
             originLines.draw();
         }
         
-        // Draw gridLines only if requested
         if (enableGridLines) {
         	gridLines.draw();
         }

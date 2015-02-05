@@ -56,7 +56,7 @@ public class Obj implements Cloneable {
         logEvoObjInformation();
         Log.i(TAG, "EvoObj '" + this.name + "' was successfully created.");
     }
-    // METHODS --------------------------------------------------------------------------------------------
+    // BASIC TRANSFORMATIONS --------------------------------------------------------------------------------------------
     
     public void translate(float xUpset, float yUpset, float zUpset) {
     	OpenGLUtils.translateUnifiedMatrixData(this.unifiedData, xUpset, yUpset, zUpset);
@@ -70,8 +70,20 @@ public class Obj implements Cloneable {
     	OpenGLUtils.scaleUnifiedMatrixData(this.unifiedData, xScale, yScale, zScale);
     }
     
-    public void rotate() {
-    	
+    public void rotate(int angle, float xAxis, float yAxis, float zAxis) {
+    	OpenGLUtils.rotateUnifiedMatrixData(this.unifiedData, this.startingUnifiedData, angle, xAxis, yAxis, zAxis);
+    }
+    
+    public void rotateAndTranslate(float xAxis, float yAxis, float zAxis, float xPos, float yPos, float zPos) {
+    	float[] tmp = new float[this.startingUnifiedData.length];
+    	OpenGLUtils.rotateUnifiedMatrixData(tmp, this.startingUnifiedData, 1000, xAxis, yAxis, zAxis);
+    	OpenGLUtils.translateUnifiedMatrixDataToPosition(this.unifiedData, tmp, xPos, yPos, zPos);
+    }
+    
+    public void rotateAndMoveTo(float xAxis, float yAxis, float zAxis, float xPos, float yPos, float zPos) {
+    	float[] tmp = new float[this.startingUnifiedData.length];
+    	OpenGLUtils.rotateUnifiedMatrixData(tmp, this.startingUnifiedData, 1000, xAxis, yAxis, zAxis);
+    	OpenGLUtils.translateUnifiedMatrixDataToPosition(this.unifiedData, tmp, xPos, yPos, zPos);
     }
 
     public void logEvoObjInformation() {

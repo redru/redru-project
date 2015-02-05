@@ -13,8 +13,39 @@ public interface IntDynamicElement {
     
 	/**
 	 * Rotate the object by the values given in the method
+	 * 
+	 * @param angle
+	 * @param xAxis
+	 * @param yAxis
+	 * @param zAxis
 	 */
-    public void rotate();
+    public void rotate(int angle, float xAxis, float yAxis, float zAxis);
+    
+    /**
+     * Rotate and moves to the position of the object by the values given in the method
+     * 
+     * @param angle
+     * @param xAxis
+     * @param yAxis
+     * @param zAxis
+     * @param xUpset
+     * @param yUpset
+     * @param zUpset
+     */
+    public void rotateAndMoveTo(int angle, float xAxis, float yAxis, float zAxis, float xUpset, float yUpset, float zUpset);
+    
+    /**
+     * Rotate and translate the object by the values given in the method
+     * 
+     * @param angle
+     * @param xAxis
+     * @param yAxis
+     * @param zAxis
+     * @param xUpset
+     * @param yUpset
+     * @param zUpset
+     */
+    public void rotateAndTranslate(int angle, float xAxis, float yAxis, float zAxis, float xUpset, float yUpset, float zUpset);
 
     /**
      * Translate the object by the values given in the method

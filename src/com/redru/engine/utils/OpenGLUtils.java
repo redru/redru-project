@@ -114,6 +114,100 @@ public class OpenGLUtils {
 	/**
 	 * 
 	 * @param unifiedData
+	 * @param angle
+	 * @param xAxis
+	 * @param yAxis
+	 * @param zAxis
+	 */
+	public static void rotateUnifiedMatrixData( float[] result, float[] unifiedData, int angle, float xAxis, float yAxis, float zAxis) {
+		double sin;
+		double cos;
+		
+		// X AXIS ROTATION
+		if (angle != 0 && xAxis != 0.0f) {
+			if (angle == 1000) {
+				sin = Math.sin(Math.toRadians(xAxis));
+				cos = Math.cos(Math.toRadians(xAxis));
+			} else {
+				sin = Math.sin(Math.toRadians(angle) * xAxis);
+				cos = Math.cos(Math.toRadians(angle) * xAxis);
+			}
+			
+			for (int i = 0; i < result.length; i++) {
+				for (int e = 0; e < 3; e++) {
+					if (e == 0) {
+						result[i] = unifiedData[i];
+					} else if (e == 1) {
+						result[i] = (float) ( (unifiedData[i] * cos) + (unifiedData[i + 1] * -sin) );
+					} else if (e == 2) {
+						result[i] = (float) ( (unifiedData[i - 1] * sin) + (unifiedData[i] * cos) );
+					}
+					
+					i++;
+				}
+				
+				i += 4;
+			}
+		}
+		
+		// Y AXIS ROTATION
+		if (angle != 0 && yAxis != 0.0f) {
+			if (angle == 1000) {
+				sin = Math.sin(Math.toRadians(yAxis));
+				cos = Math.cos(Math.toRadians(yAxis));
+			} else {
+				sin = Math.sin(Math.toRadians(angle) * yAxis);
+				cos = Math.cos(Math.toRadians(angle) * yAxis);
+			}
+			
+			for (int i = 0; i < result.length; i++) {
+				for (int e = 0; e < 3; e++) {
+					if (e == 0) {
+						result[i] = (float) ( (unifiedData[i] * cos) + (unifiedData[i + 2] * sin) );
+					} else if (e == 1) {
+						result[i] = unifiedData[i];
+					} else if (e == 2) {
+						result[i] = (float) ( (unifiedData[i - 2] * -sin) + (unifiedData[i] * cos) );
+					}
+					
+					i++;
+				}
+				
+				i += 4;
+			}
+		}
+		
+		// Z AXIS ROTATION
+		if (angle != 0 && zAxis != 0.0f) {
+			if (angle == 1000) {
+				sin = Math.sin(Math.toRadians(zAxis));
+				cos = Math.cos(Math.toRadians(zAxis));
+			} else {
+				sin = Math.sin(Math.toRadians(angle) * zAxis);
+				cos = Math.cos(Math.toRadians(angle) * zAxis);
+			}
+			
+			for (int i = 0; i < result.length; i++) {
+				for (int e = 0; e < 3; e++) {
+					if (e == 0) {
+						result[i] = (float) ( (unifiedData[i] * cos) + (unifiedData[i + 1] * -sin) );
+					} else if (e == 1) {
+						result[i] = (float) ( (unifiedData[i - 1] * sin) + (unifiedData[i] * cos) );
+					} else if (e == 2) {
+						result[i] = unifiedData[i];
+					}
+					
+					i++;
+				}
+				
+				i += 4;
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param unifiedData
 	 * @param xUpset
 	 * @param yUpset
 	 * @param zUpset

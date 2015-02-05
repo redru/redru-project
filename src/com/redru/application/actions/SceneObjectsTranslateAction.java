@@ -11,17 +11,21 @@ public class SceneObjectsTranslateAction implements IntAction {
 	private static final String TAG = "SceneObjectsTranslateAction";
 
 	private static SceneObjectsTranslateAction instance;
+	private StarshipObject starship;
 	
 	private SceneObjectsTranslateAction() { Log.i(TAG, "Creation complete."); }
 	
 	@Override
 	public void execute(ArrayList<?> actionObjects) {
 		for (Object element : actionObjects) {
-        	if (!((StarshipObject) element).getIdentifier().equals("B-2 Spirit")) {
-        		if (((StarshipObject) element).getzUpset() > -((StarshipObject) element).getStartZ() - 10.0f) {
-        			((StarshipObject) element).translate(0.0f, 0.0f, -1.0f);
+			starship = (StarshipObject) element;
+        	if (!(starship.getIdentifier().equals("B-2 Spirit"))) {
+        		if (starship.getzPos() > -starship.getStartZ() - 10.0f) {
+//        			starship.translate(0.0f, 0.0f, -1.0f);
+        			starship.rotateAndTranslate(5, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, -1.0f);
         		} else {
-        			((StarshipObject) element).toStartingPositions();
+        			starship.translate( -starship.getxPos(), -starship.getyPos(), -starship.getzPos());
+//        			starship.rotateAndTranslate(5, 0.0f, 0.0f, 1.0f, -starship.getxPos(), -starship.getyPos(), -starship.getzPos());
         		}
         	}
         }
