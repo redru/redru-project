@@ -30,7 +30,7 @@ public class Obj implements Cloneable {
     
     private Texture texture;
     
-    // CONSTRUCTOR ----------------------------------------------------------------------------------------
+// CONSTRUCTOR ----------------------------------------------------------------------------------------
     protected Obj(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
@@ -56,7 +56,7 @@ public class Obj implements Cloneable {
         logEvoObjInformation();
         Log.i(TAG, "EvoObj '" + this.name + "' was successfully created.");
     }
-    // BASIC TRANSFORMATIONS --------------------------------------------------------------------------------------------
+// BASIC TRANSFORMATIONS --------------------------------------------------------------------------------------------
     
     public void translate(float xUpset, float yUpset, float zUpset) {
     	OpenGLUtils.translateUnifiedMatrixData(this.unifiedData, xUpset, yUpset, zUpset);
@@ -74,6 +74,10 @@ public class Obj implements Cloneable {
     	OpenGLUtils.rotateUnifiedMatrixData(this.unifiedData, this.startingUnifiedData, angle, xAxis, yAxis, zAxis);
     }
     
+    public void rotate(float xAxis, float yAxis, float zAxis) {
+    	OpenGLUtils.rotateUnifiedMatrixData(this.unifiedData, this.startingUnifiedData, xAxis, yAxis, zAxis);
+    }
+    
     public void rotateAndTranslate(float xAxis, float yAxis, float zAxis, float xPos, float yPos, float zPos) {
     	float[] tmp = new float[this.startingUnifiedData.length];
     	OpenGLUtils.rotateUnifiedMatrixData(tmp, this.startingUnifiedData, 1000, xAxis, yAxis, zAxis);
@@ -84,6 +88,12 @@ public class Obj implements Cloneable {
     	float[] tmp = new float[this.startingUnifiedData.length];
     	OpenGLUtils.rotateUnifiedMatrixData(tmp, this.startingUnifiedData, 1000, xAxis, yAxis, zAxis);
     	OpenGLUtils.translateUnifiedMatrixDataToPosition(this.unifiedData, tmp, xPos, yPos, zPos);
+    }
+    
+    public void loadOriginData() {
+		for (int i = 0; i < this.startingUnifiedData.length; i++) {
+			this.unifiedData[i] = startingUnifiedData[i];
+		}
     }
 
     public void logEvoObjInformation() {
@@ -97,41 +107,7 @@ public class Obj implements Cloneable {
         info.append("\n-----------------------------------");
         Log.i(TAG, info.toString());
     }
-    
-    public Obj clone() throws CloneNotSupportedException {
-
-        float[] tmpPositions = new float[this.positions.length];
-        float[] tmpTextures = new float[this.textures.length];
-        float[] tmpNormals = new float[this.normals.length];
-        float[] tmpUnifiedData = new float[this.unifiedData.length];
-    	
-    	for (int i = 0; i < this.positions.length; i++) {
-    		tmpPositions[i] = this.positions[i];
-    	}
-    	
-    	for (int i = 0; i < this.textures.length; i++) {
-    		tmpTextures[i] = this.textures[i];
-    	}
-    	
-    	for (int i = 0; i < this.normals.length; i++) {
-    		tmpNormals[i] = this.normals[i];
-    	}
-    	
-    	for (int i = 0; i < this.unifiedData.length; i++) {
-    		tmpUnifiedData[i] = this.unifiedData[i];
-    	}
-    	
-    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, this.name);
-    	tmp.setTotalTextures(this.totalTextures);
-    	tmp.setTotalTextures(this.totalTextures);
-    	tmp.setTotalNormals(this.totalNormals);
-    	tmp.setTotalIndices(this.totalIndices);
-    	tmp.setTotalFaces(this.totalFaces);
-        
-        return tmp;
-    }
-    
-    // SETTERS AND GETTERS --------------------------------------------------------------------------------
+// SETTERS AND GETTERS --------------------------------------------------------------------------------
     public String getName() {
 		return name;
 	}
@@ -239,6 +215,39 @@ public class Obj implements Cloneable {
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
-	//-----------------------------------------------------------------------------------------------------
+// CLONE ----------------------------------------------------------------------------------------------
+	public Obj clone() throws CloneNotSupportedException {
+
+        float[] tmpPositions = new float[this.positions.length];
+        float[] tmpTextures = new float[this.textures.length];
+        float[] tmpNormals = new float[this.normals.length];
+        float[] tmpUnifiedData = new float[this.unifiedData.length];
+    	
+    	for (int i = 0; i < this.positions.length; i++) {
+    		tmpPositions[i] = this.positions[i];
+    	}
+    	
+    	for (int i = 0; i < this.textures.length; i++) {
+    		tmpTextures[i] = this.textures[i];
+    	}
+    	
+    	for (int i = 0; i < this.normals.length; i++) {
+    		tmpNormals[i] = this.normals[i];
+    	}
+    	
+    	for (int i = 0; i < this.unifiedData.length; i++) {
+    		tmpUnifiedData[i] = this.unifiedData[i];
+    	}
+    	
+    	Obj tmp = new Obj(tmpPositions, tmpTextures, tmpNormals, tmpUnifiedData, this.name);
+    	tmp.setTotalTextures(this.totalTextures);
+    	tmp.setTotalTextures(this.totalTextures);
+    	tmp.setTotalNormals(this.totalNormals);
+    	tmp.setTotalIndices(this.totalIndices);
+    	tmp.setTotalFaces(this.totalFaces);
+        
+        return tmp;
+    }
+// ----------------------------------------------------------------------------------------------------
 
 }

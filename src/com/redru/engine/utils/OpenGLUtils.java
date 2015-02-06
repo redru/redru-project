@@ -207,6 +207,85 @@ public class OpenGLUtils {
 	
 	/**
 	 * 
+	 * @param result
+	 * @param unifiedData
+	 * @param xAxis
+	 * @param yAxis
+	 * @param zAxis
+	 */
+	public static void rotateUnifiedMatrixData( float[] result, float[] unifiedData, float xAxis, float yAxis, float zAxis) {
+		double sin;
+		double cos;
+		
+		// X AXIS ROTATION
+		if (xAxis != 0.0f) {
+			sin = Math.sin(Math.toRadians(xAxis));
+			cos = Math.cos(Math.toRadians(xAxis));
+			
+			for (int i = 0; i < result.length; i++) {
+				for (int e = 0; e < 3; e++) {
+					if (e == 0) {
+						result[i] = unifiedData[i];
+					} else if (e == 1) {
+						result[i] = (float) ( (unifiedData[i] * cos) + (unifiedData[i + 1] * -sin) );
+					} else if (e == 2) {
+						result[i] = (float) ( (unifiedData[i - 1] * sin) + (unifiedData[i] * cos) );
+					}
+					
+					i++;
+				}
+				
+				i += 4;
+			}
+		}
+		
+		// Y AXIS ROTATION
+		if (yAxis != 0.0f) {
+			sin = Math.sin(Math.toRadians(yAxis));
+			cos = Math.cos(Math.toRadians(yAxis));
+			
+			for (int i = 0; i < result.length; i++) {
+				for (int e = 0; e < 3; e++) {
+					if (e == 0) {
+						result[i] = (float) ( (unifiedData[i] * cos) + (unifiedData[i + 2] * sin) );
+					} else if (e == 1) {
+						result[i] = unifiedData[i];
+					} else if (e == 2) {
+						result[i] = (float) ( (unifiedData[i - 2] * -sin) + (unifiedData[i] * cos) );
+					}
+					
+					i++;
+				}
+				
+				i += 4;
+			}
+		}
+		
+		// Z AXIS ROTATION
+		if (zAxis != 0.0f) {
+			sin = Math.sin(Math.toRadians(zAxis));
+			cos = Math.cos(Math.toRadians(zAxis));
+			
+			for (int i = 0; i < result.length; i++) {
+				for (int e = 0; e < 3; e++) {
+					if (e == 0) {
+						result[i] = (float) ( (unifiedData[i] * cos) + (unifiedData[i + 1] * -sin) );
+					} else if (e == 1) {
+						result[i] = (float) ( (unifiedData[i - 1] * sin) + (unifiedData[i] * cos) );
+					} else if (e == 2) {
+						result[i] = unifiedData[i];
+					}
+					
+					i++;
+				}
+				
+				i += 4;
+			}
+		}
+	}
+	
+	/**
+	 * 
 	 * @param unifiedData
 	 * @param xUpset
 	 * @param yUpset
