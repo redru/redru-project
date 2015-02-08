@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper.objects;
+package com.redru.engine.wrapper.model;
 
 import java.util.ArrayList;
 
@@ -46,6 +46,24 @@ public class ObjWrapper {
         Log.i(TAG, "Wrapping completed. File: " + fileName + ".obj");
         
         return obj;
+    }
+    
+    /**
+     * 
+     * @param dataFile
+     * @param fileName
+     * @return
+     */
+    public ComplexObj createComplexObjFromFile(String dataFile, String fileName) {
+        Log.i(TAG, "Wrapping the following file: " + fileName + ".obj");
+        /*----------------------------------------------------------------------*/
+//        String[] lines = dataFile.split("\n");
+
+        ComplexObj cObj = new ComplexObj(null);
+        /*----------------------------------------------------------------------*/
+        Log.i(TAG, "Wrapping completed. File: " + fileName + ".obj");
+        
+        return cObj;
     }
 
     /**

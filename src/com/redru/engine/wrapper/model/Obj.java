@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper.objects;
+package com.redru.engine.wrapper.model;
 
 import android.util.Log;
 
@@ -53,7 +53,7 @@ public class Obj implements Cloneable {
         this.setStartingUnifiedData(unifiedData);
         
         // Log Object Data
-        logEvoObjInformation();
+        logObjInformation();
         Log.i(TAG, "EvoObj '" + this.name + "' was successfully created.");
     }
 // BASIC TRANSFORMATIONS --------------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ public class Obj implements Cloneable {
 		}
     }
 
-    public void logEvoObjInformation() {
+    public void logObjInformation() {
         StringBuilder info = new StringBuilder();
         info.append("EvoObj Info Data:");
         info.append("\n-----------------------------------");
