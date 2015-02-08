@@ -2,7 +2,7 @@ package com.redru.engine.elements;
 
 import com.redru.engine.drawhandlers.IntDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
-import com.redru.engine.wrapper.objects.Obj;
+import com.redru.engine.wrapper.model.Obj;
 
 public abstract class BaseElement implements IntTransformable, IntSceneElement {
 	

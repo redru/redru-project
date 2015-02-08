@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.redru.engine.drawhandlers.IntDrawHandler;
 import com.redru.engine.elements.BaseElement;
-import com.redru.engine.wrapper.objects.Obj;
+import com.redru.engine.wrapper.model.Obj;
 
 public class Starship extends BaseElement {
 	private static final String TAG = "Starship";

@@ -17,8 +17,8 @@ import com.redru.engine.scene.IntDynamicElement;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.objects.Obj;
-import com.redru.engine.wrapper.objects.ObjFactory;
+import com.redru.engine.wrapper.model.Obj;
+import com.redru.engine.wrapper.model.ObjFactory;
 import com.redru.engine.wrapper.textures.TextureFactory;
 
 /**
@@ -121,7 +121,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private void elementsStartup() {
     	scene.linesStartup();
     	
-    	Obj b2spirit = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	Obj b2spirit = objFactory.getStockedObjectClone(objFactory.getObjFiles().get(0));
     	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	StarshipObject objB2Spirit = new StarshipObject(b2spirit, "B-2 Spirit");
     	scene.addElementToScene(objB2Spirit);
@@ -130,7 +130,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	b2spirit.translate(0.0f, 2.0f, -8.8f);
     	b2spirit.scale(0.5f, 0.5f, 0.5f);
     	
-    	Obj b2spirit2 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	Obj b2spirit2 = objFactory.getStockedObjectClone(objFactory.getObjFiles().get(0));
     	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	StarshipObject objB2Spirit2 = new StarshipObject(b2spirit2, "Enemy");
     	objB2Spirit2.rotateAndTranslate(180, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -138,7 +138,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit2);
     	sceneObjects.add(objB2Spirit2);
     	
-    	Obj b2spirit3 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	Obj b2spirit3 = objFactory.getStockedObjectClone(objFactory.getObjFiles().get(0));
     	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	StarshipObject objB2Spirit3 = new StarshipObject(b2spirit3, "Enemy");
     	objB2Spirit3.rotateAndTranslate(180, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -146,7 +146,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit3);
     	sceneObjects.add(objB2Spirit3);
     	
-    	Obj b2spirit4 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	Obj b2spirit4 = objFactory.getStockedObjectClone(objFactory.getObjFiles().get(0));
     	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	StarshipObject objB2Spirit4 = new StarshipObject(b2spirit4, "Enemy");
     	objB2Spirit4.rotateAndTranslate(180, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -154,7 +154,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit4);
     	sceneObjects.add(objB2Spirit4);
     	
-    	Obj b2spirit5 = objFactory.getStockedObject(objFactory.getObjFiles().get(0));
+    	Obj b2spirit5 = objFactory.getStockedObjectClone(objFactory.getObjFiles().get(0));
     	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	StarshipObject objB2Spirit5 = new StarshipObject(b2spirit5, "Enemy");
     	objB2Spirit5.rotateAndTranslate(180, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);

@@ -12,7 +12,7 @@ import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.objects.Obj;
+import com.redru.engine.wrapper.model.Obj;
 
 /**
  * Created by Luca on 22/01/2015.
