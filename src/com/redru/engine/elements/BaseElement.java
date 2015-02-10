@@ -33,7 +33,7 @@ public abstract class BaseElement implements IntTransformable, IntSceneElement {
 // INTERFACES METHODS --------------------------------------------------------------------------
 	@Override
 	public void setup() {
-		
+		this.drawHandler.setup();
 	}
 
 	@Override

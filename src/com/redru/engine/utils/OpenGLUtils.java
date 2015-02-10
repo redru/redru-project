@@ -2,7 +2,6 @@ package com.redru.engine.utils;
 
 
 public class OpenGLUtils {
-	private static final String TAG = "OpenGLUtils";
 	
 	/**
 	 * Returns a 4 x 4 Matrix from a 1 x 3 Vector

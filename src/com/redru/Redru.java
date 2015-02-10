@@ -63,8 +63,9 @@ public class Redru extends Activity {
 	
 	@Override
 	protected void onResume() {
-	    sensorManager.registerListener(SensorInputAction.getInstance(), sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
 	    super.onResume();
+	    sensorManager.registerListener(SensorInputAction.getInstance(), sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_GAME);
+	    glView.onResume();
 	}
 	
 	@Override

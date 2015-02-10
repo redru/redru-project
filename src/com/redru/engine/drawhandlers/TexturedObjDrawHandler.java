@@ -42,7 +42,8 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
     /**
      * 
      */
-    private void setup() {
+    @Override
+    public void setup() {
     	// If the advanced logs are actived, log the unifiedData of the object
     	if (Boolean.parseBoolean(ResourceUtils.getApplicationProperty("advanced_logs"))) {
 	    	StringBuilder str = new StringBuilder();
