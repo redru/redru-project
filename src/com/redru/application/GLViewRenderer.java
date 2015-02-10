@@ -69,7 +69,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
-    	actionsManager.executeAllContextActions();
+    	actionsManager.executeActionsByActiveContexts();
         
         drawShapes();
 
@@ -111,9 +111,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addContextValues("SceneElements", sceneObjects);
-    	actionsManager.addContextAction(SensorInputAction.getInstance(), "SceneElements");
-    	actionsManager.addContextAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
+    	actionsManager.addContext("SceneElements", sceneObjects, true);
+    	actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
+    	actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }
 
     /**

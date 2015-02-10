@@ -21,8 +21,6 @@ public class SceneObjectsTranslateAction implements IntAction {
 			starship = (Starship) element;
         	if (!(starship.getIdentifier().equals("B-2 Spirit"))) {
         		if (starship.getzPos() > -starship.getzStart() - 10.0f) {
-//        			starship.rotate(0.0f, 0.0f, 5.0f);
-//        			starship.translateToPosition(starship.getxStart(), starship.getyStart(), starship.getzStart() + starship.getzPos() - 1.0f);
         			starship.translate(0.0f, 0.0f, -1.0f);
         		} else {
         			starship.translate(0.0f, 0.0f, -starship.getzPos() * 2);
