@@ -26,12 +26,17 @@ public class Obj implements Cloneable {
     private Texture texture;
     
 // CONSTRUCTOR ----------------------------------------------------------------------------------------
+    protected Obj() {  }
+    
     protected Obj(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
         } else {
         	this.name = name;
         }
+        
+        this.setUnifiedData(unifiedData);
+        this.copyUnifiedDataToStartingUnifiedData();
 
         Log.i(TAG, "Creating new EvoObj '" + this.name + "'.");
 
@@ -44,10 +49,8 @@ public class Obj implements Cloneable {
         if (normals != null) {
         	this.setTotalNormals(normals.length / OpenGLConstants.SINGLE_VN_SIZE);
         }
-        this.setUnifiedData(unifiedData);
-        this.setTotalFaces(unifiedData.length / 8 / 3);
         
-        this.setStartingUnifiedData(unifiedData);
+        this.setTotalFaces(unifiedData.length / 8 / 3);
         
         // Log Object Data
         logEvoObjInformation();
@@ -155,6 +158,14 @@ public class Obj implements Cloneable {
 
 	public void setTexture(Texture texture) {
 		this.texture = texture;
+	}
+	
+	public void copyUnifiedDataToStartingUnifiedData() {
+		this.startingUnifiedData = new float[unifiedData.length];
+		
+		for (int i = 0; i < this.unifiedData.length; i++) {
+			startingUnifiedData[i] = unifiedData[i];
+		}
 	}
 // CLONE ----------------------------------------------------------------------------------------------
 	public Obj clone() throws CloneNotSupportedException {

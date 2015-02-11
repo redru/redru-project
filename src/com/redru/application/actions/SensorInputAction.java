@@ -29,10 +29,13 @@ public class SensorInputAction extends Action implements SensorEventListener {
 	
 	@Override
 	public void execute(Context context) {
-		Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
 		starship = (Starship) context.getValues().get(0);
-		starship.translate(-axisY / 2, 0.0f, 0.0f);
-		starship.getDrawHandler().updateBuffers();
+		if (starship.getxPos() - (axisY / 2) < 30 && starship.getxPos() - (axisY / 2) > -30) {
+			starship.translate(-axisY / 2, 0.0f, 0.0f);
+			starship.getDrawHandler().updateBuffers();
+			
+			Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
+		}
 	}
 	
 	@Override

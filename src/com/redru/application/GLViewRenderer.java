@@ -12,6 +12,8 @@ import android.util.Log;
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.scene.complex.Starship;
+import com.redru.application.scene.simple.Bullet;
+import com.redru.application.scene.simple.CustomObjectsData;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.actions.Context;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
@@ -59,10 +61,8 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         camera.rotate(30.0f, 180.0f, 0.0f);
         camera.move(0.0f, 0.0f, -16.0f);
 
-        // Load .obj elements
+        this.customObjectsStartup();
         this.elementsStartup();
-        
-        // Load game actions
         this.actionsStartup();
 
         Log.i(TAG, "Creation complete.");
@@ -106,6 +106,14 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         TimeManager.setEnd();
         TimeManager.getDifferenceInMicroseconds();
         //Log.i(TAG, "Time average: '" + TimeManager.getAverage() + "' microseconds");
+    }
+    
+    /**
+     * Add to the object factory the custom objects
+     */
+    private void customObjectsStartup() {
+    	Bullet simpleBullet = new Bullet(CustomObjectsData.getInstance().simpleBulletData, Bullet.BulletType.SIMPLE);
+    	objFactory.addObjectToStock("SimpleBullet", simpleBullet);
     }
     
     /**

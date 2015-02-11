@@ -7,6 +7,7 @@ import java.util.Map;
 import android.util.Log;
 
 import com.redru.Redru;
+import com.redru.engine.exceptions.ObjectAlreadyInStockException;
 import com.redru.engine.utils.ResourceUtils;
 
 /**
@@ -94,6 +95,23 @@ public class ObjFactory {
         }
 
         return obj;
+    }
+    
+    /**
+     * 
+     * @param identifier
+     * @param obj
+     */
+    public void addObjectToStock(String identifier, Obj obj) {
+    	try {
+	    	if (!this.objStock.containsKey(identifier)) {
+	    		this.objStock.put(identifier, obj);
+	    	} else {
+	    		throw new ObjectAlreadyInStockException();
+	    	}
+    	} catch(ObjectAlreadyInStockException e) {
+    		e.printStackTrace();
+    	}
     }
 
 }
