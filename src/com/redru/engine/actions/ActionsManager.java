@@ -1,30 +1,21 @@
 package com.redru.engine.actions;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import android.util.Log;
 
-import com.redru.engine.exceptions.ActionAlreadyExistsException;
 import com.redru.engine.exceptions.ContextAlreadyExistsException;
 import com.redru.engine.exceptions.ContextNotFoundException;
-import com.redru.engine.exceptions.IdentifierAlreadyExistsException;
-import com.redru.engine.exceptions.IdentifierNotFoundException;
 
 public class ActionsManager {
 	private static final String TAG = "ActionsManager";
 
 	private static ActionsManager instance;
-	
-	private Map<IntAction, String> actions = new Hashtable<IntAction, String>();
-	private Map<String, ArrayList<?>> values = new Hashtable<String, ArrayList<?>>();
-	private Map<String, Boolean> contexts = new Hashtable<String, Boolean>();
-	
-	private Map<String, IntAction> oneTimeActions = new Hashtable<String, IntAction>();
-	private Map<String, String> assIdentifierContext = new Hashtable<String, String>();
+	private Map<Action, String> actions = new Hashtable<Action, String>();
+	private Map<String, Context> contexts = new Hashtable<String, Context>();
 	
 // CONSTRUCTOR -------------------------------------------------------------------------------------------------------
 	private ActionsManager() {
@@ -40,27 +31,45 @@ public class ActionsManager {
 	}
 	
 // CONTEXT ACTIONS ---------------------------------------------------------------------------------------------------
-	public void addAction(IntAction action, String context) {
+	public void addAction(Action action, String context) {
 		try {
-			Set<IntAction> conAct = this.actions.keySet();
+			Set<String> conAct = this.contexts.keySet();
+			boolean found = false;
 			
-			for (IntAction tmp : conAct) {
-				if (tmp.getClass().getSimpleName().equals(action.getClass().getSimpleName())) {
-					throw new ActionAlreadyExistsException();
+			for (String tmp : conAct) {
+				if (tmp.equals(context)) {
+					found = true;
+					break;
 				}
 			}
 			
-			this.actions.put(action, context);
-		} catch (ActionAlreadyExistsException e) {
+			if (found) {
+				this.actions.put(action, context);
+			} else {
+				throw new ContextNotFoundException();
+			}
+		} catch (ContextNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addContext(String context, ArrayList<?> values, boolean active) {
+	public void removeAction(String actionIdentifier) {
+		Set<Action> conAct = this.actions.keySet();
+		Iterator<Action> iterator = conAct.iterator();
+		Action tmp = null;
+		
+		while (iterator.hasNext()) {
+			tmp = iterator.next();
+			if (tmp.getIdentifier().equals(actionIdentifier)) {
+				iterator.remove();
+			}
+		}
+	}
+	
+	public void addContext(Context context) {
 		try {
-			if (!this.contexts.containsKey(context)) {
-				this.contexts.put(context, active);
-				this.values.put(context, values);
+			if ( !this.contexts.containsKey(context.getIdentifier()) ) {
+				this.contexts.put(context.getIdentifier(), context);
 			} else {
 				throw new ContextAlreadyExistsException();
 			}
@@ -69,11 +78,23 @@ public class ActionsManager {
 		}
 	}
 	
-	public void removeContext(String context) {
+	public void removeContext(String contextIdentifier) {
 		try {
-			if (this.contexts.containsKey(context)) {
-				this.contexts.remove(context);
-				this.values.remove(context);
+			if (this.contexts.containsKey(contextIdentifier)) {
+				// Remove the context from the map
+				this.contexts.remove(contextIdentifier);
+				
+				// Remove all actions using the selected context
+				Set<Action> conAct = this.actions.keySet();
+				Iterator<Action> iterator = conAct.iterator();
+				Action tmp = null;
+				
+				while (iterator.hasNext()) {
+					tmp = iterator.next();
+					if (this.actions.get(tmp).equals(contextIdentifier)) {
+						iterator.remove();
+					}
+				}
 			} else {
 				throw new ContextNotFoundException();
 			}
@@ -82,10 +103,14 @@ public class ActionsManager {
 		}
 	}
 	
-	public void changeContextValues(String context, ArrayList<?> values) {
+	public void replaceContext(String contextIdentifier, Context context) {
+		this.contexts.put(contextIdentifier, context);
+	}
+	
+	public void changeContextState(String contextIdentifier, boolean state) {
 		try {
-			if (this.contexts.containsKey(context)) {
-				this.values.put(context, values);
+			if (this.contexts.containsKey(contextIdentifier)) {
+				this.contexts.get(contextIdentifier).setActive(state);
 			} else {
 				throw new ContextNotFoundException();
 			}
@@ -94,108 +119,48 @@ public class ActionsManager {
 		}
 	}
 	
-	public void changeContextState(String context, boolean state) {
-		try {
-			if (this.contexts.containsKey(context)) {
-				this.contexts.put(context, state);
-			} else {
-				throw new ContextNotFoundException();
-			}
-		} catch (ContextNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void executeActionsByContext(String context) {
-		Set<IntAction> conAct = this.actions.keySet();
+	public void executeActionsByContext(String contextIdentifier) {
+		Set<Action> conAct = this.actions.keySet();
 		
-		for (IntAction tmp : conAct) {
-			if (this.actions.get(tmp).equals(context)) {
-				tmp.execute(this.values.get(context));
+		for (Action tmp : conAct) {
+			if (this.actions.get(tmp).equals(contextIdentifier) && !tmp.isExecuteOnce()) {
+				tmp.execute(this.contexts.get(contextIdentifier));
 			}
 		}
 	}
 	
 	public void executeActionsByActiveContexts() {
-		Set<IntAction> conAct = this.actions.keySet();
+		Set<Action> conAct = this.actions.keySet();
 
-		for (IntAction tmp : conAct) {
-			if (this.contexts.get(this.actions.get(tmp))) {
-				tmp.execute(this.values.get(this.actions.get(tmp)));
+		for (Action tmp : conAct) {
+			if (this.contexts.get(this.actions.get(tmp)).isActive() && !tmp.isExecuteOnce()) {
+				tmp.execute(this.contexts.get(this.actions.get(tmp)));
 			}
 		}
 	}
 	
 	public void executeAllActions() {
-		Set<IntAction> conAct = this.actions.keySet();
+		Set<Action> conAct = this.actions.keySet();
 		
-		for (IntAction tmp : conAct) {
-			tmp.execute(this.values.get(this.actions.get(tmp)));
+		for (Action tmp : conAct) {
+			if (!tmp.isExecuteOnce()) {
+				tmp.execute(this.contexts.get(this.actions.get(tmp)));
+			}
 		}
 	}
 // ONE TIME ACTION ---------------------------------------------------------------------------------------------------
-	public void addOneTimeContext(String context, ArrayList<?> values) {
-		try {
-			if (!this.contexts.containsKey(context)) {
-				this.contexts.put(context, false);
-			} else {
-				throw new ContextAlreadyExistsException();
-			}
-		} catch (ContextAlreadyExistsException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void addOneTimeAction(IntAction oneTimeAction, String context) {
-		boolean isNotNew = true;
-		Random ran = new Random();
-		String identifier = String.valueOf(ran.nextInt(255));
-		
-		do {
-			if (this.oneTimeActions.containsKey(identifier)) {
-				identifier = String.valueOf(ran.nextInt(10000));
-			} else {
-				this.oneTimeActions.put(identifier, oneTimeAction);
-				this.assIdentifierContext.put(identifier, context);
-				isNotNew = false;
-			}
-		} while (isNotNew);
-	}
-	
-	public void addOneTimeAction(String identifier, IntAction oneTimeAction, String context) {
-		try {
-			if (!this.oneTimeActions.containsKey(identifier)) {
-				this.oneTimeActions.put(identifier, oneTimeAction);
-				this.assIdentifierContext.put(identifier, context);
-			} else {
-				throw new IdentifierAlreadyExistsException();
-			}
-		} catch (IdentifierAlreadyExistsException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void removeOneTimeAction(String identifier) {
-		try {
-			if (this.oneTimeActions.containsKey(identifier)) {
-				this.oneTimeActions.remove(identifier);
-				this.assIdentifierContext.remove(identifier);
-			} else {
-				throw new IdentifierNotFoundException();
-			}
-		} catch (IdentifierNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public void executeOneTimeActions() {
-		Set<String> idenAct = this.oneTimeActions.keySet();
-		for (String tmp : idenAct) {
-			this.oneTimeActions.get(tmp).execute(this.values.get(this.assIdentifierContext.get(tmp)));
-		}
+		Set<Action> conAct = this.actions.keySet();
+		Iterator<Action> iterator = conAct.iterator();
+		Action tmp = null;
 		
-		this.oneTimeActions.clear();
-		this.assIdentifierContext.clear();
+		while (iterator.hasNext()) {
+			tmp = iterator.next();
+			if (tmp.isExecuteOnce() && this.contexts.get(this.actions.get(tmp)).isActive()) {
+				tmp.execute(this.contexts.get(this.actions.get(tmp)));
+				iterator.remove();
+			}
+		}
 	}
 //--------------------------------------------------------------------------------------------------------------------
 	

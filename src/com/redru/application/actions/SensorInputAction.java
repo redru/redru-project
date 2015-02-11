@@ -1,17 +1,18 @@
 package com.redru.application.actions;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 
 import com.redru.application.scene.complex.Starship;
-import com.redru.engine.actions.IntAction;
+import com.redru.engine.actions.Action;
+import com.redru.engine.actions.Context;
 import com.redru.engine.view.Camera;
 
-public class SensorInputAction implements IntAction, SensorEventListener {
+public class SensorInputAction extends Action implements SensorEventListener {
 	private static final String TAG = "SensorInputHandler";
 
 	private static SensorInputAction instance;
@@ -20,16 +21,18 @@ public class SensorInputAction implements IntAction, SensorEventListener {
 	private Starship starship;
 	private float axisX = 0.0f, axisY = 0.0f, axisZ = 0.0f;
 	
-	private SensorInputAction() {
+	private SensorInputAction(String identifier, boolean executeOnce) {
+		super(identifier, executeOnce);
 		df.setMaximumFractionDigits(3);
+		Log.i(TAG, "Creation complete.");
 	}
 	
 	@Override
-	public void execute(ArrayList<?> actionObjects) {
+	public void execute(Context context) {
 		Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
-		starship = (Starship) actionObjects.get(0);
+		starship = (Starship) context.getValues().get(0);
 		starship.translate(-axisY / 2, 0.0f, 0.0f);
-		starship.getDrawHandler().updateBuffers();       
+		starship.getDrawHandler().updateBuffers();
 	}
 	
 	@Override
@@ -44,7 +47,7 @@ public class SensorInputAction implements IntAction, SensorEventListener {
 	
 	public static SensorInputAction getInstance() {
 		if (instance == null) {
-			instance = new SensorInputAction();
+			instance = new SensorInputAction("SensorInputAction", false);
 		}
 		
 		return instance;

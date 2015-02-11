@@ -1,23 +1,25 @@
 package com.redru.application.actions;
 
-import java.util.ArrayList;
-
 import android.util.Log;
 
 import com.redru.application.scene.complex.Starship;
-import com.redru.engine.actions.IntAction;
+import com.redru.engine.actions.Action;
+import com.redru.engine.actions.Context;
 
-public class SceneObjectsTranslateAction implements IntAction {
+public class SceneObjectsTranslateAction extends Action {
 	private static final String TAG = "SceneObjectsTranslateAction";
 
 	private static SceneObjectsTranslateAction instance;
 	private Starship starship;
 	
-	private SceneObjectsTranslateAction() { Log.i(TAG, "Creation complete."); }
+	private SceneObjectsTranslateAction(String identifier, boolean executeOnce) {
+		super(identifier, executeOnce);
+		Log.i(TAG, "Creation complete.");
+	}
 	
 	@Override
-	public void execute(ArrayList<?> actionObjects) {
-		for (Object element : actionObjects) {
+	public void execute(Context context) {
+		for (Object element : context.getValues()) {
 			starship = (Starship) element;
         	if (!(starship.getIdentifier().equals("B-2 Spirit"))) {
         		if (starship.getzPos() > -starship.getzStart() - 10.0f) {
@@ -33,7 +35,7 @@ public class SceneObjectsTranslateAction implements IntAction {
 	
 	public static SceneObjectsTranslateAction getInstance() {
 		if (instance == null) {
-			instance = new SceneObjectsTranslateAction();
+			instance = new SceneObjectsTranslateAction("SceneObjectsTranslateAction", false);
 		}
 		
 		return instance;

@@ -1,22 +1,21 @@
 package com.redru.application.actions;
 
-import java.util.ArrayList;
-
 import android.graphics.Point;
 
 import com.redru.application.input.UserInputHandler;
-import com.redru.engine.actions.IntAction;
+import com.redru.engine.actions.Action;
+import com.redru.engine.actions.Context;
 import com.redru.engine.elements.IntTransformable;
 import com.redru.engine.view.Camera;
 
-public class UserInputAction implements IntAction {
-	
-	public UserInputAction() {
-		// TODO Auto-generated constructor stub
+public class UserInputAction extends Action {
+
+	public UserInputAction(String identifier, boolean executeOnce) {
+		super(identifier, executeOnce);
 	}
 
 	@Override
-	public void execute(ArrayList<?> actionObjects) {
+	public void execute(Context context) {
 		if (!UserInputHandler.getInstance().isRotationHandled()) {
             Point rotation = UserInputHandler.getInstance().getRotation();
             
@@ -34,10 +33,10 @@ public class UserInputAction implements IntAction {
 
             if (rotation.x > 0) {
             	Camera.getInstance().move(0.8f, 0.0f, 0.0f);
-            	((IntTransformable) actionObjects.get(0)).translate(0.8f, 0.0f, 0.0f);
+            	((IntTransformable) context.getValues().get(0)).translate(0.8f, 0.0f, 0.0f);
             } else {
             	Camera.getInstance().move(-0.8f, 0.0f, 0.0f);
-            	((IntTransformable) actionObjects.get(0)).translate(-0.8f, 0.0f, 0.0f);
+            	((IntTransformable) context.getValues().get(0)).translate(-0.8f, 0.0f, 0.0f);
             }
         }
 	}

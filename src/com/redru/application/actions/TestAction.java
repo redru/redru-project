@@ -1,15 +1,18 @@
 package com.redru.application.actions;
 
-import java.util.ArrayList;
-
 import android.util.Log;
 
-import com.redru.engine.actions.IntAction;
+import com.redru.engine.actions.Action;
+import com.redru.engine.actions.Context;
 
-public class TestAction implements IntAction {
+public class TestAction extends Action {
+	
+	public TestAction(String identifier, boolean executeOnce) {
+		super(identifier, executeOnce);
+	}
 
 	@Override
-	public void execute(ArrayList<?> actionObjects) {
+	public void execute(Context context) {
 		Log.i("Test action", "This is a oneTimeAction");
 	}
 

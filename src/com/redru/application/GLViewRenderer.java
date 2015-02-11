@@ -13,6 +13,7 @@ import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.scene.complex.Starship;
 import com.redru.engine.actions.ActionsManager;
+import com.redru.engine.actions.Context;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
 import com.redru.engine.elements.BaseElement;
 import com.redru.engine.scene.SceneContext;
@@ -111,7 +112,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addContext("SceneElements", sceneObjects, true);
+    	actionsManager.addContext(new Context("SceneElements", sceneObjects, true));
     	actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
     	actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }
