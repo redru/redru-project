@@ -129,7 +129,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private void elementsStartup() {
     	scene.linesStartup();
     	
-    	Model b2spirit = objFactory.getStockedObject("obj_b2spirit");
+    	Model b2spirit = objFactory.getStockedModel("obj_b2spirit");
     	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	Starship objB2Spirit = new Starship(b2spirit, new TexturedObjDrawHandler(b2spirit), "B-2 Spirit");
     	objB2Spirit.setStartPosition(0.0f, 2.0f, -8.8f);
@@ -139,45 +139,45 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
     	
-    	Model b2spirit2 = objFactory.getStockedObject("obj_b2spirit");
-    	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	Starship objB2Spirit2 = new Starship(b2spirit2, new TexturedObjDrawHandler(b2spirit2), "Enemy 1");
-    	objB2Spirit2.rotate(0.0f, 180.0f, 0.0f);
-    	objB2Spirit2.translate(3.0f, 5.0f, 120.0f);
-    	objB2Spirit2.setStartPosition(3.0f, 5.0f, 120.0f);
-    	
-    	scene.addElementToScene(objB2Spirit2);
-    	sceneObjects.add(objB2Spirit2);
-    	
-    	Model b2spirit3 = objFactory.getStockedObject("obj_b2spirit");
-    	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	Starship objB2Spirit3 = new Starship(b2spirit3, new TexturedObjDrawHandler(b2spirit3), "Enemy 2");
-    	objB2Spirit3.rotate(0.0f, 180.0f, 0.0f);
-    	objB2Spirit3.translate(10.0f, 2.0f, 100.0f);
-    	objB2Spirit3.setStartPosition(10.0f, 2.0f, 100.0f);
-    	
-    	scene.addElementToScene(objB2Spirit3);
-    	sceneObjects.add(objB2Spirit3);
-    	
-    	Model b2spirit4 = objFactory.getStockedObject("obj_b2spirit");
-    	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	Starship objB2Spirit4 = new Starship(b2spirit4, new TexturedObjDrawHandler(b2spirit4), "Enemy 3");
-    	objB2Spirit4.rotate(0.0f, 180.0f, 0.0f);
-    	objB2Spirit4.translate(8.0f, 7.0f, 40.0f);
-    	objB2Spirit4.setStartPosition(8.0f, 7.0f, 40.0f);
-    	
-    	scene.addElementToScene(objB2Spirit4);
-    	sceneObjects.add(objB2Spirit4);
-    	
-    	Model b2spirit5 = objFactory.getStockedObject("obj_b2spirit");
-    	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	Starship objB2Spirit5 = new Starship(b2spirit5, new TexturedObjDrawHandler(b2spirit5), "Enemy 4");
-    	objB2Spirit5.rotate(0.0f, 180.0f, 0.0f);
-    	objB2Spirit5.translate(5.0f, -3.0f, 80.0f);
-    	objB2Spirit5.setStartPosition(5.0f, -3.0f, 80.0f);
-    	
-    	scene.addElementToScene(objB2Spirit5);
-    	sceneObjects.add(objB2Spirit5);
+//    	Model b2spirit2 = objFactory.getStockedObject("obj_b2spirit");
+//    	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+//    	Starship objB2Spirit2 = new Starship(b2spirit2, new TexturedObjDrawHandler(b2spirit2), "Enemy 1");
+//    	objB2Spirit2.rotate(0.0f, 180.0f, 0.0f);
+//    	objB2Spirit2.translate(3.0f, 5.0f, 120.0f);
+//    	objB2Spirit2.setStartPosition(3.0f, 5.0f, 120.0f);
+//    	
+//    	scene.addElementToScene(objB2Spirit2);
+//    	sceneObjects.add(objB2Spirit2);
+//    	
+//    	Model b2spirit3 = objFactory.getStockedObject("obj_b2spirit");
+//    	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+//    	Starship objB2Spirit3 = new Starship(b2spirit3, new TexturedObjDrawHandler(b2spirit3), "Enemy 2");
+//    	objB2Spirit3.rotate(0.0f, 180.0f, 0.0f);
+//    	objB2Spirit3.translate(10.0f, 2.0f, 100.0f);
+//    	objB2Spirit3.setStartPosition(10.0f, 2.0f, 100.0f);
+//    	
+//    	scene.addElementToScene(objB2Spirit3);
+//    	sceneObjects.add(objB2Spirit3);
+//    	
+//    	Model b2spirit4 = objFactory.getStockedObject("obj_b2spirit");
+//    	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+//    	Starship objB2Spirit4 = new Starship(b2spirit4, new TexturedObjDrawHandler(b2spirit4), "Enemy 3");
+//    	objB2Spirit4.rotate(0.0f, 180.0f, 0.0f);
+//    	objB2Spirit4.translate(8.0f, 7.0f, 40.0f);
+//    	objB2Spirit4.setStartPosition(8.0f, 7.0f, 40.0f);
+//    	
+//    	scene.addElementToScene(objB2Spirit4);
+//    	sceneObjects.add(objB2Spirit4);
+//    	
+//    	Model b2spirit5 = objFactory.getStockedObject("obj_b2spirit");
+//    	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+//    	Starship objB2Spirit5 = new Starship(b2spirit5, new TexturedObjDrawHandler(b2spirit5), "Enemy 4");
+//    	objB2Spirit5.rotate(0.0f, 180.0f, 0.0f);
+//    	objB2Spirit5.translate(5.0f, -3.0f, 80.0f);
+//    	objB2Spirit5.setStartPosition(5.0f, -3.0f, 80.0f);
+//    	
+//    	scene.addElementToScene(objB2Spirit5);
+//    	sceneObjects.add(objB2Spirit5);
     }
 
 }

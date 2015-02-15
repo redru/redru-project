@@ -7,25 +7,25 @@ import java.util.Map;
 import android.util.Log;
 
 import com.redru.Redru;
-import com.redru.engine.exceptions.ObjectAlreadyInStockException;
+import com.redru.engine.exceptions.ModelAlreadyInStockException;
 import com.redru.engine.utils.ResourceUtils;
 
 /**
  * Created by Luca on 22/01/2015.
  */
 public class ModelFactory {
-    private static final String TAG = "ObjFactory";
+    private static final String TAG = "ModelFactory";
 
     private static ModelFactory instance = new ModelFactory();
-    private Map<String, Model> objStock = new Hashtable<String, Model>();
-    private ArrayList<String> objFiles;
+    private Map<String, Model> modelStock = new Hashtable<String, Model>();
+    private ArrayList<String> modelFiles;
 
     /**
      * 
      */
     private ModelFactory() {
-        this.objFiles = ResourceUtils.getFilesList("obj_");
-        this.loadObjStock();
+        this.modelFiles = ResourceUtils.getFilesList("obj_");
+        this.loadModelStock();
 
         Log.i(TAG, "Creation complete.");
     }
@@ -41,29 +41,29 @@ public class ModelFactory {
     /**
      * 
      */
-    private void loadObjStock() {
+    private void loadModelStock() {
         Log.i(TAG, "Starting loading obj stock.");
         
-        for (int fIndex = 0; fIndex < objFiles.size(); fIndex++) {
+        for (int fIndex = 0; fIndex < modelFiles.size(); fIndex++) {
         	
         	// Objects are only loaded if they are not in the exception list in the properties file
-        	if (!ResourceUtils.getApplicationProperty("loader_obj_exception").contains(objFiles.get(fIndex))) {
+        	if (!ResourceUtils.getApplicationProperty("loader_obj_exception").contains(modelFiles.get(fIndex))) {
         		
         		// Load the object and save into the objects stock
-	            int id = Redru.getContext().getResources().getIdentifier(objFiles.get(fIndex), "raw", Redru.getContext().getPackageName());
+	            int id = Redru.getContext().getResources().getIdentifier(modelFiles.get(fIndex), "raw", Redru.getContext().getPackageName());
 	            String file = ResourceUtils.readTextFileFromResource(Redru.getContext(), id);
-	            objStock.put(objFiles.get(fIndex), ModelWrapper.getInstance().createObjFromFile(file, objFiles.get(fIndex)));
+	            modelStock.put(modelFiles.get(fIndex), ModelWrapper.getInstance().createObjFromFile(file, modelFiles.get(fIndex)));
         	} else {
-        		Log.i(TAG, "The object '" + objFiles.get(fIndex) + "' was in the exceptions list. It won't be loaded.");
-        		objFiles.remove(fIndex);
+        		Log.i(TAG, "The model '" + modelFiles.get(fIndex) + "' was in the exceptions list. It won't be loaded.");
+        		modelFiles.remove(fIndex);
         		fIndex--;
         	}
         }
 
-        if (objFiles.size() == 0) {
+        if (modelFiles.size() == 0) {
             Log.i(TAG, "There was not files obj_");
         } else {
-            Log.i(TAG, "Obj stock loading complete. Correctly loaded '" + objFiles.size() + "' files.");
+            Log.i(TAG, "Model stock loading complete. Correctly loaded '" + modelFiles.size() + "' files.");
         }
     }
 
@@ -72,7 +72,7 @@ public class ModelFactory {
      * @return
      */
     public ArrayList<String> getObjFiles() {
-        return objFiles;
+        return modelFiles;
     }
 
     /**
@@ -80,15 +80,15 @@ public class ModelFactory {
      * @param objectName
      * @return
      */
-    public Model getStockedObject(String objStockKey) {
+    public Model getStockedModel(String modelStockKey) {
         Model obj = null;
 
         try {
-            if (objStock.containsKey(objStockKey)) {
-                obj = (Model) objStock.get(objStockKey).clone();
-                Log.i(TAG, "Requested object '" + objStockKey + "' was correctly created from the factory.");
+            if (modelStock.containsKey(modelStockKey)) {
+                obj = (Model) modelStock.get(modelStockKey).clone();
+                Log.i(TAG, "Requested model '" + modelStockKey + "' was correctly created from the factory.");
             } else {
-                Log.i(TAG, "Requested object '" + objStockKey + "' was not in the objects stock.");
+                Log.i(TAG, "Requested model '" + modelStockKey + "' was not in the objects stock.");
             }
         } catch(CloneNotSupportedException e) {
             e.printStackTrace();
@@ -102,14 +102,14 @@ public class ModelFactory {
      * @param identifier
      * @param obj
      */
-    public void addObjectToStock(String identifier, Model obj) {
+    public void addModelToStock(String identifier, Model model) {
     	try {
-	    	if (!this.objStock.containsKey(identifier)) {
-	    		this.objStock.put(identifier, obj);
+	    	if (!this.modelStock.containsKey(identifier)) {
+	    		this.modelStock.put(identifier, model);
 	    	} else {
-	    		throw new ObjectAlreadyInStockException();
+	    		throw new ModelAlreadyInStockException();
 	    	}
-    	} catch(ObjectAlreadyInStockException e) {
+    	} catch(ModelAlreadyInStockException e) {
     		e.printStackTrace();
     	}
     }
