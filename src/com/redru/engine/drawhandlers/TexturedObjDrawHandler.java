@@ -12,7 +12,7 @@ import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.objects.Obj;
+import com.redru.engine.wrapper.models.Model;
 
 /**
  * Created by Luca on 22/01/2015.
@@ -20,7 +20,7 @@ import com.redru.engine.wrapper.objects.Obj;
 public class TexturedObjDrawHandler implements IntDrawHandler {
     private static final String TAG = "TexturedObjDrawHandler";
 
-    private Obj obj;
+    private Model obj;
 
     private FloatBuffer vertexBuffer;
 
@@ -32,7 +32,7 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      * 
      * @param obj
      */
-    public TexturedObjDrawHandler(Obj obj) {
+    public TexturedObjDrawHandler(Model obj) {
         this.obj = obj;
 
         this.setup();

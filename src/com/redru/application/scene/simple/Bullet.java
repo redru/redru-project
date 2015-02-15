@@ -1,8 +1,8 @@
 package com.redru.application.scene.simple;
 
-import com.redru.engine.wrapper.objects.Obj;
+import com.redru.engine.wrapper.models.Model;
 
-public class Bullet extends Obj {
+public class Bullet extends Model {
 	
 	public enum BulletType {
 		SIMPLE

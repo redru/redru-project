@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper.objects;
+package com.redru.engine.wrapper.models;
 
 import android.util.Log;
 
@@ -9,7 +9,7 @@ import com.redru.engine.wrapper.textures.Texture;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class Obj implements Cloneable {
+public class Model implements Cloneable {
     private static final String TAG = "Obj";
     public static final String DEFAULT_NAME = "OBJ";
     
@@ -26,9 +26,9 @@ public class Obj implements Cloneable {
     private Texture texture;
     
 // CONSTRUCTOR ----------------------------------------------------------------------------------------
-    protected Obj() {  }
+    protected Model() {  }
     
-    protected Obj(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
+    protected Model(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
         } else {
@@ -168,14 +168,14 @@ public class Obj implements Cloneable {
 		}
 	}
 // CLONE ----------------------------------------------------------------------------------------------
-	public Obj clone() throws CloneNotSupportedException {
+	public Model clone() throws CloneNotSupportedException {
         float[] tmpUnifiedData = new float[this.unifiedData.length];
     	
     	for (int i = 0; i < this.unifiedData.length; i++) {
     		tmpUnifiedData[i] = this.unifiedData[i];
     	}
     	
-    	Obj tmp = new Obj(null, null, null, tmpUnifiedData, this.name);
+    	Model tmp = new Model(null, null, null, tmpUnifiedData, this.name);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalTextures(this.totalTextures);
     	tmp.setTotalNormals(this.totalNormals);

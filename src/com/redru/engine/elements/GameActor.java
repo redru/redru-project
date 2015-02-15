@@ -2,12 +2,12 @@ package com.redru.engine.elements;
 
 import com.redru.engine.drawhandlers.IntDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
-import com.redru.engine.wrapper.objects.Obj;
+import com.redru.engine.wrapper.models.Model;
 
-public abstract class BaseElement implements IntTransformable, IntSceneElement {
+public abstract class GameActor implements IntTransformable, IntSceneElement {
 	
 	private String identifier;
-	private Obj obj;
+	private Model obj;
 	private IntDrawHandler drawHandler;
 	
 	private float xStart = 0.0f, yStart = 0.0f, zStart = 0.0f;
@@ -17,15 +17,15 @@ public abstract class BaseElement implements IntTransformable, IntSceneElement {
 	private float xRot = 0.0f, yRot = 0.0f, zRot = 0.0f;
 	private float xSca = 0.0f, ySca = 0.0f, zSca = 0.0f;
 // CONTRUCTORS ---------------------------------------------------------------------------------
-	public BaseElement() {
+	public GameActor() {
 		this(null, null, "");
 	}
 	
-	public BaseElement(Obj obj, String identifier) {
+	public GameActor(Model obj, String identifier) {
 		this(obj, null, identifier);
 	}
 	
-	public BaseElement(Obj obj, IntDrawHandler drawHandler, String identifier) {
+	public GameActor(Model obj, IntDrawHandler drawHandler, String identifier) {
 		this.obj = obj;
 		this.drawHandler = drawHandler;
 		this.identifier = identifier;
@@ -95,11 +95,11 @@ public abstract class BaseElement implements IntTransformable, IntSceneElement {
 		this.identifier = identifier;
 	}
 
-	public final Obj getObj() {
+	public final Model getObj() {
 		return obj;
 	}
 
-	public final void setObj(Obj obj) {
+	public final void setObj(Model obj) {
 		this.obj = obj;
 	}
 

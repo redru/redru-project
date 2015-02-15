@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper.objects;
+package com.redru.engine.wrapper.models;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -13,17 +13,17 @@ import com.redru.engine.utils.ResourceUtils;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class ObjFactory {
+public class ModelFactory {
     private static final String TAG = "ObjFactory";
 
-    private static ObjFactory instance = new ObjFactory();
-    private Map<String, Obj> objStock = new Hashtable<String, Obj>();
+    private static ModelFactory instance = new ModelFactory();
+    private Map<String, Model> objStock = new Hashtable<String, Model>();
     private ArrayList<String> objFiles;
 
     /**
      * 
      */
-    private ObjFactory() {
+    private ModelFactory() {
         this.objFiles = ResourceUtils.getFilesList("obj_");
         this.loadObjStock();
 
@@ -34,7 +34,7 @@ public class ObjFactory {
      * 
      * @return
      */
-    public static ObjFactory getInstance() {
+    public static ModelFactory getInstance() {
         return instance;
     }
 
@@ -52,7 +52,7 @@ public class ObjFactory {
         		// Load the object and save into the objects stock
 	            int id = Redru.getContext().getResources().getIdentifier(objFiles.get(fIndex), "raw", Redru.getContext().getPackageName());
 	            String file = ResourceUtils.readTextFileFromResource(Redru.getContext(), id);
-	            objStock.put(objFiles.get(fIndex), ObjWrapper.getInstance().createObjFromFile(file, objFiles.get(fIndex)));
+	            objStock.put(objFiles.get(fIndex), ModelWrapper.getInstance().createObjFromFile(file, objFiles.get(fIndex)));
         	} else {
         		Log.i(TAG, "The object '" + objFiles.get(fIndex) + "' was in the exceptions list. It won't be loaded.");
         		objFiles.remove(fIndex);
@@ -80,12 +80,12 @@ public class ObjFactory {
      * @param objectName
      * @return
      */
-    public Obj getStockedObject(String objStockKey) {
-        Obj obj = null;
+    public Model getStockedObject(String objStockKey) {
+        Model obj = null;
 
         try {
             if (objStock.containsKey(objStockKey)) {
-                obj = (Obj) objStock.get(objStockKey).clone();
+                obj = (Model) objStock.get(objStockKey).clone();
                 Log.i(TAG, "Requested object '" + objStockKey + "' was correctly created from the factory.");
             } else {
                 Log.i(TAG, "Requested object '" + objStockKey + "' was not in the objects stock.");
@@ -102,7 +102,7 @@ public class ObjFactory {
      * @param identifier
      * @param obj
      */
-    public void addObjectToStock(String identifier, Obj obj) {
+    public void addObjectToStock(String identifier, Model obj) {
     	try {
 	    	if (!this.objStock.containsKey(identifier)) {
 	    		this.objStock.put(identifier, obj);

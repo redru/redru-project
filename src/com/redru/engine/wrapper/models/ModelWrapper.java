@@ -1,4 +1,4 @@
-package com.redru.engine.wrapper.objects;
+package com.redru.engine.wrapper.models;
 
 import java.util.ArrayList;
 
@@ -10,15 +10,15 @@ import com.redru.engine.utils.OpenGLUtils;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class ObjWrapper {
+public class ModelWrapper {
     private static final String TAG = "ObjWrapper";
 
-    private static ObjWrapper instance = new ObjWrapper();
+    private static ModelWrapper instance = new ModelWrapper();
 
     /**
      * 
      */
-    private ObjWrapper() {
+    private ModelWrapper() {
         Log.i(TAG, "Creation complete.");
     }
 
@@ -26,7 +26,7 @@ public class ObjWrapper {
      * 
      * @return
      */
-    public static ObjWrapper getInstance() {
+    public static ModelWrapper getInstance() {
         return instance;
     }
 
@@ -36,12 +36,12 @@ public class ObjWrapper {
      * @param fileName
      * @return
      */
-    public Obj createObjFromFile(String dataFile, String fileName) {
+    public Model createObjFromFile(String dataFile, String fileName) {
         Log.i(TAG, "Wrapping the following file: " + fileName + ".obj");
         /*----------------------------------------------------------------------*/
         String[] lines = dataFile.split("\n");
 
-        Obj obj = wrap(lines, fileName);
+        Model obj = wrap(lines, fileName);
         /*----------------------------------------------------------------------*/
         Log.i(TAG, "Wrapping completed. File: " + fileName + ".obj");
         
@@ -54,7 +54,7 @@ public class ObjWrapper {
      * @param name
      * @return
      */
-    private Obj wrap(String[] lines, String name) {
+    private Model wrap(String[] lines, String name) {
         String[] lineParts;
         String[] indicesParts;
 
@@ -135,7 +135,7 @@ public class ObjWrapper {
         }
         
         float[] unifiedData = OpenGLUtils.generateUnifiedData(positionsTmp, texturesTmp, normalsTmp, indicesTmp);
-        Obj obj  = new Obj(positionsTmp, texturesTmp, normalsTmp, unifiedData, name);
+        Model obj  = new Model(positionsTmp, texturesTmp, normalsTmp, unifiedData, name);
 
         return obj;
     }

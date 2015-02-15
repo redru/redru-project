@@ -15,12 +15,12 @@ import com.redru.application.scene.complex.Starship;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
-import com.redru.engine.elements.BaseElement;
+import com.redru.engine.elements.GameActor;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
-import com.redru.engine.wrapper.objects.Obj;
-import com.redru.engine.wrapper.objects.ObjFactory;
+import com.redru.engine.wrapper.models.Model;
+import com.redru.engine.wrapper.models.ModelFactory;
 import com.redru.engine.wrapper.textures.TextureFactory;
 
 /**
@@ -32,11 +32,11 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     
     private Camera camera = Camera.getInstance();
     private SceneContext scene = SceneContext.getInstance();
-    private ObjFactory objFactory = ObjFactory.getInstance();
+    private ModelFactory objFactory = ModelFactory.getInstance();
     private TextureFactory texFactory = TextureFactory.getInstance();
     private ActionsManager actionsManager = ActionsManager.getInstance();
     
-    private ArrayList<BaseElement> sceneObjects = new ArrayList<BaseElement>();
+    private ArrayList<GameActor> sceneObjects = new ArrayList<GameActor>();
     
     private GLViewRenderer() { }
     
@@ -118,7 +118,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addContext(new ActionContext<BaseElement>("SceneElements", sceneObjects, true));
+    	actionsManager.addContext(new ActionContext<GameActor>("SceneElements", sceneObjects, true));
     	actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
     	actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }
@@ -129,7 +129,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private void elementsStartup() {
     	scene.linesStartup();
     	
-    	Obj b2spirit = objFactory.getStockedObject("obj_b2spirit");
+    	Model b2spirit = objFactory.getStockedObject("obj_b2spirit");
     	b2spirit.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	Starship objB2Spirit = new Starship(b2spirit, new TexturedObjDrawHandler(b2spirit), "B-2 Spirit");
     	objB2Spirit.setStartPosition(0.0f, 2.0f, -8.8f);
@@ -139,7 +139,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit);
     	sceneObjects.add(objB2Spirit);
     	
-    	Obj b2spirit2 = objFactory.getStockedObject("obj_b2spirit");
+    	Model b2spirit2 = objFactory.getStockedObject("obj_b2spirit");
     	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	Starship objB2Spirit2 = new Starship(b2spirit2, new TexturedObjDrawHandler(b2spirit2), "Enemy 1");
     	objB2Spirit2.rotate(0.0f, 180.0f, 0.0f);
@@ -149,7 +149,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit2);
     	sceneObjects.add(objB2Spirit2);
     	
-    	Obj b2spirit3 = objFactory.getStockedObject("obj_b2spirit");
+    	Model b2spirit3 = objFactory.getStockedObject("obj_b2spirit");
     	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	Starship objB2Spirit3 = new Starship(b2spirit3, new TexturedObjDrawHandler(b2spirit3), "Enemy 2");
     	objB2Spirit3.rotate(0.0f, 180.0f, 0.0f);
@@ -159,7 +159,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit3);
     	sceneObjects.add(objB2Spirit3);
     	
-    	Obj b2spirit4 = objFactory.getStockedObject("obj_b2spirit");
+    	Model b2spirit4 = objFactory.getStockedObject("obj_b2spirit");
     	b2spirit4.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	Starship objB2Spirit4 = new Starship(b2spirit4, new TexturedObjDrawHandler(b2spirit4), "Enemy 3");
     	objB2Spirit4.rotate(0.0f, 180.0f, 0.0f);
@@ -169,7 +169,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	scene.addElementToScene(objB2Spirit4);
     	sceneObjects.add(objB2Spirit4);
     	
-    	Obj b2spirit5 = objFactory.getStockedObject("obj_b2spirit");
+    	Model b2spirit5 = objFactory.getStockedObject("obj_b2spirit");
     	b2spirit5.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
     	Starship objB2Spirit5 = new Starship(b2spirit5, new TexturedObjDrawHandler(b2spirit5), "Enemy 4");
     	objB2Spirit5.rotate(0.0f, 180.0f, 0.0f);
