@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.redru.application.scene.complex.Starship;
 import com.redru.engine.actions.Action;
-import com.redru.engine.actions.Context;
+import com.redru.engine.actions.ActionContext;
 import com.redru.engine.view.Camera;
 
 public class SensorInputAction extends Action implements SensorEventListener {
@@ -28,7 +28,7 @@ public class SensorInputAction extends Action implements SensorEventListener {
 	}
 	
 	@Override
-	public void execute(Context context) {
+	public void execute(ActionContext<?> context) {
 		starship = (Starship) context.getValues().get(0);
 		if (starship.getxPos() - (axisY / 2) < 30 && starship.getxPos() - (axisY / 2) > -30) {
 			starship.translate(-axisY / 2, 0.0f, 0.0f);

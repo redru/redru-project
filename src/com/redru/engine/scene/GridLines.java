@@ -94,7 +94,6 @@ public class GridLines implements IntSceneElement {
         GLES30.glBindVertexArray(VAOIds[0]);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[0]);
 
         GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
         GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_COLOR);

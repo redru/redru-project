@@ -12,10 +12,8 @@ import android.util.Log;
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.scene.complex.Starship;
-import com.redru.application.scene.simple.Bullet;
-import com.redru.application.scene.simple.CustomObjectsData;
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.actions.Context;
+import com.redru.engine.actions.ActionContext;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
 import com.redru.engine.elements.BaseElement;
 import com.redru.engine.scene.SceneContext;
@@ -112,15 +110,15 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Add to the object factory the custom objects
      */
     private void customObjectsStartup() {
-    	Bullet simpleBullet = new Bullet(CustomObjectsData.getInstance().simpleBulletData, Bullet.BulletType.SIMPLE);
-    	objFactory.addObjectToStock("SimpleBullet", simpleBullet);
+//    	BulletObject simpleBullet = new BulletObject(CustomObjectsData.getInstance().simpleBulletData, BulletObject.BulletType.SIMPLE);
+//    	objFactory.addObjectToStock("SimpleBullet", simpleBullet);
     }
     
     /**
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addContext(new Context("SceneElements", sceneObjects, true));
+    	actionsManager.addContext(new ActionContext<BaseElement>("SceneElements", sceneObjects, true));
     	actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
     	actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }

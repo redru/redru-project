@@ -15,7 +15,7 @@ public class ActionsManager {
 
 	private static ActionsManager instance;
 	private Map<Action, String> actions = new Hashtable<Action, String>();
-	private Map<String, Context> contexts = new Hashtable<String, Context>();
+	private Map<String, ActionContext<?>> contexts = new Hashtable<String, ActionContext<?>>();
 	
 // CONSTRUCTOR -------------------------------------------------------------------------------------------------------
 	private ActionsManager() {
@@ -66,7 +66,7 @@ public class ActionsManager {
 		}
 	}
 	
-	public void addContext(Context context) {
+	public void addContext(ActionContext<?> context) {
 		try {
 			if ( !this.contexts.containsKey(context.getIdentifier()) ) {
 				this.contexts.put(context.getIdentifier(), context);
@@ -103,7 +103,7 @@ public class ActionsManager {
 		}
 	}
 	
-	public void replaceContext(String contextIdentifier, Context context) {
+	public void replaceContext(String contextIdentifier, ActionContext<?> context) {
 		this.contexts.put(contextIdentifier, context);
 	}
 	

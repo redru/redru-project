@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.redru.application.scene.complex.Starship;
 import com.redru.engine.actions.Action;
-import com.redru.engine.actions.Context;
+import com.redru.engine.actions.ActionContext;
 
 public class SceneObjectsTranslateAction extends Action {
 	private static final String TAG = "SceneObjectsTranslateAction";
@@ -18,7 +18,7 @@ public class SceneObjectsTranslateAction extends Action {
 	}
 	
 	@Override
-	public void execute(Context context) {
+	public void execute(ActionContext<?> context) {
 		for (Object element : context.getValues()) {
 			starship = (Starship) element;
         	if (!(starship.getIdentifier().equals("B-2 Spirit"))) {

@@ -25,6 +25,6 @@ public abstract class Action {
 		this.executeOnce = executeOnce;
 	}
 
-	public abstract void execute(Context context);
+	public abstract void execute(ActionContext<?> context);
 	
 }

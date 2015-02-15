@@ -2,12 +2,12 @@ package com.redru.engine.actions;
 
 import java.util.ArrayList;
 
-public class Context {
+public class ActionContext<T> {
 	private String identifier;
-	private ArrayList<?> values;
+	private ArrayList<T> values;
 	private boolean active;
 	
-	public Context(String identifier, ArrayList<?> values, boolean active) {
+	public ActionContext(String identifier, ArrayList<T> values, boolean active) {
 		this.identifier = identifier;
 		this.values = values;
 		this.active = active;
@@ -21,11 +21,11 @@ public class Context {
 		this.identifier = identifier;
 	}
 
-	public ArrayList<?> getValues() {
+	public ArrayList<T> getValues() {
 		return values;
 	}
 
-	public void setValues(ArrayList<?> values) {
+	public void setValues(ArrayList<T> values) {
 		this.values = values;
 	}
 

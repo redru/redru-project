@@ -124,7 +124,6 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
     	}
     	
     	GLES30.glBindVertexArray(0);
-    	
     }
 
     /**

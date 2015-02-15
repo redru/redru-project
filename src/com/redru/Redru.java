@@ -1,5 +1,7 @@
 package com.redru;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -12,7 +14,8 @@ import android.view.Window;
 
 import com.redru.application.GLView;
 import com.redru.application.actions.SensorInputAction;
-import com.redru.application.input.UserInputHandler;
+import com.redru.application.actions.TouchInputAction;
+import com.redru.engine.actions.ActionContext;
 
 public class Redru extends Activity {
 	
@@ -21,6 +24,7 @@ public class Redru extends Activity {
     
     private GLView glView;
 	private SensorManager sensorManager;
+	private ActionContext<MotionEvent> cont;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +74,16 @@ public class Redru extends Activity {
 	
 	@Override
     public boolean onTouchEvent(MotionEvent event) {
-        return UserInputHandler.getInstance().handleMotionEvent(event);
+		if (this.cont == null) {
+			ArrayList<MotionEvent> touchEvent = new ArrayList<MotionEvent>();
+			touchEvent.add(0, event);
+			this.cont = new ActionContext<MotionEvent>("TouchInputContext", touchEvent, true);
+		} else {
+			this.cont.getValues().set(0, event);
+		}
+		
+		TouchInputAction.getInstance().execute(this.cont);
+        return true;
     }
 
     /**

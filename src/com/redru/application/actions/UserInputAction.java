@@ -4,7 +4,7 @@ import android.graphics.Point;
 
 import com.redru.application.input.UserInputHandler;
 import com.redru.engine.actions.Action;
-import com.redru.engine.actions.Context;
+import com.redru.engine.actions.ActionContext;
 import com.redru.engine.elements.IntTransformable;
 import com.redru.engine.view.Camera;
 
@@ -15,7 +15,7 @@ public class UserInputAction extends Action {
 	}
 
 	@Override
-	public void execute(Context context) {
+	public void execute(ActionContext<?> context) {
 		if (!UserInputHandler.getInstance().isRotationHandled()) {
             Point rotation = UserInputHandler.getInstance().getRotation();
             
