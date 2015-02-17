@@ -8,8 +8,8 @@ import java.nio.ShortBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
+import com.redru.engine.shader.ShaderFactory;
 import com.redru.engine.utils.OpenGLConstants;
-import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
 
 /**

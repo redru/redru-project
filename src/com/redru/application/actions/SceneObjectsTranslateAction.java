@@ -28,7 +28,7 @@ public class SceneObjectsTranslateAction extends Action {
         			starship.translateToPosition(starship.getxStart(), starship.getyStart(), starship.getzStart());
         		}
         		
-        		starship.getDrawHandler().updateBuffers();
+        		starship.getDrawHandler().updateTransformBuffers();
         	}
         }
 		

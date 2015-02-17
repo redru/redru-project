@@ -1,5 +1,6 @@
 package com.redru.engine.actions;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -7,8 +8,11 @@ import java.util.Set;
 
 import android.util.Log;
 
+import com.redru.engine.actions.standard.CreateAction;
+import com.redru.engine.actions.standard.DestroyAction;
 import com.redru.engine.exceptions.ContextAlreadyExistsException;
 import com.redru.engine.exceptions.ContextNotFoundException;
+import com.redru.engine.scene.IntSceneElement;
 
 public class ActionsManager {
 	private static final String TAG = "ActionsManager";
@@ -19,6 +23,7 @@ public class ActionsManager {
 	
 // CONSTRUCTOR -------------------------------------------------------------------------------------------------------
 	private ActionsManager() {
+		this.standardActionsSetup();
 		Log.i(TAG, "Creation complete.");
 	}
 	
@@ -176,6 +181,31 @@ public class ActionsManager {
 			}
 		}
 	}
-//--------------------------------------------------------------------------------------------------------------------
+// STANDARD CONTEXT ACTIONS ------------------------------------------------------------------------------------------
+	private void standardActionsSetup() {
+		this.addContext(new ActionContext<IntSceneElement>("DestroyQueue", new ArrayList<IntSceneElement>(), true));
+		this.addAction(DestroyAction.getInstance(), "DestroyQueue");
+		
+		this.addContext(new ActionContext<IntSceneElement>("CreateQueue", new ArrayList<IntSceneElement>(), true));
+		this.addAction(CreateAction.getInstance(), "CreateQueue");
+	}
 	
+	@SuppressWarnings("unchecked")
+	public void addObjectToDestroyQueue(IntSceneElement sceneElement) {
+		((ArrayList<IntSceneElement>) this.getContext("DestroyQueue").getValues()).add(sceneElement);
+	}
+	
+	public void destroyAllInQueue() {
+		this.executeActionsByContext("DestroyQueue");
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void addObjectToCreationQueue(IntSceneElement sceneElement) {
+		((ArrayList<IntSceneElement>) this.getContext("CreateQueue").getValues()).add(sceneElement);
+	}
+	
+	public void createAllInQueue() {
+		this.executeActionsByContext("CreateQueue");
+	}
+// -------------------------------------------------------------------------------------------------------------------
 }

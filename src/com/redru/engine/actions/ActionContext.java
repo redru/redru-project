@@ -2,7 +2,7 @@ package com.redru.engine.actions;
 
 import java.util.ArrayList;
 
-public class ActionContext<T> {
+public class ActionContext<T extends Object> {
 	private String identifier;
 	private ArrayList<T> values;
 	private boolean active;

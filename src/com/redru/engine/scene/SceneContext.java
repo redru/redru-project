@@ -100,16 +100,16 @@ public class SceneContext {
      * 
      * @param index
      */
-    public void removeElementFromScene(int index) {
-        this.elements.remove(index);
+    public IntSceneElement removeElementFromScene(int index) {
+        return this.elements.remove(index);
     }
 
     /**
      * 
      * @param element
      */
-    public void removeElementFromScene(IntSceneElement element) {
-        this.elements.remove(element);
+    public boolean removeElementFromScene(IntSceneElement element) {
+        return this.elements.remove(element);
     }
 
     /**

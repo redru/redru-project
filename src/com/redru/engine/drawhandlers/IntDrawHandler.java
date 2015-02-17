@@ -4,7 +4,7 @@ public interface IntDrawHandler {
 	
 	public void setup();
 
-	public void updateBuffers();
+	public void updateTransformBuffers();
 	
 	public void draw();
 	

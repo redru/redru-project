@@ -1,7 +1,5 @@
 package com.redru.application;
 
-import java.util.ArrayList;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -14,7 +12,7 @@ import com.redru.application.actions.SensorInputAction;
 import com.redru.application.scene.complex.Starship;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.utils.TimeManager;
 import com.redru.engine.view.Camera;
@@ -35,8 +33,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private TextureFactory texFactory = TextureFactory.getInstance();
     private ActionsManager actionsManager = ActionsManager.getInstance();
     
-    private ArrayList<GameActor> sceneObjects = new ArrayList<GameActor>();
-    
     private GLViewRenderer() { }
     
     public static GLViewRenderer getInstance() {
@@ -55,8 +51,8 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
         //********************************************
         // CAMERA SETUP ******************************
-        camera.rotate(30.0f, 180.0f, 0.0f);
-        camera.move(0.0f, 0.0f, -16.0f);
+        this.camera.rotate(30.0f, 180.0f, 0.0f);
+        this.camera.move(0.0f, 0.0f, -16.0f);
         //********************************************
         // APPLICATION STARTUP ***********************
         this.elementsStartup();
@@ -69,12 +65,13 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 unused) {
     	TimeManager.setStart();
     	// TIME ***************************************
-    	actionsManager.executeActionsByActiveContexts();
-        
-        drawShapes();
+    	this.actionsManager.executeActionsByActiveContexts();
+    	this.actionsManager.createAllInQueue();
+    	this.actionsManager.destroyAllInQueue();
+        this.drawShapes();
         // END TIME ***********************************
         TimeManager.setEnd();
-        Log.i(TAG, "Time difference: '" + TimeManager.getDifferenceInMilliseconds() + "' microseconds");
+        // Log.i(TAG, "Time difference: '" + TimeManager.getDifferenceInMilliseconds() + "' microseconds");
         try {
         	if (TimeManager.getDifferenceInMilliseconds() <= Constants.TARGET_SLEEP_TIME) {
         		Thread.sleep(Constants.TARGET_SLEEP_TIME - TimeManager.getDifferenceInMilliseconds());
@@ -86,7 +83,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
-        camera.setAspectRatio((float) width / (float) height);
+    	this.camera.setAspectRatio((float) width / (float) height);
         GLES30.glViewport(0, 0, width, height);
     }
 
@@ -99,16 +96,16 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         // Redraw background color
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
-        scene.drawScene();
+        this.scene.drawScene();
     }
     
     /**
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	actionsManager.addContext(new ActionContext<GameActor>("SceneElements", sceneObjects, true));
-    	actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
-    	actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
+    	this.actionsManager.addContext(new ActionContext<IntSceneElement>("SceneElements", this.scene.getElements(), true));
+    	this.actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
+    	this.actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }
 
     /**
@@ -122,10 +119,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	Starship objB2Spirit = new Starship(b2spirit, "B-2 Spirit");
     	objB2Spirit.scale(0.35f, 0.35f, 0.35f);
     	objB2Spirit.translate(0.0f, 2.0f, -9.2f);
-    	objB2Spirit.getDrawHandler().updateBuffers();
+    	objB2Spirit.getDrawHandler().updateTransformBuffers();
     	
-    	scene.addElementToScene(objB2Spirit);
-    	sceneObjects.add(objB2Spirit);
+    	this.scene.addElementToScene(objB2Spirit);
     	
     	Model b2spirit2 = objFactory.getStockedModel("obj_b2spirit");
     	b2spirit2.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
@@ -134,10 +130,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit2.scale(0.5f, 0.5f, 0.5f);
     	objB2Spirit2.translate(-3.0f, -2.0f, 120.0f);
     	objB2Spirit2.setStaticPosition(-3.0f, -2.0f, 120.0f);
-    	objB2Spirit2.getDrawHandler().updateBuffers();
+    	objB2Spirit2.getDrawHandler().updateTransformBuffers();
     	
-    	scene.addElementToScene(objB2Spirit2);
-    	sceneObjects.add(objB2Spirit2);
+    	this.scene.addElementToScene(objB2Spirit2);
     	
     	Model b2spirit3 = objFactory.getStockedModel("obj_b2spirit");
     	b2spirit3.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
@@ -146,10 +141,9 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit3.scale(0.5f, 0.5f, 0.5f);
     	objB2Spirit3.translate(8.0f, 7.0f, 185.0f);
     	objB2Spirit3.setStaticPosition(8.0f, 7.0f, 185.0f);
-    	objB2Spirit3.getDrawHandler().updateBuffers();
+    	objB2Spirit3.getDrawHandler().updateTransformBuffers();
     	
-    	scene.addElementToScene(objB2Spirit3);
-    	sceneObjects.add(objB2Spirit3);
+    	this.scene.addElementToScene(objB2Spirit3);
     }
 // --------------------------------------------------------------------------------------------------------------------
 }

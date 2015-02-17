@@ -1,4 +1,4 @@
-package com.redru.engine.utils;
+package com.redru.engine.shader;
 
 import java.nio.IntBuffer;
 
@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.redru.R;
 import com.redru.Redru;
+import com.redru.engine.utils.ResourceUtils;
 
 /**
  * Created by Luca on 16/01/2015.

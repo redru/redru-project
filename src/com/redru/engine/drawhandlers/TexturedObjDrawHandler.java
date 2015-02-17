@@ -9,9 +9,9 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 import com.redru.engine.elements.GameActor;
+import com.redru.engine.shader.ShaderFactory;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
-import com.redru.engine.utils.ShaderFactory;
 import com.redru.engine.view.Camera;
 
 /**
@@ -111,7 +111,7 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      * 
      */
     @Override
-    public void updateBuffers() {
+    public void updateTransformBuffers() {
     	GLES30.glBindVertexArray(VAOIds[0]);
     	
 //    	GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
