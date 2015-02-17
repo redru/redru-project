@@ -124,17 +124,17 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
 //    	if (!GLES30.glUnmapBuffer(GLES30.GL_ARRAY_BUFFER)) {
 //    		Log.i(TAG, "Problems unmapping buffer in object: " + obj.getName());
 //    	}
-    	scaleBuffer = ByteBuffer.allocateDirect(this.actor.getScalation().length * OpenGLConstants.BYTES_PER_FLOAT)
+    	scaleBuffer = ByteBuffer.allocateDirect(this.actor.getScalationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-    	scaleBuffer.put(this.actor.getScalation()).position(0);
+    	scaleBuffer.put(this.actor.getScalationMatrix()).position(0);
         
-        rotationBuffer = ByteBuffer.allocateDirect(this.actor.getRotation().length * OpenGLConstants.BYTES_PER_FLOAT)
+        rotationBuffer = ByteBuffer.allocateDirect(this.actor.getRotationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        rotationBuffer.put(this.actor.getRotation()).position(0);
+        rotationBuffer.put(this.actor.getRotationMatrix()).position(0);
         
-        translationBuffer = ByteBuffer.allocateDirect(this.actor.getPosition().length * OpenGLConstants.BYTES_PER_FLOAT)
+        translationBuffer = ByteBuffer.allocateDirect(this.actor.getPositionMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        translationBuffer.put(this.actor.getPosition()).position(0);
+        translationBuffer.put(this.actor.getPositionMatrix()).position(0);
     	
     	GLES30.glBindVertexArray(0);
     }

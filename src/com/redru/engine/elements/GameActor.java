@@ -13,9 +13,11 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	private Model model;
 	private IntDrawHandler drawHandler;
 	
+	private float[] translationMatrix = new float[16];
 	private float[] rotationMatrix = new float[16];
+	private float[] scalationMatrix = new float[16];
 	
-	private float xStart = 0.0f, yStart = 0.0f, zStart = 0.0f;
+	private float xStatic = 0.0f, yStatic = 0.0f, zStatic = 0.0f;
 	private float xPos = 0.0f, yPos = 0.0f, zPos = 0.0f;
 	private float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
 	private float xAcc = 0.0f, yAcc = 0.0f, zAcc = 0.0f;
@@ -31,6 +33,10 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	}
 	
 	public GameActor(Model model, IntDrawHandler drawHandler, String identifier) {
+		 Matrix.setIdentityM(translationMatrix, 0);
+		 Matrix.setIdentityM(rotationMatrix, 0);
+		 Matrix.setIdentityM(scalationMatrix, 0);
+		
 		this.model = model;
 		this.drawHandler = new TexturedObjDrawHandler(this);
 		this.identifier = identifier;
@@ -73,11 +79,6 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.yPos = yPos;
 		this.zPos = zPos;
 	}
-// FUNCTIONS -----------------------------------------------------------------------------------
-	public float[] getCurrentPosition() {
-		float[] tmp = { this.xStart + this.xPos, this.yStart + this.yPos, this.zStart + this.zPos };
-		return tmp;
-	}
 // SETTERS AND GETTERS -------------------------------------------------------------------------
 	public final String getIdentifier() {
 		return identifier;
@@ -103,38 +104,23 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.drawHandler = drawHandler;
 	}
 	
-	public void setStartPosition(float xStart, float yStart, float zStart) {
-		this.xStart = xStart;
-		this.yStart = yStart;
-		this.zStart = zStart;
+	public void setStaticPosition(float xStatic, float yStatic, float zStatic) {
+		this.xStatic = xStatic;
+		this.yStatic = yStatic;
+		this.zStatic = zStatic;
 	}
 	
-	public float[] getStartPosition() {
-		float[] tmp = { this.xStart, this.yStart, this.zStart };
+	public float[] getStaticPosition() {
+		float[] tmp = { this.xStatic, this.yStatic, this.zStatic };
 		return tmp;
 	}
 	
-	public void addPosition(float xPos, float yPos, float zPos) {
-		this.xPos += xPos;
-		this.yPos += yPos;
-		this.zPos += zPos;
-	}
-	
-	public float[] getPosition() {
-		float[] tmp = { 
-					 1.0f, 		0.0f, 	   0.0f, 0.0f,
-				 	 0.0f, 		1.0f, 	   0.0f, 0.0f,
-				 	 0.0f, 		0.0f, 	   1.0f, 0.0f,
-				this.xPos, this.yPos, this.zPos, 1.0f
-				};
+	public float[] getPositionMatrix() {
+		this.translationMatrix[12] = this.xPos;
+		this.translationMatrix[13] = this.yPos;
+		this.translationMatrix[14] = this.zPos;
 		
-		return tmp;
-	}
-	
-	public void addVelocity(float xVel, float yVel, float zVel) {
-		this.xVel += xVel;
-		this.yVel += yVel;
-		this.zVel += zVel;
+		return this.translationMatrix;
 	}
 	
 	public float[] getVelocity() {
@@ -143,25 +129,13 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		return tmp;
 	}
 	
-	public void addAcceleration(float xAcc, float yAcc, float zAcc) {
-		this.xAcc += xAcc;
-		this.yAcc += yAcc;
-		this.zAcc += zAcc;
-	}
-	
 	public float[] getAcceleration() {
 		float[] tmp = { this.xAcc, this.yAcc, this.zAcc };
 		
 		return tmp;
 	}
 	
-	public void addRotation(float xRot, float yRot, float zRot) {
-		this.xRot += xRot;
-		this.yRot += yRot;
-		this.zRot += zRot;
-	}
-	
-	public float[] getRotation() {
+	public float[] getRotationMatrix() {
 		Matrix.setIdentityM(this.rotationMatrix, 0);
 		
 		if (this.xRot != 0.0f) {
@@ -179,45 +153,36 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		return this.rotationMatrix;
 	}
 	
-	public void addScalation(float xSca, float ySca, float zSca) {
-		this.xSca += xSca;
-		this.ySca += ySca;
-		this.zSca += zSca;
-	}
-	
-	public float[] getScalation() {
-		float[] tmp = { 
-				this.xSca,      0.0f,      0.0f, 0.0f,
-				     0.0f, this.ySca,      0.0f, 0.0f,
-				     0.0f,      0.0f, this.zSca, 0.0f,
-				     0.0f,      0.0f,      0.0f, 1.0f
-				};
+	public float[] getScalationMatrix() {
+		this.scalationMatrix[0] = this.xSca;
+		this.scalationMatrix[5] = this.ySca;
+		this.scalationMatrix[10] = this.zSca;
 		
-		return tmp;
+		return this.scalationMatrix;
 	}
 
 	public float getxStart() {
-		return xStart;
+		return xStatic;
 	}
 
 	public void setxStart(float xStart) {
-		this.xStart = xStart;
+		this.xStatic = xStart;
 	}
 
 	public float getyStart() {
-		return yStart;
+		return yStatic;
 	}
 
 	public void setyStart(float yStart) {
-		this.yStart = yStart;
+		this.yStatic = yStart;
 	}
 
 	public float getzStart() {
-		return zStart;
+		return zStatic;
 	}
 
 	public void setzStart(float zStart) {
-		this.zStart = zStart;
+		this.zStatic = zStart;
 	}
 
 	public float getxPos() {

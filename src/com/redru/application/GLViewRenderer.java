@@ -25,8 +25,8 @@ import com.redru.engine.wrapper.textures.TextureFactory;
 /**
  * Created by Luca on 16/01/2015.
  */
-public class GLViewRenderer implements GLSurfaceView.Renderer {
-    private static final String TAG = "GLViewRenderer";
+public class GLViewRenderer implements GLSurfaceView.Renderer {	
+    private static final String TAG = "GLViewRenderer";    
     private static GLViewRenderer instance;
     
     private Camera camera = Camera.getInstance();
@@ -49,30 +49,36 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 // --------------------------------------------------------------------------------------------------------------------
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
-        // Set the background frame color
+    	// GL CONTEXT SETUP **************************
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
-
-        // Initialize and setup the Camera
+        //********************************************
+        // CAMERA SETUP ******************************
         camera.rotate(30.0f, 180.0f, 0.0f);
         camera.move(0.0f, 0.0f, -16.0f);
-
-        this.customObjectsStartup();
+        //********************************************
+        // APPLICATION STARTUP ***********************
         this.elementsStartup();
         this.actionsStartup();
-
+        //********************************************
         Log.i(TAG, "Creation complete.");
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
+    	TimeManager.setStart();
+    	// TIME ***************************************
     	actionsManager.executeActionsByActiveContexts();
         
         drawShapes();
-
+        // END TIME ***********************************
+        TimeManager.setEnd();
+        Log.i(TAG, "Time difference: '" + TimeManager.getDifferenceInMilliseconds() + "' microseconds");
         try {
-            Thread.sleep(12);
+        	if (TimeManager.getDifferenceInMilliseconds() <= Constants.TARGET_SLEEP_TIME) {
+        		Thread.sleep(Constants.TARGET_SLEEP_TIME - TimeManager.getDifferenceInMilliseconds());
+        	}
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -80,9 +86,6 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
-        // Reset object buffers after app minimize
-        //scene.raiseSceneElements();
-
         camera.setAspectRatio((float) width / (float) height);
         GLES30.glViewport(0, 0, width, height);
     }
@@ -93,24 +96,10 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * 
      */
     private void drawShapes() {
-    	TimeManager.setStart();
-    	
         // Redraw background color
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
-        // Draw the scene
         scene.drawScene();
-        TimeManager.setEnd();
-        TimeManager.getDifferenceInMicroseconds();
-        //Log.i(TAG, "Time average: '" + TimeManager.getAverage() + "' microseconds");
-    }
-    
-    /**
-     * Add to the object factory the custom objects
-     */
-    private void customObjectsStartup() {
-//    	BulletObject simpleBullet = new BulletObject(CustomObjectsData.getInstance().simpleBulletData, BulletObject.BulletType.SIMPLE);
-//    	objFactory.addObjectToStock("SimpleBullet", simpleBullet);
     }
     
     /**
@@ -144,7 +133,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	objB2Spirit2.rotate(0.0f, 180.0f, 0.0f);
     	objB2Spirit2.scale(0.5f, 0.5f, 0.5f);
     	objB2Spirit2.translate(-3.0f, -2.0f, 120.0f);
-    	objB2Spirit2.setStartPosition(-3.0f, -2.0f, 120.0f);
+    	objB2Spirit2.setStaticPosition(-3.0f, -2.0f, 120.0f);
     	objB2Spirit2.getDrawHandler().updateBuffers();
     	
     	scene.addElementToScene(objB2Spirit2);
@@ -155,8 +144,8 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	Starship objB2Spirit3 = new Starship(b2spirit3, "Enemy 3");
     	objB2Spirit3.rotate(0.0f, 180.0f, 0.0f);
     	objB2Spirit3.scale(0.5f, 0.5f, 0.5f);
-    	objB2Spirit3.translate(8.0f, 7.0f, 40.0f);
-    	objB2Spirit3.setStartPosition(8.0f, 7.0f, 185.0f);
+    	objB2Spirit3.translate(8.0f, 7.0f, 185.0f);
+    	objB2Spirit3.setStaticPosition(8.0f, 7.0f, 185.0f);
     	objB2Spirit3.getDrawHandler().updateBuffers();
     	
     	scene.addElementToScene(objB2Spirit3);
