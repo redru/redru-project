@@ -1,14 +1,19 @@
 package com.redru.engine.elements;
 
+import android.opengl.Matrix;
+
 import com.redru.engine.drawhandlers.IntDrawHandler;
+import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.models.Model;
 
 public abstract class GameActor implements IntTransformable, IntSceneElement {
 	
 	private String identifier;
-	private Model obj;
+	private Model model;
 	private IntDrawHandler drawHandler;
+	
+	private float[] rotationMatrix = new float[16];
 	
 	private float xStart = 0.0f, yStart = 0.0f, zStart = 0.0f;
 	private float xPos = 0.0f, yPos = 0.0f, zPos = 0.0f;
@@ -21,13 +26,13 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this(null, null, "");
 	}
 	
-	public GameActor(Model obj, String identifier) {
-		this(obj, null, identifier);
+	public GameActor(Model model, String identifier) {
+		this(model, null, identifier);
 	}
 	
-	public GameActor(Model obj, IntDrawHandler drawHandler, String identifier) {
-		this.obj = obj;
-		this.drawHandler = drawHandler;
+	public GameActor(Model model, IntDrawHandler drawHandler, String identifier) {
+		this.model = model;
+		this.drawHandler = new TexturedObjDrawHandler(this);
 		this.identifier = identifier;
 	}
 // INTERFACES METHODS --------------------------------------------------------------------------
@@ -46,8 +51,6 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.xSca += xScale;
 		this.ySca += yScale;
 		this.zSca += zScale;
-		
-		this.obj.scale(this.xSca, this.ySca, this.zSca);
 	}
 
 	@Override
@@ -55,8 +58,6 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.xRot += xAxis;
 		this.yRot += yAxis;
 		this.zRot += zAxis;
-		
-		this.obj.rotate(this.xRot, this.yRot, this.zRot);
 	}
 
 	@Override
@@ -64,8 +65,6 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.xPos += xUpset;
 		this.yPos += yUpset;
 		this.zPos += zUpset;
-		
-		this.obj.translate(xUpset, yUpset, zUpset);
 	}
 	
 	@Override
@@ -73,13 +72,6 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.zPos = zPos;
-		
-		this.obj.translateToPosition(this.xPos, this.yPos, this.zPos);
-	}
-	
-	@Override
-    public void translateToOrigin() {
-		this.obj.loadOriginData();
 	}
 // FUNCTIONS -----------------------------------------------------------------------------------
 	public float[] getCurrentPosition() {
@@ -95,12 +87,12 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.identifier = identifier;
 	}
 
-	public final Model getObj() {
-		return obj;
+	public final Model getModel() {
+		return model;
 	}
 
-	public final void setObj(Model obj) {
-		this.obj = obj;
+	public final void setModel(Model model) {
+		this.model = model;
 	}
 
 	public final IntDrawHandler getDrawHandler() {
@@ -129,7 +121,13 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	}
 	
 	public float[] getPosition() {
-		float[] tmp = { this.xPos, this.yPos, this.zPos };
+		float[] tmp = { 
+					 1.0f, 		0.0f, 	   0.0f, 0.0f,
+				 	 0.0f, 		1.0f, 	   0.0f, 0.0f,
+				 	 0.0f, 		0.0f, 	   1.0f, 0.0f,
+				this.xPos, this.yPos, this.zPos, 1.0f
+				};
+		
 		return tmp;
 	}
 	
@@ -141,6 +139,7 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	
 	public float[] getVelocity() {
 		float[] tmp = { this.xVel, this.yVel, this.zVel };
+		
 		return tmp;
 	}
 	
@@ -152,6 +151,7 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	
 	public float[] getAcceleration() {
 		float[] tmp = { this.xAcc, this.yAcc, this.zAcc };
+		
 		return tmp;
 	}
 	
@@ -162,8 +162,21 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	}
 	
 	public float[] getRotation() {
-		float[] tmp = { this.xRot, this.yRot, this.zRot };
-		return tmp;
+		Matrix.setIdentityM(this.rotationMatrix, 0);
+		
+		if (this.xRot != 0.0f) {
+			Matrix.rotateM(this.rotationMatrix, 0, this.xRot, 1.0f, 0.0f, 0.0f);
+		}
+		
+		if (this.yRot != 0.0f) {
+			Matrix.rotateM(this.rotationMatrix, 0, this.yRot, 0.0f, 1.0f, 0.0f);
+		}
+		
+		if (this.zRot != 0.0f) {
+			Matrix.rotateM(this.rotationMatrix, 0, this.zRot, 0.0f, 0.0f, 1.0f);
+		}
+		
+		return this.rotationMatrix;
 	}
 	
 	public void addScalation(float xSca, float ySca, float zSca) {
@@ -173,7 +186,13 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	}
 	
 	public float[] getScalation() {
-		float[] tmp = { this.xSca, this.ySca, this.zSca };
+		float[] tmp = { 
+				this.xSca,      0.0f,      0.0f, 0.0f,
+				     0.0f, this.ySca,      0.0f, 0.0f,
+				     0.0f,      0.0f, this.zSca, 0.0f,
+				     0.0f,      0.0f,      0.0f, 1.0f
+				};
+		
 		return tmp;
 	}
 

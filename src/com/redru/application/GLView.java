@@ -1,9 +1,9 @@
 package com.redru.application;
 
-import com.redru.engine.scene.SceneContext;
-
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+
+import com.redru.engine.scene.SceneContext;
 
 /**
  * Created by Luca on 16/01/2015.

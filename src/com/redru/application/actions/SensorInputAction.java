@@ -1,7 +1,5 @@
 package com.redru.application.actions;
 
-import java.text.DecimalFormat;
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,26 +14,37 @@ public class SensorInputAction extends Action implements SensorEventListener {
 	private static final String TAG = "SensorInputHandler";
 
 	private static SensorInputAction instance;
-	DecimalFormat df = new DecimalFormat();
 	
 	private Starship starship;
 	private float axisX = 0.0f, axisY = 0.0f, axisZ = 0.0f;
 	
 	private SensorInputAction(String identifier, boolean executeOnce) {
 		super(identifier, executeOnce);
-		df.setMaximumFractionDigits(3);
 		Log.i(TAG, "Creation complete.");
 	}
 	
 	@Override
 	public void execute(ActionContext<?> context) {
-		starship = (Starship) context.getValues().get(0);
-		if (starship.getxPos() - (axisY / 2) < 30 && starship.getxPos() - (axisY / 2) > -30) {
-			starship.translate(-axisY / 2, 0.0f, 0.0f);
-			starship.getDrawHandler().updateBuffers();
-			
-			Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
+		for (Object element : context.getValues()) {
+			starship = (Starship) element;
+        	if (starship.getIdentifier().equals("B-2 Spirit")) {
+				if (starship.getxPos() - (axisY / 2) < 30 && starship.getxPos() - (axisY / 2) > -30) {
+					starship.translate(-axisY / 2, 0.0f, 0.0f);
+					
+					Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
+				}
+				
+				starship.getDrawHandler().updateBuffers();
+        	} else {
+        		if (starship.getzPos() > -starship.getzStart() - 10.0f) {
+        			starship.translate(0.0f, 0.0f, -0.1f);
+        		}
+        		
+        		starship.getDrawHandler().updateBuffers();
+        	}
 		}
+		
+		this.starship = null;
 	}
 	
 	@Override

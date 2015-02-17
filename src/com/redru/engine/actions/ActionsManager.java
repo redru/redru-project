@@ -103,6 +103,20 @@ public class ActionsManager {
 		}
 	}
 	
+	public ActionContext<?> getContext(String contextIdentifier) {
+		try {
+			if (this.contexts.containsKey(contextIdentifier)) {
+				return this.contexts.get(contextIdentifier);
+			} else {
+				throw new ContextNotFoundException();
+			}
+		} catch (ContextNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public void replaceContext(String contextIdentifier, ActionContext<?> context) {
 		this.contexts.put(contextIdentifier, context);
 	}

@@ -21,16 +21,18 @@ public class SceneObjectsTranslateAction extends Action {
 	public void execute(ActionContext<?> context) {
 		for (Object element : context.getValues()) {
 			starship = (Starship) element;
-        	if (!(starship.getIdentifier().equals("B-2 Spirit"))) {
-        		if (starship.getzPos() > -starship.getzStart() - 10.0f) {
-        			starship.translate(0.0f, 0.0f, -1.0f);
+        	if (!starship.getIdentifier().equals("B-2 Spirit")) {
+        		if (starship.getzPos() > - 20.0f) {
+        			starship.translate(0.0f, 0.0f, -0.85f);
         		} else {
-        			starship.translate(0.0f, 0.0f, -starship.getzPos() * 2);
+        			starship.translateToPosition(starship.getxStart(), starship.getyStart(), starship.getzStart());
         		}
+        		
+        		starship.getDrawHandler().updateBuffers();
         	}
-        	
-        	starship.getDrawHandler().updateBuffers();
         }
+		
+		this.starship = null;
 	}
 	
 	public static SceneObjectsTranslateAction getInstance() {

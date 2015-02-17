@@ -71,7 +71,7 @@ public class ModelFactory {
      * 
      * @return
      */
-    public ArrayList<String> getObjFiles() {
+    public ArrayList<String> getModelFiles() {
         return modelFiles;
     }
 
@@ -81,20 +81,20 @@ public class ModelFactory {
      * @return
      */
     public Model getStockedModel(String modelStockKey) {
-        Model obj = null;
-
         try {
             if (modelStock.containsKey(modelStockKey)) {
-                obj = (Model) modelStock.get(modelStockKey).clone();
-                Log.i(TAG, "Requested model '" + modelStockKey + "' was correctly created from the factory.");
+            	Log.i(TAG, "Requested model '" + modelStockKey + "' was correctly loaded from the factory.");
+            	return modelStock.get(modelStockKey).clone();
+                
             } else {
                 Log.i(TAG, "Requested model '" + modelStockKey + "' was not in the objects stock.");
+                return null;
             }
         } catch(CloneNotSupportedException e) {
             e.printStackTrace();
         }
-
-        return obj;
+        
+		return null;
     }
     
     /**

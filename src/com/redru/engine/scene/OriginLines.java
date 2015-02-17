@@ -107,7 +107,7 @@ public class OriginLines implements IntSceneElement {
         GLES30.glUseProgram (ShaderFactory.getInstance().defaultProgram);
 
         // Load the MVP matrix
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().MVP_LOC, 1, false,
+        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().DEF_PROG_MVP_LOC, 1, false,
                 Camera.getInstance().getMvpMatrixAsFloatBuffer());
 
         GLES30.glBindVertexArray(VAOIds[0]);

@@ -19,17 +19,21 @@ public class ShaderFactory {
     public final int LAYOUT_VERTEX = 0;
     public final int LAYOUT_COLOR = 1;
     public final int LAYOUT_TEXTURE = 1;
+    
+    public int DEF_PROG_MVP_LOC;
+    public int COMP_PROG_MVP_LOC;
+    public int COMP_PROG_SCA_LOC;
+    public int COMP_PROG_ROT_LOC;
+    public int COMP_PROG_TRA_LOC;
+    public int COMP_PROG_SAMPLER_S_TEXTURE;
+    
+    public int defaultProgram;
+    public int complexObjectProgram;
 
     private final String vertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_default);
     private final String complexObjectVertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_complex_object);
     private final String fragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_default);
     private final String complexFragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_complex_object);
-
-    public int defaultProgram;
-    public int complexObjectProgram;
-    
-    public int MVP_LOC;
-    public int SAMPLER_S_TEXTURE;
 
     private static IntBuffer shaderCompileError = IntBuffer.allocate(1);
     private static String shaderCompileInfoLog;
@@ -47,16 +51,17 @@ public class ShaderFactory {
         GLES30.glAttachShader(defaultProgram, vertexShader);
         GLES30.glAttachShader(defaultProgram, fragmentShader);
         GLES30.glLinkProgram(defaultProgram);
+        DEF_PROG_MVP_LOC = GLES30.glGetUniformLocation (defaultProgram, "u_mvpMatrix");
 
         complexObjectProgram = GLES30.glCreateProgram();
         GLES30.glAttachShader(complexObjectProgram, complexObjectVertexShader);
         GLES30.glAttachShader(complexObjectProgram, complexFragmentShader);
         GLES30.glLinkProgram(complexObjectProgram);
-
-        // Get the uniform locations
-        //ENABLE_COLOR_VECTOR = GLES30.glGetUniformLocation (complexObjectProgram, "enableColorVector");
-        MVP_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "u_mvpMatrix");
-        SAMPLER_S_TEXTURE = GLES30.glGetUniformLocation (complexObjectProgram, "s_texture");
+        COMP_PROG_MVP_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "u_mvpMatrix");
+        COMP_PROG_SCA_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "scaVector");
+        COMP_PROG_ROT_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "rotVector");
+        COMP_PROG_TRA_LOC = GLES30.glGetUniformLocation (complexObjectProgram, "traVector");
+        COMP_PROG_SAMPLER_S_TEXTURE = GLES30.glGetUniformLocation (complexObjectProgram, "s_texture");
     }
 
     /**

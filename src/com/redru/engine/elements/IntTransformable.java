@@ -37,10 +37,5 @@ public interface IntTransformable {
      * @param zUpset
      */
     public void translateToPosition(float xUpset, float yUpset, float zUpset);
-    
-    /**
-     * 
-     */
-    public void translateToOrigin();
 	
 }
