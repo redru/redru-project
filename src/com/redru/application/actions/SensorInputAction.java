@@ -35,16 +35,9 @@ public class SensorInputAction extends Action implements SensorEventListener {
 				}
 				
 				starship.getDrawHandler().updateTransformBuffers();
-        	} else {
-        		if (starship.getzPos() > -starship.getzStart() - 10.0f) {
-        			starship.translate(0.0f, 0.0f, -0.1f);
-        		}
-        		
-        		starship.getDrawHandler().updateTransformBuffers();
+				break;
         	}
 		}
-		
-		this.starship = null;
 	}
 	
 	@Override
