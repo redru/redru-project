@@ -9,12 +9,15 @@ import android.util.Log;
 
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
-import com.redru.application.scene.complex.Starship;
+import com.redru.application.actors.complex.Starship;
+import com.redru.application.core.EnemySpawner;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
+import com.redru.engine.elements.GameActor;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
+import com.redru.engine.time.TimeManager;
 import com.redru.engine.time.TimeUtils;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.models.Model;
@@ -33,6 +36,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private ModelFactory modelFactory = ModelFactory.getInstance();
     private TextureFactory texFactory = TextureFactory.getInstance();
     private ActionsManager actionsManager = ActionsManager.getInstance();
+    private TimeManager timeManager = TimeManager.getInstance();
     
     private GLViewRenderer() { }
     
@@ -58,6 +62,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         // APPLICATION STARTUP ***********************
         this.elementsStartup();
         this.actionsStartup();
+        this.timeObjectsStartup();
         //********************************************
         Log.i(TAG, "Creation complete.");
     }
@@ -66,6 +71,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 unused) {
     	TimeUtils.setStart();
     	// TIME ***************************************
+    	this.timeManager.updateTimeObjects();
     	this.actionsManager.executeActionsByActiveContexts();
     	this.actionsManager.createAllInQueue();
     	this.actionsManager.destroyAllInQueue();
@@ -91,7 +97,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 //----------------------------------------------------------------------------------------------------------------------------------
     
     /**
-     * 
+     * Draw the scene context
      */
     private void drawShapes() {
         // Redraw background color
@@ -108,23 +114,30 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	this.actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
     	this.actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
     }
+    
+    /**
+     * Startup of the starting time objects
+     */
+    private void timeObjectsStartup() {
+    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 20, 0, true);
+    	this.timeManager.addTimeObjectToList(spawner);
+    }
 
     /**
-     * 
+     * Startup of the initial objects
      */
     private void elementsStartup() {
     	scene.linesStartup();
     	
     	Model model = modelFactory.getStockedModel("obj_b2spirit");
     	model.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	Starship starship = new Starship(model, "B-2 Spirit");
-    	starship.setDrawHandler(new TexturedObjDrawHandler(starship));
-    	starship.setup();
-    	starship.scale(0.35f, 0.35f, 0.35f);
-    	starship.translate(0.0f, 2.0f, -9.2f);
-    	starship.getDrawHandler().updateTransformBuffers();
-    	
-    	this.scene.addElementToScene(starship);
+    	GameActor actor = new Starship(model, "B-2 Spirit");
+    	actor.setDrawHandler(new TexturedObjDrawHandler(actor));
+    	actor.setup();
+    	actor.scale(0.35f, 0.35f, 0.35f);
+    	actor.translate(0.0f, 2.0f, -9.2f);
+    	actor.getDrawHandler().updateTransformBuffers();
+    	this.scene.addElementToScene(actor);
     }
 // --------------------------------------------------------------------------------------------------------------------
 }

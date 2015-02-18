@@ -1,4 +1,4 @@
-package com.redru.application.scene.simple;
+package com.redru.application.actors.simple;
 
 import com.redru.engine.wrapper.models.Model;
 

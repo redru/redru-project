@@ -2,7 +2,7 @@ package com.redru.application.actions;
 
 import android.util.Log;
 
-import com.redru.application.scene.complex.Starship;
+import com.redru.application.actors.complex.Starship;
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
