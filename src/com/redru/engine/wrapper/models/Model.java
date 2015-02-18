@@ -169,21 +169,8 @@ public class Model implements Cloneable {
 	}
 // CLONE ----------------------------------------------------------------------------------------------
 	@Override
-	public Model clone() throws CloneNotSupportedException {
-//        float[] tmpUnifiedData = new float[this.unifiedData.length];
-//    	
-//    	for (int i = 0; i < this.unifiedData.length; i++) {
-//    		tmpUnifiedData[i] = this.unifiedData[i];
-//    	}
-//    	
-//    	Model tmp = new Model(null, null, null, tmpUnifiedData, this.name);
-//    	tmp.setTotalTextures(this.totalTextures);
-//    	tmp.setTotalTextures(this.totalTextures);
-//    	tmp.setTotalNormals(this.totalNormals);
-//    	tmp.setTotalIndices(this.totalIndices);
-//    	tmp.setTotalFaces(this.totalFaces);
-        
-		return (Model) super.clone();
+	public Model clone() throws CloneNotSupportedException {        
+		return this;
     }
 // ----------------------------------------------------------------------------------------------------
 

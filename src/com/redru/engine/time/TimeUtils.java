@@ -1,7 +1,7 @@
-package com.redru.engine.utils;
+package com.redru.engine.time;
 
 
-public class TimeManager {
+public class TimeUtils {
 	public static final int NANOSECONDS = 1000000000;
 	public static final int MICROSECONDS = 1000000;
 	public static final int MILLISECONDS = 1000;

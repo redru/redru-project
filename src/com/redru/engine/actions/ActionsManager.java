@@ -9,6 +9,7 @@ import java.util.Set;
 import android.util.Log;
 
 import com.redru.engine.actions.standard.CreateAction;
+import com.redru.engine.actions.standard.CreationObject;
 import com.redru.engine.actions.standard.DestroyAction;
 import com.redru.engine.exceptions.ContextAlreadyExistsException;
 import com.redru.engine.exceptions.ContextNotFoundException;
@@ -200,8 +201,8 @@ public class ActionsManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addObjectToCreationQueue(IntSceneElement sceneElement) {
-		((ArrayList<IntSceneElement>) this.getContext("CreateQueue").getValues()).add(sceneElement);
+	public void addObjectToCreationQueue(CreationObject creationObject) {
+		((ArrayList<CreationObject>) this.getContext("CreateQueue").getValues()).add(creationObject);
 	}
 	
 	public void createAllInQueue() {

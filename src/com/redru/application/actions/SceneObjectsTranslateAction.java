@@ -5,6 +5,7 @@ import android.util.Log;
 import com.redru.application.scene.complex.Starship;
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
+import com.redru.engine.actions.ActionsManager;
 
 public class SceneObjectsTranslateAction extends Action {
 	private static final String TAG = "SceneObjectsTranslateAction";
@@ -21,11 +22,12 @@ public class SceneObjectsTranslateAction extends Action {
 	public void execute(ActionContext<?> context) {
 		for (Object element : context.getValues()) {
 			starship = (Starship) element;
-        	if (!starship.getIdentifier().equals("B-2 Spirit")) {
+        	if (starship.getIdentifier().contains("Enemy")) {
         		if (starship.getzPos() > - 20.0f) {
         			starship.translate(0.0f, 0.0f, -0.85f);
         		} else {
-        			starship.translateToPosition(starship.getxStart(), starship.getyStart(), starship.getzStart());
+//        			starship.translateToPosition(starship.getxStart(), starship.getyStart(), starship.getzStart());
+        			ActionsManager.getInstance().addObjectToDestroyQueue(starship);
         		}
         		
         		starship.getDrawHandler().updateTransformBuffers();

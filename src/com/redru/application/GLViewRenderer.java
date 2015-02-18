@@ -14,7 +14,7 @@ import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
-import com.redru.engine.utils.TimeManager;
+import com.redru.engine.time.TimeUtils;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.models.Model;
 import com.redru.engine.wrapper.models.ModelFactory;
@@ -63,18 +63,18 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
-    	TimeManager.setStart();
+    	TimeUtils.setStart();
     	// TIME ***************************************
     	this.actionsManager.executeActionsByActiveContexts();
     	this.actionsManager.createAllInQueue();
     	this.actionsManager.destroyAllInQueue();
         this.drawShapes();
         // END TIME ***********************************
-        TimeManager.setEnd();
+        TimeUtils.setEnd();
         // Log.i(TAG, "Time difference: '" + TimeManager.getDifferenceInMilliseconds() + "' microseconds");
         try {
-        	if (TimeManager.getDifferenceInMilliseconds() <= Constants.TARGET_SLEEP_TIME) {
-        		Thread.sleep(Constants.TARGET_SLEEP_TIME - TimeManager.getDifferenceInMilliseconds());
+        	if (TimeUtils.getDifferenceInMilliseconds() <= Constants.TARGET_SLEEP_TIME) {
+        		Thread.sleep(Constants.TARGET_SLEEP_TIME - TimeUtils.getDifferenceInMilliseconds());
         	}
         } catch (InterruptedException e) {
             e.printStackTrace();

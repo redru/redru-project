@@ -51,8 +51,8 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
     	if (Boolean.parseBoolean(ResourceUtils.getApplicationProperty("advanced_logs"))) {
 	    	StringBuilder str = new StringBuilder();
 	    	
-	    	for (int i = 0, x = 0, y = 0; i < actor.getModel().getUnifiedData().length; i++) {
-	    		str.append(actor.getModel().getUnifiedData()[i] + ", ");
+	    	for (int i = 0, x = 0, y = 0; i < this.actor.getModel().getUnifiedData().length; i++) {
+	    		str.append(this.actor.getModel().getUnifiedData()[i] + ", ");
 	    		if (x % 7 == 0 && x != 0) {
 	    			Log.i(TAG, "UNIFIED DATA " + y + ": " + str);
 	    			str.delete(0, str.length());
@@ -65,20 +65,20 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
     	}
     	
         // initialize vertex byte buffer for shape coordinates------------------------------------
-        vertexBuffer = ByteBuffer.allocateDirect(actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
+        vertexBuffer = ByteBuffer.allocateDirect(this.actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexBuffer.put(actor.getModel().getUnifiedData()).position(0);
+        vertexBuffer.put(this.actor.getModel().getUnifiedData()).position(0);
         //VERTEX DATA CONFIGURATION------------------------------------------------------------------
         GLES30.glGenBuffers(1, VBOIds, 0);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, this.actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
                 vertexBuffer, GLES30.GL_STATIC_DRAW);
         //TEXTURE CONFIGURATION----------------------------------------------------------------------
         GLES30.glGenTextures(1, textureId, 0);
         
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
-        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, actor.getModel().getTexture().getBitmap(), 0);
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, this.actor.getModel().getTexture().getBitmap(), 0);
         
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);       
@@ -112,18 +112,6 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      */
     @Override
     public void updateTransformBuffers() {
-    	GLES30.glBindVertexArray(VAOIds[0]);
-    	
-//    	GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-//    	vertexBuffer = ( ( ByteBuffer ) GLES30.glMapBufferRange (
-//                GLES30.GL_ARRAY_BUFFER, 0, obj.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
-//                GLES30.GL_MAP_WRITE_BIT | GLES30.GL_MAP_INVALIDATE_BUFFER_BIT )
-//           ).order ( ByteOrder.nativeOrder() ).asFloatBuffer();
-//    	vertexBuffer.put(obj.getUnifiedData());    	    	
-//    	
-//    	if (!GLES30.glUnmapBuffer(GLES30.GL_ARRAY_BUFFER)) {
-//    		Log.i(TAG, "Problems unmapping buffer in object: " + obj.getName());
-//    	}
     	scaleBuffer = ByteBuffer.allocateDirect(this.actor.getScalationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
     	scaleBuffer.put(this.actor.getScalationMatrix()).position(0);
@@ -135,8 +123,6 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
         translationBuffer = ByteBuffer.allocateDirect(this.actor.getPositionMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         translationBuffer.put(this.actor.getPositionMatrix()).position(0);
-    	
-    	GLES30.glBindVertexArray(0);
     }
 
     /**
@@ -155,7 +141,7 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
         // Bind this object Vertex Array Object (VAO) state and then draw the object
         GLES30.glBindVertexArray(VAOIds[0]);
         
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, actor.getModel().getUnifiedData().length);
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, this.actor.getModel().getUnifiedData().length);
 
         GLES30.glBindVertexArray(0);
     }
