@@ -27,14 +27,14 @@ public final class CreateAction extends Action {
 	@Override
 	public void execute(ActionContext<?> context) {
 		for (Object tmp : context.getValues()) {
-			actor = (GameActor) tmp;
+			this.actor = (GameActor) tmp;
 	    	
-			actor.setup();
-			actor.getDrawHandler().updateTransformBuffers();
-			scene.addElementToScene(actor);
+			this.actor.setup();
+			this.actor.getDrawHandler().updateTransformBuffers();
+			this.scene.addElementToScene(this.actor);
 		}
 		
-		actor = null;
+		this.actor = null;
 		context.getValues().clear();
 	}
 // -------------------------------------------------------------
