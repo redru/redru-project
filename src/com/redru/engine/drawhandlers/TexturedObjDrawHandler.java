@@ -37,8 +37,6 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      */
     public TexturedObjDrawHandler(GameActor actor) {
         this.actor = actor;
-
-        this.setup();
         Log.i(TAG, "Creation complete.");
     }
 

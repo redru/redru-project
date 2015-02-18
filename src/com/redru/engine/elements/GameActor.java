@@ -3,7 +3,6 @@ package com.redru.engine.elements;
 import android.opengl.Matrix;
 
 import com.redru.engine.drawhandlers.IntDrawHandler;
-import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.models.Model;
 
@@ -38,7 +37,7 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		 Matrix.setIdentityM(scalationMatrix, 0);
 		
 		this.model = model;
-		this.drawHandler = new TexturedObjDrawHandler(this);
+		this.drawHandler = drawHandler;
 		this.identifier = identifier;
 	}
 // INTERFACES METHODS --------------------------------------------------------------------------

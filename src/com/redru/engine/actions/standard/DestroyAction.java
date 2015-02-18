@@ -10,7 +10,7 @@ public final class DestroyAction extends Action {
 	
 	private IntSceneElement sceneElement;
 	private SceneContext scene;
-	
+// --------------------------------------------------------------------------
 	private DestroyAction(String identifier, boolean executeOnce) {
 		super(identifier, executeOnce);
 		this.scene = SceneContext.getInstance();
@@ -23,7 +23,7 @@ public final class DestroyAction extends Action {
 		
 		return instance;
 	}
-// -------------------------------------------------------------
+// --------------------------------------------------------------------------
 	@Override
 	public void execute(ActionContext<?> context) {
 		for (Object tmp : context.getValues()) {
@@ -31,7 +31,8 @@ public final class DestroyAction extends Action {
 			scene.removeElementFromScene(sceneElement);
 		}
 		
+		sceneElement = null;
 		context.getValues().clear();
 	}
-// -------------------------------------------------------------
+// --------------------------------------------------------------------------
 }

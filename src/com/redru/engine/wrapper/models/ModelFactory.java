@@ -81,18 +81,13 @@ public class ModelFactory {
      * @return
      */
     public Model getStockedModel(String modelStockKey) {
-        try {
-            if (modelStock.containsKey(modelStockKey)) {
-            	Log.i(TAG, "Requested model '" + modelStockKey + "' was correctly loaded from the factory.");
-            	return modelStock.get(modelStockKey).clone();
-                
-            } else {
-                Log.i(TAG, "Requested model '" + modelStockKey + "' was not in the objects stock.");
-                return null;
-            }
-        } catch(CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        if (modelStock.containsKey(modelStockKey)) {
+			Log.i(TAG, "Requested model '" + modelStockKey + "' was correctly loaded from the factory.");
+			return modelStock.get(modelStockKey);
+		    
+		} else {
+		    Log.i(TAG, "Requested model '" + modelStockKey + "' was not in the objects stock.");
+		}
         
 		return null;
     }
