@@ -10,6 +10,9 @@ import android.util.Log;
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.actors.complex.Starship;
+import com.redru.application.actors.simple.Bullet;
+import com.redru.application.actors.simple.Bullet.BulletType;
+import com.redru.application.actors.simple.CustomObjectsData;
 import com.redru.application.core.EnemySpawner;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
@@ -60,6 +63,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         this.camera.move(0.0f, 0.0f, -16.0f);
         //********************************************
         // APPLICATION STARTUP ***********************
+        this.customModelsStartup();
         this.elementsStartup();
         this.actionsStartup();
         this.timeObjectsStartup();
@@ -78,7 +82,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         this.drawShapes();
         // END TIME ***********************************
         TimeUtils.setEnd();
-        // Log.i(TAG, "Time difference: '" + TimeManager.getDifferenceInMilliseconds() + "' microseconds");
+//        Log.i(TAG, "Time difference: '" + TimeUtils.getDifferenceInMilliseconds() + "' ms");
         try {
         	if (TimeUtils.getDifferenceInMilliseconds() <= Constants.TARGET_SLEEP_TIME) {
         		Thread.sleep(Constants.TARGET_SLEEP_TIME - TimeUtils.getDifferenceInMilliseconds());
@@ -119,8 +123,17 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Startup of the starting time objects
      */
     private void timeObjectsStartup() {
+    	// A TimeObject is created to spawn enemies every 20 frames, and set it as active
     	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 20, 0, true);
     	this.timeManager.addTimeObjectToList(spawner);
+    }
+    
+    /**
+     * Startup and load in the model factory custom models
+     */
+    private void customModelsStartup() {
+    	Bullet bullet = new Bullet(CustomObjectsData.getInstance().simpleBulletData, BulletType.SIMPLE);
+    	this.modelFactory.addModelToStock("cust_simple_bullet", bullet);
     }
 
     /**

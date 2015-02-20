@@ -169,7 +169,7 @@ public class Model implements Cloneable {
 	}
 // CLONE ----------------------------------------------------------------------------------------------
 	@Override
-	public Model clone() throws CloneNotSupportedException {        
+	public Model clone() {        
 		return this;
     }
 // ----------------------------------------------------------------------------------------------------

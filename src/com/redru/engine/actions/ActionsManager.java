@@ -13,14 +13,13 @@ import com.redru.engine.actions.standard.DestroyAction;
 import com.redru.engine.elements.GameActor;
 import com.redru.engine.exceptions.ContextAlreadyExistsException;
 import com.redru.engine.exceptions.ContextNotFoundException;
-import com.redru.engine.scene.IntSceneElement;
 
 public class ActionsManager {
 	private static final String TAG = "ActionsManager";
 
 	private static ActionsManager instance;
-	private Map<Action, String> actions = new Hashtable<Action, String>();
-	private Map<String, ActionContext<?>> contexts = new Hashtable<String, ActionContext<?>>();
+	private volatile Map<Action, String> actions = new Hashtable<Action, String>();
+	private volatile Map<String, ActionContext<?>> contexts = new Hashtable<String, ActionContext<?>>();
 	
 // CONSTRUCTOR -------------------------------------------------------------------------------------------------------
 	private ActionsManager() {
@@ -184,16 +183,16 @@ public class ActionsManager {
 	}
 // STANDARD CONTEXT ACTIONS ------------------------------------------------------------------------------------------
 	private void standardActionsSetup() {
-		this.addContext(new ActionContext<IntSceneElement>("DestroyQueue", new ArrayList<IntSceneElement>(), true));
+		this.addContext(new ActionContext<GameActor>("DestroyQueue", new ArrayList<GameActor>(), true));
 		this.addAction(DestroyAction.getInstance(), "DestroyQueue");
 		
-		this.addContext(new ActionContext<IntSceneElement>("CreateQueue", new ArrayList<IntSceneElement>(), true));
+		this.addContext(new ActionContext<GameActor>("CreateQueue", new ArrayList<GameActor>(), true));
 		this.addAction(CreateAction.getInstance(), "CreateQueue");
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addObjectToDestroyQueue(IntSceneElement sceneElement) {
-		((ArrayList<IntSceneElement>) this.getContext("DestroyQueue").getValues()).add(sceneElement);
+	public synchronized void addObjectToDestroyQueue(GameActor sceneElement) {
+		((ArrayList<GameActor>) this.getContext("DestroyQueue").getValues()).add(sceneElement);
 	}
 	
 	public void destroyAllInQueue() {
@@ -201,7 +200,7 @@ public class ActionsManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addObjectToCreationQueue(GameActor tmpActor) {
+	public synchronized void addObjectToCreationQueue(GameActor tmpActor) {
 		((ArrayList<GameActor>) this.getContext("CreateQueue").getValues()).add(tmpActor);
 	}
 	

@@ -2,16 +2,16 @@ package com.redru.application.actions;
 
 import android.util.Log;
 
-import com.redru.application.actors.complex.Starship;
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
+import com.redru.engine.elements.GameActor;
 
 public class SceneObjectsTranslateAction extends Action {
 	private static final String TAG = "SceneObjectsTranslateAction";
 
 	private static SceneObjectsTranslateAction instance;
-	private Starship starship;
+	private GameActor actor;
 	
 	private SceneObjectsTranslateAction(String identifier, boolean executeOnce) {
 		super(identifier, executeOnce);
@@ -21,20 +21,27 @@ public class SceneObjectsTranslateAction extends Action {
 	@Override
 	public void execute(ActionContext<?> context) {
 		for (Object element : context.getValues()) {
-			starship = (Starship) element;
-        	if (starship.getIdentifier().contains("Enemy")) {
-        		if (starship.getzPos() > - 20.0f) {
-        			starship.translate(0.0f, 0.0f, -0.85f);
+			this.actor = (GameActor) element;
+			if (actor.getIdentifier().contains("Bullet")) {				
+				if (this.actor.getzPos() > 200.0f) {
+	        		ActionsManager.getInstance().addObjectToDestroyQueue(this.actor);
+	        	} else {
+	        		this.actor.translate(0.0f, 0.0f, 1.7f);
+	        	}
+				
+				this.actor.getDrawHandler().updateTransformBuffers();
+			} else if (actor.getIdentifier().contains("Enemy")) {
+				if (this.actor.getzPos() > - 20.0f) {
+        			this.actor.translate(0.0f, 0.0f, -0.85f);
         		} else {
-//        			starship.translateToPosition(starship.getxStart(), starship.getyStart(), starship.getzStart());
-        			ActionsManager.getInstance().addObjectToDestroyQueue(starship);
+        			ActionsManager.getInstance().addObjectToDestroyQueue(this.actor);
         		}
-        		
-        		starship.getDrawHandler().updateTransformBuffers();
-        	}
+	        	
+	        	this.actor.getDrawHandler().updateTransformBuffers();
+			}
         }
 		
-		this.starship = null;
+		this.actor = null;
 	}
 	
 	public static SceneObjectsTranslateAction getInstance() {

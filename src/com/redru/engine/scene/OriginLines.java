@@ -72,12 +72,10 @@ public class OriginLines implements IntSceneElement {
         GLES30.glGenBuffers(2, VBOIds, 0);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, NUM_VERTICES * STRIDE * OpenGLConstants.BYTES_PER_FLOAT,
-                vertexBuffer, GLES30.GL_STATIC_DRAW);
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, NUM_VERTICES * STRIDE * OpenGLConstants.BYTES_PER_FLOAT, vertexBuffer, GLES30.GL_STATIC_DRAW);
 
         GLES30.glBindBuffer(GLES30.GL_ELEMENT_ARRAY_BUFFER, VBOIds[1]);
-        GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, NUM_INDICES * OpenGLConstants.BYTES_PER_SHORT,
-                indexBuffer, GLES30.GL_STATIC_DRAW);
+        GLES30.glBufferData(GLES30.GL_ELEMENT_ARRAY_BUFFER, NUM_INDICES * OpenGLConstants.BYTES_PER_SHORT, indexBuffer, GLES30.GL_STATIC_DRAW);
         //----------------------------------------------------------------------------------------
         // Vertex Array Object (VAO) configuration
         GLES30.glGenVertexArrays(1, VAOIds, 0);
@@ -106,16 +104,12 @@ public class OriginLines implements IntSceneElement {
     public void draw() {
         GLES30.glUseProgram (ShaderFactory.getInstance().defaultProgram);
 
-        // Load the MVP matrix
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().DEF_PROG_MVP_LOC, 1, false,
-                Camera.getInstance().getMvpMatrixAsFloatBuffer());
+        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().DEF_PROG_MVP_LOC, 1, false, Camera.getInstance().getMvpMatrixAsFloatBuffer());
 
         GLES30.glBindVertexArray(VAOIds[0]);
 
-        // Draw the triangle based on the indices
         GLES30.glDrawElements(GLES30.GL_LINES, 6, GLES30.GL_UNSIGNED_SHORT, 0);
 
         GLES30.glBindVertexArray(0);
     }
-
 }

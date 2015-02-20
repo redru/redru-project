@@ -31,18 +31,8 @@ public class Bullet extends Model {
 	}
 // CLONE -----------------------------------------------------------------------------------------------------------
 	@Override
-	public Bullet clone() throws CloneNotSupportedException {
-		float[] unifData = super.getUnifiedData();
-		float[] tmpUnifiedData = new float[unifData.length];
-		
-		for (int i = 0; i < tmpUnifiedData.length; i++) {
-			tmpUnifiedData[i] = unifData[i];
-		}
-		
-		Bullet tmp = new Bullet(tmpUnifiedData, type);
-		tmp.copyUnifiedDataToStartingUnifiedData();
-		
-		return tmp;
+	public Bullet clone() {
+		return this;
 	}
 // -----------------------------------------------------------------------------------------------------------------
 
