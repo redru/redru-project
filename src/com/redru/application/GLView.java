@@ -3,6 +3,7 @@ package com.redru.application;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
+import com.redru.application.core.GLViewRenderer;
 import com.redru.engine.scene.SceneContext;
 
 /**

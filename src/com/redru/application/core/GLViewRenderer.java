@@ -1,4 +1,4 @@
-package com.redru.application;
+package com.redru.application.core;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -7,13 +7,13 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
+import com.redru.application.Constants;
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.actors.complex.Starship;
 import com.redru.application.actors.simple.Bullet;
 import com.redru.application.actors.simple.Bullet.BulletType;
 import com.redru.application.actors.simple.CustomObjectsData;
-import com.redru.application.core.EnemySpawner;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
@@ -123,8 +123,8 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Startup of the starting time objects
      */
     private void timeObjectsStartup() {
-    	// A TimeObject is created to spawn enemies every 20 frames, and set it as active
-    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 20, 0, true);
+    	// A TimeObject is created to spawn enemies every 800 milliseconds, and set it as active
+    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 800L, 0L, true);
     	this.timeManager.addTimeObjectToList(spawner);
     }
     

@@ -21,6 +21,11 @@ public class EnemySpawner extends TimeObject {
 		super(identifier, timeLimit, timeCount, active);
 		this.actionsManager = ActionsManager.getInstance();
 	}
+	
+	public EnemySpawner(String identifier, long timeElapsedLimit, long timeElapsedCount, boolean active) {
+		super(identifier, timeElapsedLimit, timeElapsedCount, active);
+		this.actionsManager = ActionsManager.getInstance();
+	}
 // -------------------------------------------------------------------------------------------------------
 	@Override
 	protected void timeAction() {
