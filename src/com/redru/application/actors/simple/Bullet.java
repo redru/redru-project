@@ -11,13 +11,14 @@ public class Bullet extends Model {
 	private BulletType type;
 // CONSTRUCTORS ----------------------------------------------------------------------------------------------------
 	@SuppressWarnings("unused")
-	private Bullet(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
-		super(positions, textures, normals, unifiedData, name);
+	private Bullet(float[] positions, float[] textures, float[] normals, float[] unifiedData, float[] collisionInfo, String name) {
+		super(positions, textures, normals, unifiedData, collisionInfo, name);
 	}
 	
-	public Bullet(float[] unifiedData, BulletType type) {
+	public Bullet(float[] unifiedData, float[] collisionInfo, BulletType type) {
 		super.setUnifiedData(unifiedData);
 		super.copyUnifiedDataToStartingUnifiedData();
+		super.setCollisionInfo(collisionInfo);
 		this.type = type;
 	}
 	

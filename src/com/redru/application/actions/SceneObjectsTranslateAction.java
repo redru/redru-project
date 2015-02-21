@@ -29,7 +29,7 @@ public class SceneObjectsTranslateAction extends Action {
 	        		this.actor.translate(0.0f, 0.0f, 1.7f);
 	        	}
 				
-				this.actor.getDrawHandler().updateTransformBuffers();
+				this.actor.updateTransformBuffers();
 			} else if (actor.getIdentifier().contains("Enemy")) {
 				if (this.actor.getzPos() > - 20.0f) {
         			this.actor.translate(0.0f, 0.0f, -0.85f);
@@ -37,7 +37,7 @@ public class SceneObjectsTranslateAction extends Action {
         			ActionsManager.getInstance().addObjectToDestroyQueue(this.actor);
         		}
 	        	
-	        	this.actor.getDrawHandler().updateTransformBuffers();
+	        	this.actor.updateTransformBuffers();
 			}
         }
 		

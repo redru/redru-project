@@ -34,7 +34,7 @@ public class SensorInputAction extends Action implements SensorEventListener {
 					Camera.getInstance().move(-axisY / 2, 0.0f, 0.0f);
 				}
 				
-				starship.getDrawHandler().updateTransformBuffers();
+				starship.updateTransformBuffers();
 				break;
         	}
 		}

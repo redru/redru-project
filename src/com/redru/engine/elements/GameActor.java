@@ -16,6 +16,8 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	private float[] rotationMatrix = new float[16];
 	private float[] scalationMatrix = new float[16];
 	
+	private float[] collisionInfo = new float[6];
+	
 	private float xStatic = 0.0f, yStatic = 0.0f, zStatic = 0.0f;
 	private float xPos = 0.0f, yPos = 0.0f, zPos = 0.0f;
 	private float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
@@ -39,16 +41,24 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.model = model;
 		this.drawHandler = drawHandler;
 		this.identifier = identifier;
+		
+		System.arraycopy(model.getCollisionInfo(), 0, this.collisionInfo, 0, this.collisionInfo.length); // Copy values from the model collision
 	}
 // INTERFACES METHODS --------------------------------------------------------------------------
 	@Override
 	public void setup() {
-		this.drawHandler.setup();
+		this.drawHandler.setup(this.model);
 	}
 
 	@Override
 	public final void draw() {
-		this.drawHandler.draw();
+		this.drawHandler.draw(this.model);
+	}
+	
+	@Override
+	public void updateTransformBuffers() {
+		this.updateCollisionInfo(); // Update the collisionInfo
+		this.drawHandler.updateTransformBuffers(this.getScalationMatrix(), this.getRotationMatrix(), this.getTranslationMatrix()); // Upload transformation matrices into drawHandler
 	}
 
 	@Override
@@ -77,6 +87,17 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.zPos = zPos;
+	}
+// FUNCTIONS -----------------------------------------------------------------------------------
+	private void updateCollisionInfo() {
+		float[] tmp = model.getCollisionInfo();
+		
+		this.collisionInfo[0] = (tmp[0] * this.xSca) + this.xPos;
+		this.collisionInfo[1] = (tmp[1] * this.xSca) + this.xPos;
+		this.collisionInfo[2] = (tmp[2] * this.ySca) + this.yPos;
+		this.collisionInfo[3] = (tmp[3] * this.ySca) + this.yPos;
+		this.collisionInfo[4] = (tmp[4] * this.zSca) + this.zPos;
+		this.collisionInfo[5] = (tmp[5] * this.zSca) + this.zPos;
 	}
 // SETTERS AND GETTERS -------------------------------------------------------------------------
 	public final String getIdentifier() {
@@ -114,7 +135,7 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		return tmp;
 	}
 	
-	public float[] getPositionMatrix() {
+	public float[] getTranslationMatrix() {
 		this.translationMatrix[12] = this.xPos;
 		this.translationMatrix[13] = this.yPos;
 		this.translationMatrix[14] = this.zPos;

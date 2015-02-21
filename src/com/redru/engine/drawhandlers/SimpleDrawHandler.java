@@ -7,15 +7,13 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.redru.engine.elements.GameActor;
 import com.redru.engine.shader.ShaderFactory;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.view.Camera;
+import com.redru.engine.wrapper.models.Model;
 
 public class SimpleDrawHandler implements IntDrawHandler {
 	private static final String TAG = "SimpleDrawHandler";
-
-	private GameActor actor;
 
     private FloatBuffer vertexBuffer;
     private FloatBuffer scaleBuffer;
@@ -28,8 +26,7 @@ public class SimpleDrawHandler implements IntDrawHandler {
     /**
      * 
      */
-	public SimpleDrawHandler(GameActor actor) {
-		this.actor = actor;
+	public SimpleDrawHandler() {
         Log.i(TAG, "Creation complete.");
     }
 
@@ -37,17 +34,17 @@ public class SimpleDrawHandler implements IntDrawHandler {
      * 
      */
     @Override
-    public void setup() {
+    public void setup(Model model) {
         // initialize vertex byte buffer for shape coordinates------------------------------------
-        vertexBuffer = ByteBuffer.allocateDirect(this.actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
+        vertexBuffer = ByteBuffer.allocateDirect(model.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexBuffer.put(this.actor.getModel().getUnifiedData()).position(0);
+        vertexBuffer.put(model.getUnifiedData()).position(0);
         //---------------------------------------------------------------------------------------
         GLES30.glGenBuffers(1, VBOIds, 0);
 
         //vertexBuffer.position( 0 );
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, this.actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT, vertexBuffer, GLES30.GL_STATIC_DRAW);
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, model.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT, vertexBuffer, GLES30.GL_STATIC_DRAW);
         //----------------------------------------------------------------------------------------
         // Vertex Array Object (VAO) configuration
         GLES30.glGenVertexArrays(1, VAOIds, 0);
@@ -69,25 +66,25 @@ public class SimpleDrawHandler implements IntDrawHandler {
     }
     
     @Override
-	public void updateTransformBuffers() {
-    	this.scaleBuffer = ByteBuffer.allocateDirect(this.actor.getScalationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
+	public void updateTransformBuffers(float[] scalationMatrix, float[] rotationMatrix, float[] translationMatrix) {
+    	this.scaleBuffer = ByteBuffer.allocateDirect(scalationMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-    	this.scaleBuffer.put(this.actor.getScalationMatrix()).position(0);
+    	this.scaleBuffer.put(scalationMatrix).position(0);
         
-    	this.rotationBuffer = ByteBuffer.allocateDirect(this.actor.getRotationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
+    	this.rotationBuffer = ByteBuffer.allocateDirect(rotationMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-    	this.rotationBuffer.put(this.actor.getRotationMatrix()).position(0);
+    	this.rotationBuffer.put(rotationMatrix).position(0);
         
-    	this.translationBuffer = ByteBuffer.allocateDirect(this.actor.getPositionMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
+    	this.translationBuffer = ByteBuffer.allocateDirect(translationMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-    	this.translationBuffer.put(this.actor.getPositionMatrix()).position(0);
+    	this.translationBuffer.put(translationMatrix).position(0);
 	}
 
     /**
      * 
      */
     @Override
-    public void draw() {
+    public void draw(Model model) {
         GLES30.glUseProgram(ShaderFactory.getInstance().simpleProgram);
         
         GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().SIMP_PROG_MVP_LOC, 1, false, Camera.getInstance().getMvpMatrixAsFloatBuffer());

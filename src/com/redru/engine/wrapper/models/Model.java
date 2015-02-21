@@ -22,13 +22,14 @@ public class Model implements Cloneable {
     
     private float[] unifiedData;
     private float[] startingUnifiedData;
+    private float[] collisionInfo;
     
     private Texture texture;
     
 // CONSTRUCTOR ----------------------------------------------------------------------------------------
     protected Model() {  }
     
-    protected Model(float[] positions, float[] textures, float[] normals, float[] unifiedData, String name) {
+    protected Model(float[] positions, float[] textures, float[] normals, float[] unifiedData, float[] collisionInfo, String name) {
         if (name == null || name.equals("")) {
         	this.name = DEFAULT_NAME;
         } else {
@@ -37,6 +38,7 @@ public class Model implements Cloneable {
         
         this.setUnifiedData(unifiedData);
         this.copyUnifiedDataToStartingUnifiedData();
+        this.collisionInfo = collisionInfo;
 
         Log.i(TAG, "Creating new EvoObj '" + this.name + "'.");
 
@@ -152,6 +154,14 @@ public class Model implements Cloneable {
 		this.startingUnifiedData = startingUnifiedData;
 	}
 	
+	public float[] getCollisionInfo() {
+		return collisionInfo;
+	}
+
+	public void setCollisionInfo(float[] collisionInfo) {
+		this.collisionInfo = collisionInfo;
+	}
+
 	public Texture getTexture() {
 		return texture;
 	}

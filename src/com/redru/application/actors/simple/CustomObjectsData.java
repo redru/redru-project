@@ -27,4 +27,6 @@ public class CustomObjectsData {
 		/*POS*/-0.2f, 0.0f, -0.3f, /*COLS*/0.0f, 1.0f, 0.0f, 0.5f
 	};
 	
+	public float[] simpleBulletMinMax = { -0.2f, 0.2f, 0.0f, 0.0f, -0.3f, 0.3f };
+	
 }

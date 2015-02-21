@@ -8,19 +8,17 @@ import android.opengl.GLES30;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-import com.redru.engine.elements.GameActor;
 import com.redru.engine.shader.ShaderFactory;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.view.Camera;
+import com.redru.engine.wrapper.models.Model;
 
 /**
  * Created by Luca on 22/01/2015.
  */
 public class TexturedObjDrawHandler implements IntDrawHandler {
     private static final String TAG = "TexturedObjDrawHandler";
-
-    private GameActor actor;
 
     private FloatBuffer vertexBuffer;
     private FloatBuffer scaleBuffer;
@@ -35,8 +33,7 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      * 
      * @param obj
      */
-    public TexturedObjDrawHandler(GameActor actor) {
-        this.actor = actor;
+    public TexturedObjDrawHandler() {
         Log.i(TAG, "Creation complete.");
     }
 
@@ -44,13 +41,13 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      * 
      */
     @Override
-    public void setup() {
+    public void setup(Model model) {
     	// If the advanced logs are actived, log the unifiedData of the object
     	if (Boolean.parseBoolean(ResourceUtils.getApplicationProperty("advanced_logs"))) {
 	    	StringBuilder str = new StringBuilder();
 	    	
-	    	for (int i = 0, x = 0, y = 0; i < this.actor.getModel().getUnifiedData().length; i++) {
-	    		str.append(this.actor.getModel().getUnifiedData()[i] + ", ");
+	    	for (int i = 0, x = 0, y = 0; i < model.getUnifiedData().length; i++) {
+	    		str.append(model.getUnifiedData()[i] + ", ");
 	    		if (x % 7 == 0 && x != 0) {
 	    			Log.i(TAG, "UNIFIED DATA " + y + ": " + str);
 	    			str.delete(0, str.length());
@@ -63,20 +60,20 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
     	}
     	
         // initialize vertex byte buffer for shape coordinates------------------------------------
-        vertexBuffer = ByteBuffer.allocateDirect(this.actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
+        vertexBuffer = ByteBuffer.allocateDirect(model.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        vertexBuffer.put(this.actor.getModel().getUnifiedData()).position(0);
+        vertexBuffer.put(model.getUnifiedData()).position(0);
         //VERTEX DATA CONFIGURATION------------------------------------------------------------------
         GLES30.glGenBuffers(1, VBOIds, 0);
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
-        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, this.actor.getModel().getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
+        GLES30.glBufferData(GLES30.GL_ARRAY_BUFFER, model.getUnifiedData().length * OpenGLConstants.BYTES_PER_FLOAT,
                 vertexBuffer, GLES30.GL_STATIC_DRAW);
         //TEXTURE CONFIGURATION----------------------------------------------------------------------
         GLES30.glGenTextures(1, textureId, 0);
         
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
-        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, this.actor.getModel().getTexture().getBitmap(), 0);
+        GLUtils.texImage2D(GLES30.GL_TEXTURE_2D, 0, model.getTexture().getBitmap(), 0);
         
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_LINEAR);
         GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_LINEAR);       
@@ -109,25 +106,25 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
      * 
      */
     @Override
-    public void updateTransformBuffers() {
-    	scaleBuffer = ByteBuffer.allocateDirect(this.actor.getScalationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
+    public void updateTransformBuffers(float[] scalationMatrix, float[] rotationMatrix, float[] translationMatrix) {
+    	scaleBuffer = ByteBuffer.allocateDirect(scalationMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-    	scaleBuffer.put(this.actor.getScalationMatrix()).position(0);
+    	scaleBuffer.put(scalationMatrix).position(0);
         
-        rotationBuffer = ByteBuffer.allocateDirect(this.actor.getRotationMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
+        rotationBuffer = ByteBuffer.allocateDirect(rotationMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        rotationBuffer.put(this.actor.getRotationMatrix()).position(0);
+        rotationBuffer.put(rotationMatrix).position(0);
         
-        translationBuffer = ByteBuffer.allocateDirect(this.actor.getPositionMatrix().length * OpenGLConstants.BYTES_PER_FLOAT)
+        translationBuffer = ByteBuffer.allocateDirect(translationMatrix.length * OpenGLConstants.BYTES_PER_FLOAT)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
-        translationBuffer.put(this.actor.getPositionMatrix()).position(0);
+        translationBuffer.put(translationMatrix).position(0);
     }
 
     /**
      * 
      */
     @Override
-    public void draw() {
+    public void draw(Model model) {
         GLES30.glUseProgram(ShaderFactory.getInstance().complexObjectProgram);
 
         GLES30.glUniform1i(ShaderFactory.getInstance().COMP_PROG_SAMPLER_S_TEXTURE, 0);
@@ -139,7 +136,7 @@ public class TexturedObjDrawHandler implements IntDrawHandler {
         // Bind this object Vertex Array Object (VAO) state and then draw the object
         GLES30.glBindVertexArray(VAOIds[0]);
         
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, this.actor.getModel().getUnifiedData().length);
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, model.getUnifiedData().length);
 
         GLES30.glBindVertexArray(0);
     }

@@ -14,5 +14,10 @@ public interface IntSceneElement {
 	 * Object draw method
 	 */
     public void draw();
+    
+    /**
+     * Update buffers in the drahandler
+     */
+    public void updateTransformBuffers();
 
 }

@@ -52,7 +52,7 @@ public class ModelFactory {
         		// Load the object and save into the objects stock
 	            int id = Redru.getContext().getResources().getIdentifier(modelFiles.get(fIndex), "raw", Redru.getContext().getPackageName());
 	            String file = ResourceUtils.readTextFileFromResource(Redru.getContext(), id);
-	            modelStock.put(modelFiles.get(fIndex), ModelWrapper.getInstance().createObjFromFile(file, modelFiles.get(fIndex)));
+	            modelStock.put(modelFiles.get(fIndex), ModelWrapper.getInstance().createModelFromFile(file, modelFiles.get(fIndex)));
         	} else {
         		Log.i(TAG, "The model '" + modelFiles.get(fIndex) + "' was in the exceptions list. It won't be loaded.");
         		modelFiles.remove(fIndex);

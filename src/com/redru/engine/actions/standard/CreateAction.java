@@ -30,7 +30,7 @@ public final class CreateAction extends Action {
 			this.actor = (GameActor) tmp;
 	    	
 			this.actor.setup();
-			this.actor.getDrawHandler().updateTransformBuffers();
+			this.actor.updateTransformBuffers();
 			this.scene.addElementToScene(this.actor);
 		}
 		

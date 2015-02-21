@@ -38,8 +38,7 @@ public class EnemySpawner extends TimeObject {
     	
     	this.tmpModel = ModelFactory.getInstance().getStockedModel("obj_b2spirit");
     	this.tmpModel.setTexture(TextureFactory.getInstance().getStockedTexture("tex_b2spirit"));
-    	this.actor = new Starship(this.tmpModel, "Enemy");
-    	this.actor.setDrawHandler(new TexturedObjDrawHandler(this.actor));
+    	this.actor = new Starship(this.tmpModel, new TexturedObjDrawHandler(), "Enemy");
     	this.actor.scale(1.0f, 1.0f, 1.0f);
     	this.actor.rotate(0.0f, 180.0f, 0.0f);
     	this.actor.translate(x, y, z);

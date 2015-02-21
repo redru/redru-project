@@ -51,8 +51,7 @@ public class TouchInputAction extends Action {
             		
             		if (tmpActor.getIdentifier().equals("B-2 Spirit")) {
 	            		this.tmpModel = ModelFactory.getInstance().getStockedModel("cust_simple_bullet");
-	                	this.actor = new Starship(this.tmpModel, "Bullet");
-	                	this.actor.setDrawHandler(new SimpleDrawHandler(this.actor));
+	                	this.actor = new Starship(this.tmpModel, new SimpleDrawHandler(), "Bullet");
 	                	this.actor.scale(1.0f, 1.0f, 1.0f);
 	                	this.actor.rotate(0.0f, 0.0f, 0.0f);
 	                	this.actor.translate(tmpActor.getxPos(), tmpActor.getyPos(), tmpActor.getzPos() + 1.0f);
