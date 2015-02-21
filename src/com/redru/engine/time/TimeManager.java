@@ -54,7 +54,7 @@ public final class TimeManager {
 		this.timeA = System.nanoTime(); // Get the current time
 		this.timeElapsed = (this.timeA - this.timeB) / TimeUtils.MICROSECOND; // Time elapsed from the last cycle (in milliseconds)
 		
-		if (this.timeElapsed < 60L) { // It should be FALSE only the first time we execute this method after the TimeManager creation
+		if (this.timeElapsed < 10000L) { // It should be FALSE only the first time we execute this method after the TimeManager creation
 			for (TimeObject tmp : this.timeObjects) {
 				if (tmp.isActive()) { // Update only if the TimeObject isActive()
 					if (tmp.equals(TimeObject.TimeType.FRAME_BASED)) {
