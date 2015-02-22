@@ -3,7 +3,7 @@ package com.redru.engine.elements;
 import com.redru.engine.drawhandlers.IntDrawHandler;
 import com.redru.engine.wrapper.models.Model;
 
-public abstract class CollisionGameActor extends GameActor implements IntCollision {
+public abstract class CollisionGameActor extends TransformableGameActor implements IntCollision {
 	public static final int MIN_X = 0;
 	public static final int MAX_X = 1;
 	public static final int MIN_Y = 2;

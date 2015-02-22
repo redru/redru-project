@@ -6,7 +6,7 @@ import com.redru.engine.drawhandlers.IntDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.models.Model;
 
-public abstract class GameActor implements IntTransformable, IntSceneElement {
+public abstract class TransformableGameActor implements IntSceneElement, IntTransformable {
 	
 	protected String identifier;
 	protected Model model;
@@ -27,15 +27,15 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 	
 	protected boolean active;
 // CONTRUCTORS ---------------------------------------------------------------------------------
-	public GameActor() {
+	public TransformableGameActor() {
 		this(null, null, "");
 	}
 	
-	public GameActor(Model model, String identifier) {
+	public TransformableGameActor(Model model, String identifier) {
 		this(model, null, identifier);
 	}
 	
-	public GameActor(Model model, IntDrawHandler drawHandler, String identifier) {
+	public TransformableGameActor(Model model, IntDrawHandler drawHandler, String identifier) {
 		 Matrix.setIdentityM(translationMatrix, 0);
 		 Matrix.setIdentityM(rotationMatrix, 0);
 		 Matrix.setIdentityM(scalationMatrix, 0);

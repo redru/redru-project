@@ -5,13 +5,13 @@ import android.util.Log;
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.TransformableGameActor;
 
 public class SceneObjectsTranslateAction extends Action {
 	private static final String TAG = "SceneObjectsTranslateAction";
 
 	private static SceneObjectsTranslateAction instance;
-	private GameActor actor;
+	private TransformableGameActor actor;
 	
 	private SceneObjectsTranslateAction(String identifier, boolean executeOnce) {
 		super(identifier, executeOnce);
@@ -21,7 +21,7 @@ public class SceneObjectsTranslateAction extends Action {
 	@Override
 	public void execute(ActionContext<?> context) {
 		for (Object element : context.getValues()) {
-			this.actor = (GameActor) element;
+			this.actor = (TransformableGameActor) element;
 			if (actor.getIdentifier().contains("Bullet")) {				
 				if (this.actor.getzPos() > 200.0f) {
 	        		ActionsManager.getInstance().addObjectToDestroyQueue(this.actor);

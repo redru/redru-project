@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.redru.engine.actions.standard.CreateAction;
 import com.redru.engine.actions.standard.DestroyAction;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.TransformableGameActor;
 import com.redru.engine.exceptions.ContextAlreadyExistsException;
 import com.redru.engine.exceptions.ContextNotFoundException;
 
@@ -183,16 +183,16 @@ public class ActionsManager {
 	}
 // STANDARD CONTEXT ACTIONS ------------------------------------------------------------------------------------------
 	private void standardActionsSetup() {
-		this.addContext(new ActionContext<GameActor>("DestroyQueue", new ArrayList<GameActor>(), true));
+		this.addContext(new ActionContext<TransformableGameActor>("DestroyQueue", new ArrayList<TransformableGameActor>(), true));
 		this.addAction(DestroyAction.getInstance(), "DestroyQueue");
 		
-		this.addContext(new ActionContext<GameActor>("CreateQueue", new ArrayList<GameActor>(), true));
+		this.addContext(new ActionContext<TransformableGameActor>("CreateQueue", new ArrayList<TransformableGameActor>(), true));
 		this.addAction(CreateAction.getInstance(), "CreateQueue");
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized void addObjectToDestroyQueue(GameActor sceneElement) {
-		((ArrayList<GameActor>) this.getContext("DestroyQueue").getValues()).add(sceneElement);
+	public synchronized void addObjectToDestroyQueue(TransformableGameActor sceneElement) {
+		((ArrayList<TransformableGameActor>) this.getContext("DestroyQueue").getValues()).add(sceneElement);
 	}
 	
 	public void destroyAllInQueue() {
@@ -200,8 +200,8 @@ public class ActionsManager {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public synchronized void addObjectToCreationQueue(GameActor tmpActor) {
-		((ArrayList<GameActor>) this.getContext("CreateQueue").getValues()).add(tmpActor);
+	public synchronized void addObjectToCreationQueue(TransformableGameActor tmpActor) {
+		((ArrayList<TransformableGameActor>) this.getContext("CreateQueue").getValues()).add(tmpActor);
 	}
 	
 	public void createAllInQueue() {

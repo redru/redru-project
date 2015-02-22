@@ -8,7 +8,7 @@ import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.drawhandlers.SimpleDrawHandler;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.TransformableGameActor;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.wrapper.models.Model;
@@ -19,8 +19,8 @@ public class TouchInputAction extends Action {
 	private MotionEvent event;
 	
 	private Model tmpModel;
-	private GameActor actor;
-	private GameActor tmpActor;
+	private TransformableGameActor actor;
+	private TransformableGameActor tmpActor;
 	private ActionsManager actionsManager;
 // CONSTRUCTOR -----------------------------------------------------------------------------
 	private TouchInputAction(String identifier, boolean executeOnce) {
@@ -48,7 +48,7 @@ public class TouchInputAction extends Action {
 
             case MotionEvent.ACTION_DOWN:
             	for (IntSceneElement tmp : SceneContext.getInstance().getElements()) {
-            		this.tmpActor = (GameActor) tmp;
+            		this.tmpActor = (TransformableGameActor) tmp;
             		
             		if (tmpActor.getIdentifier().equals("B-2 Spirit")) {
 	            		this.tmpModel = ModelFactory.getInstance().getStockedModel("cust_simple_bullet");

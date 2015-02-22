@@ -17,7 +17,7 @@ import com.redru.application.models.CustomModelsData;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.TransformableGameActor;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
 import com.redru.engine.time.TimeManager;
@@ -145,7 +145,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	
     	Model model = modelFactory.getStockedModel("obj_b2spirit");
     	model.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	GameActor actor = new Starship(model, new TexturedObjDrawHandler(), "B-2 Spirit");
+    	TransformableGameActor actor = new Starship(model, new TexturedObjDrawHandler(), "B-2 Spirit");
     	actor.setup();
     	actor.scale(0.35f, 0.35f, 0.35f);
     	actor.translate(0.0f, 2.0f, -9.2f);

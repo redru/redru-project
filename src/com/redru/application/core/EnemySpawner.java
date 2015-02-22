@@ -5,7 +5,7 @@ import java.util.Random;
 import com.redru.application.actors.complex.Starship;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.TransformableGameActor;
 import com.redru.engine.time.TimeObject;
 import com.redru.engine.wrapper.models.Model;
 import com.redru.engine.wrapper.models.ModelFactory;
@@ -14,7 +14,7 @@ import com.redru.engine.wrapper.textures.TextureFactory;
 public class EnemySpawner extends TimeObject {
 	
 	private Model tmpModel;
-	private GameActor actor;
+	private TransformableGameActor actor;
 	private ActionsManager actionsManager;
 // CONSTRUCTOR -------------------------------------------------------------------------------------------
 	public EnemySpawner(String identifier, int timeLimit, int timeCount, boolean active) {

@@ -2,13 +2,13 @@ package com.redru.engine.actions.standard;
 
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.TransformableGameActor;
 import com.redru.engine.scene.SceneContext;
 
 public final class CreateAction extends Action {
 	private static CreateAction instance;
 	
-	private GameActor actor;
+	private TransformableGameActor actor;
 	private SceneContext scene;
 	
 	private CreateAction(String identifier, boolean executeOnce) {
@@ -27,7 +27,7 @@ public final class CreateAction extends Action {
 	@Override
 	public void execute(ActionContext<?> context) {
 		for (Object tmp : context.getValues()) {
-			this.actor = (GameActor) tmp;
+			this.actor = (TransformableGameActor) tmp;
 	    	
 			this.actor.setup();
 			this.actor.updateTransformBuffers();
