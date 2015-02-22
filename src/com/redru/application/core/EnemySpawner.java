@@ -41,8 +41,8 @@ public class EnemySpawner extends TimeObject {
     	this.actor = new Starship(this.tmpModel, new TexturedObjDrawHandler(), "Enemy");
     	this.actor.scale(1.0f, 1.0f, 1.0f);
     	this.actor.rotate(0.0f, 180.0f, 0.0f);
-    	this.actor.translate(x, y, z);
-    	this.actor.setStaticPosition(x, y, z);
+    	this.actor.translate(x, 2.0f, z);
+    	this.actor.setStaticPosition(x, 2.0f, z);
     	
     	this.actionsManager.addObjectToCreationQueue(this.actor);
     	

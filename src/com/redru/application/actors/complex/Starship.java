@@ -3,19 +3,21 @@ package com.redru.application.actors.complex;
 import android.util.Log;
 
 import com.redru.engine.drawhandlers.IntDrawHandler;
-import com.redru.engine.elements.GameActor;
+import com.redru.engine.elements.CollisionGameActor;
 import com.redru.engine.wrapper.models.Model;
 
-public class Starship extends GameActor {
+public class Starship extends CollisionGameActor {
 	private static final String TAG = "Starship";
 	
 // CONSTRUCTORS ----------------------------------------------------------------
 	public Starship() {
-		this(null, null, "");
+		super(null, null, "");
+		Log.i(TAG, "Creation complete.");
 	}
 	
 	public Starship(Model obj, String identifier) {
-		this(obj, null, identifier);
+		super(obj, null, identifier);
+		Log.i(TAG, "Creation complete.");
 	}
 	
 	public Starship(Model obj, IntDrawHandler drawHandler, String identifier) {
@@ -23,8 +25,9 @@ public class Starship extends GameActor {
 		Log.i(TAG, "Creation complete.");
 	}
 // FUNCTIONS -------------------------------------------------------------------
-	
-// SETTERS AND GETTERS ---------------------------------------------------------
-	
+	@Override
+	public void onCollision(CollisionGameActor actor) {
+//		Log.i(TAG, super.getIdentifier() + " collision with " + actor.getIdentifier());
+	}
 // -----------------------------------------------------------------------------
 }

@@ -2,7 +2,8 @@ package com.redru.application.actions;
 
 import android.view.MotionEvent;
 
-import com.redru.application.actors.complex.Starship;
+import com.redru.application.actors.complex.Bullet;
+import com.redru.application.actors.complex.Bullet.BulletType;
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
@@ -51,18 +52,16 @@ public class TouchInputAction extends Action {
             		
             		if (tmpActor.getIdentifier().equals("B-2 Spirit")) {
 	            		this.tmpModel = ModelFactory.getInstance().getStockedModel("cust_simple_bullet");
-	                	this.actor = new Starship(this.tmpModel, new SimpleDrawHandler(), "Bullet");
+	                	this.actor = new Bullet(this.tmpModel, new SimpleDrawHandler(), "Bullet", BulletType.SIMPLE);
 	                	this.actor.scale(1.0f, 1.0f, 1.0f);
 	                	this.actor.rotate(0.0f, 0.0f, 0.0f);
 	                	this.actor.translate(tmpActor.getxPos(), tmpActor.getyPos(), tmpActor.getzPos() + 1.0f);
-	                	this.actor.setStaticPosition(tmpActor.getxPos(), 0, tmpActor.getzPos());
+	                	this.actor.setStaticPosition(tmpActor.getxPos(), tmpActor.getyPos(), tmpActor.getzPos());
 	                	
 	                	this.actionsManager.addObjectToCreationQueue(this.actor);
 	                	break;
             		}
             	}
-            	
-            	
             	
             	this.tmpModel = null;
             	this.actor = null;

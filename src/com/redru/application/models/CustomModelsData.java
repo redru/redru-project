@@ -1,20 +1,20 @@
-package com.redru.application.actors.simple;
+package com.redru.application.models;
 
 import android.util.Log;
 
-public class CustomObjectsData {
+public class CustomModelsData {
 	private static final String TAG = "CustomObjectsData";
 	
-	private static CustomObjectsData instance;
+	private static CustomModelsData instance;
 	
 // CONSTRUCTOR -----------------------------------------------------------------------------------
-	private CustomObjectsData() {
+	private CustomModelsData() {
 		Log.i(TAG, "Creation complete.");
 	}
 	
-	public static CustomObjectsData getInstance() {
+	public static CustomModelsData getInstance() {
 		if (instance == null) {
-			instance = new CustomObjectsData();
+			instance = new CustomModelsData();
 		}
 		
 		return instance;

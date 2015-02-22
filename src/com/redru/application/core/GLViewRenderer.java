@@ -8,12 +8,12 @@ import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 import com.redru.application.Constants;
+import com.redru.application.actions.CollisionCheckAction;
 import com.redru.application.actions.SceneObjectsTranslateAction;
 import com.redru.application.actions.SensorInputAction;
 import com.redru.application.actors.complex.Starship;
-import com.redru.application.actors.simple.Bullet;
-import com.redru.application.actors.simple.Bullet.BulletType;
-import com.redru.application.actors.simple.CustomObjectsData;
+import com.redru.application.models.BulletModel;
+import com.redru.application.models.CustomModelsData;
 import com.redru.engine.actions.ActionContext;
 import com.redru.engine.actions.ActionsManager;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
@@ -117,6 +117,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	this.actionsManager.addContext(new ActionContext<IntSceneElement>("SceneElements", this.scene.getElements(), true));
     	this.actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
     	this.actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
+    	this.actionsManager.addAction(new CollisionCheckAction("CollisionCheckAction", false), "SceneElements");
     }
     
     /**
@@ -124,7 +125,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      */
     private void timeObjectsStartup() {
     	// A TimeObject is created to spawn enemies every 800 milliseconds, and set it as active
-    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 800L, 0L, true);
+    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 1000L, 0L, true);
     	this.timeManager.addTimeObjectToList(spawner);
     }
     
@@ -132,7 +133,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Startup and load in the model factory custom models
      */
     private void customModelsStartup() {
-    	Bullet bullet = new Bullet(CustomObjectsData.getInstance().simpleBulletData, CustomObjectsData.getInstance().simpleBulletMinMax, BulletType.SIMPLE);
+    	BulletModel bullet = new BulletModel(CustomModelsData.getInstance().simpleBulletData, CustomModelsData.getInstance().simpleBulletMinMax);
     	this.modelFactory.addModelToStock("cust_simple_bullet", bullet);
     }
 

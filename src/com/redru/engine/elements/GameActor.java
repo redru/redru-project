@@ -8,22 +8,24 @@ import com.redru.engine.wrapper.models.Model;
 
 public abstract class GameActor implements IntTransformable, IntSceneElement {
 	
-	private String identifier;
-	private Model model;
-	private IntDrawHandler drawHandler;
+	protected String identifier;
+	protected Model model;
+	protected IntDrawHandler drawHandler;
 	
-	private float[] translationMatrix = new float[16];
-	private float[] rotationMatrix = new float[16];
-	private float[] scalationMatrix = new float[16];
+	protected float[] translationMatrix = new float[16];
+	protected float[] rotationMatrix = new float[16];
+	protected float[] scalationMatrix = new float[16];
 	
-	private float[] collisionInfo = new float[6];
+	protected float[] collisionInfo = new float[6];
 	
-	private float xStatic = 0.0f, yStatic = 0.0f, zStatic = 0.0f;
-	private float xPos = 0.0f, yPos = 0.0f, zPos = 0.0f;
-	private float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
-	private float xAcc = 0.0f, yAcc = 0.0f, zAcc = 0.0f;
-	private float xRot = 0.0f, yRot = 0.0f, zRot = 0.0f;
-	private float xSca = 0.0f, ySca = 0.0f, zSca = 0.0f;
+	protected float xStatic = 0.0f, yStatic = 0.0f, zStatic = 0.0f;
+	protected float xPos = 0.0f, yPos = 0.0f, zPos = 0.0f;
+	protected float xVel = 0.0f, yVel = 0.0f, zVel = 0.0f;
+	protected float xAcc = 0.0f, yAcc = 0.0f, zAcc = 0.0f;
+	protected float xRot = 0.0f, yRot = 0.0f, zRot = 0.0f;
+	protected float xSca = 0.0f, ySca = 0.0f, zSca = 0.0f;
+	
+	protected boolean active;
 // CONTRUCTORS ---------------------------------------------------------------------------------
 	public GameActor() {
 		this(null, null, "");
@@ -41,6 +43,8 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 		this.model = model;
 		this.drawHandler = drawHandler;
 		this.identifier = identifier;
+		
+		this.active = true;
 		
 		System.arraycopy(model.getCollisionInfo(), 0, this.collisionInfo, 0, this.collisionInfo.length); // Copy values from the model collision
 	}
@@ -323,6 +327,14 @@ public abstract class GameActor implements IntTransformable, IntSceneElement {
 
 	public void setzSca(float zSca) {
 		this.zSca = zSca;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 //----------------------------------------------------------------------------------------------
 }
