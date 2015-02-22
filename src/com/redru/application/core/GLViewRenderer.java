@@ -124,8 +124,8 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      * Startup of the starting time objects
      */
     private void timeObjectsStartup() {
-    	// A TimeObject is created to spawn enemies every 800 milliseconds, and set it as active
-    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 1000L, 0L, true);
+    	// A TimeObject is created to spawn enemies every 1000 milliseconds, and set it as active and !executableOnce
+    	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 1000L, 0L, true, false);
     	this.timeManager.addTimeObjectToList(spawner);
     }
     

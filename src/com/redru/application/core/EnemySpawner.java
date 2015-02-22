@@ -17,13 +17,13 @@ public class EnemySpawner extends TimeObject {
 	private TransformableGameActor actor;
 	private ActionsManager actionsManager;
 // CONSTRUCTOR -------------------------------------------------------------------------------------------
-	public EnemySpawner(String identifier, int timeLimit, int timeCount, boolean active) {
-		super(identifier, timeLimit, timeCount, active);
+	public EnemySpawner(String identifier, int timeLimit, int timeCount, boolean active, boolean executeOnce) {
+		super(identifier, timeLimit, timeCount, active, executeOnce);
 		this.actionsManager = ActionsManager.getInstance();
 	}
 	
-	public EnemySpawner(String identifier, long timeElapsedLimit, long timeElapsedCount, boolean active) {
-		super(identifier, timeElapsedLimit, timeElapsedCount, active);
+	public EnemySpawner(String identifier, long timeElapsedLimit, long timeElapsedCount, boolean active, boolean executeOnce) {
+		super(identifier, timeElapsedLimit, timeElapsedCount, active, executeOnce);
 		this.actionsManager = ActionsManager.getInstance();
 	}
 // -------------------------------------------------------------------------------------------------------

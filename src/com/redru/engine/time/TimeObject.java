@@ -13,40 +13,49 @@ public abstract class TimeObject {
 	private long timeElapsedLimit;
 	private long timeElapsedCount;
 	private boolean active;
+	private boolean executeOnce;
 	private TimeType timeType;
-// CONSTRUCTOR -----------------------------------------------------------------------
+// CONSTRUCTOR ------------------------------------------------------------------------------------------------
 	public TimeObject() {
-		this("", 0, 0, false);
+		this("", 0, 0, false, true);
 	}
 	
-	public TimeObject(String identifier, int timeLimit, int timeCount, boolean active) {
+	public TimeObject(String identifier, int timeLimit, int timeCount, boolean active, boolean executeOnce) {
 		this.identifier = identifier;
 		this.timeLimit = timeLimit;
 		this.timeCount = timeCount;
 		this.active = active;
+		this.executeOnce = executeOnce;
 		this.timeType = TimeType.FRAME_BASED;
 	}
 	
-	public TimeObject(String identifier, long timeElapsedLimit, long timeElapsedCount, boolean active) {
+	public TimeObject(String identifier, long timeElapsedLimit, long timeElapsedCount, boolean active, boolean executeOnce) {
 		this.identifier = identifier;
 		this.timeElapsedLimit = timeElapsedLimit;
 		this.timeElapsedCount = timeElapsedCount;
 		this.active = active;
+		this.executeOnce = executeOnce;
 		this.timeType = TimeType.ELAPSED_TIME_BASED;
 	}
-	
-	protected final void updateFrameTime() {
+// FUNCTIONS --------------------------------------------------------------------------------------------------
+	protected final boolean updateFrameTime() {
 		if (++timeCount >= timeLimit) {
 			this.timeCount = 0;
 			this.timeAction();
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
-	protected final void updateElapsedTime(long timeElapsed) {
+	protected final boolean updateElapsedTime(long timeElapsed) {
 		this.timeElapsedCount += timeElapsed;
 		if (this.timeElapsedCount >= timeElapsedLimit) {
 			this.timeElapsedCount = 0;
 			this.timeAction();
+			return true;
+		} else {
+			return false;
 		}
 	}
 	
@@ -78,7 +87,7 @@ public abstract class TimeObject {
 	}
 	
 	protected abstract void timeAction();
-// -----------------------------------------------------------------------------------
+// GETTERS AND SETTERS ----------------------------------------------------------------------------------------
 	public String getIdentifier() {
 		return identifier;
 	}
@@ -127,6 +136,14 @@ public abstract class TimeObject {
 		this.active = active;
 	}
 	
+	public boolean isExecuteOnce() {
+		return executeOnce;
+	}
+
+	public void setExecuteOnce(boolean executeOnce) {
+		this.executeOnce = executeOnce;
+	}
+
 	public TimeType getTimeType() {
 		return timeType;
 	}
@@ -135,6 +152,6 @@ public abstract class TimeObject {
 		this.timeType = timeType;
 		
 	}
-// -----------------------------------------------------------------------------------	
+// ------------------------------------------------------------------------------------------------------------
 
 }
