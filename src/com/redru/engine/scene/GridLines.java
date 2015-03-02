@@ -7,7 +7,7 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES30;
 import android.util.Log;
 
-import com.redru.engine.shader.ShaderFactory;
+import com.redru.engine.context.EngineContext;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.view.Camera;
 
@@ -95,13 +95,13 @@ public class GridLines implements IntSceneElement {
 
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
 
-        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
-        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_COLOR);
+        GLES30.glEnableVertexAttribArray(EngineContext.shadeFactory.LAYOUT_VERTEX);
+        GLES30.glEnableVertexAttribArray(EngineContext.shadeFactory.LAYOUT_COLOR);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_VERTEX, VERTEX_SIZE,
+        GLES30.glVertexAttribPointer(EngineContext.shadeFactory.LAYOUT_VERTEX, VERTEX_SIZE,
                         GLES30.GL_FLOAT, false, STRIDE * OpenGLConstants.BYTES_PER_FLOAT, 0);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_COLOR, COLOR_SIZE,
+        GLES30.glVertexAttribPointer(EngineContext.shadeFactory.LAYOUT_COLOR, COLOR_SIZE,
                         GLES30.GL_FLOAT, false, STRIDE * OpenGLConstants.BYTES_PER_FLOAT, VERTEX_SIZE * OpenGLConstants.BYTES_PER_FLOAT);
 
         GLES30.glBindVertexArray(0);
@@ -113,10 +113,10 @@ public class GridLines implements IntSceneElement {
      */
     @Override
     public void draw() {
-        GLES30.glUseProgram (ShaderFactory.getInstance().defaultProgram);
+        GLES30.glUseProgram (EngineContext.shadeFactory.defaultProgram);
 
         // Load the MVP matrix
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().DEF_PROG_MVP_LOC, 1, false,
+        GLES30.glUniformMatrix4fv(EngineContext.shadeFactory.DEF_PROG_MVP_LOC, 1, false,
                 Camera.getInstance().getMvpMatrixAsFloatBuffer());
 
         GLES30.glBindVertexArray(VAOIds[0]);

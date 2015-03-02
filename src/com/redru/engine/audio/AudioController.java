@@ -28,7 +28,6 @@ public class AudioController {
 		this.soundPool = new SoundPool(10, AudioAttributes.CONTENT_TYPE_MUSIC, 0);
 		// Load the audio and set in the table
 		this.playList.put("SHOT", this.soundPool.load(Redru.getContext(), R.raw.audio_shot, 1));
-		
 	}
 	
 	public static AudioController getInstance() {

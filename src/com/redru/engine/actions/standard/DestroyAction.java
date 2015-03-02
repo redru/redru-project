@@ -2,6 +2,7 @@ package com.redru.engine.actions.standard;
 
 import com.redru.engine.actions.Action;
 import com.redru.engine.actions.ActionContext;
+import com.redru.engine.context.EngineContext;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.scene.SceneContext;
 
@@ -9,11 +10,10 @@ public final class DestroyAction extends Action {
 	private static DestroyAction instance;
 	
 	private IntSceneElement sceneElement;
-	private SceneContext scene;
 // --------------------------------------------------------------------------
 	private DestroyAction(String identifier, boolean executeOnce) {
 		super(identifier, executeOnce);
-		this.scene = SceneContext.getInstance();
+		EngineContext.scene = SceneContext.getInstance();
 	}
 	
 	public static DestroyAction getInstance() {
@@ -27,11 +27,11 @@ public final class DestroyAction extends Action {
 	@Override
 	public void execute(ActionContext<?> context) {
 		for (Object tmp : context.getValues()) {
-			sceneElement = (IntSceneElement) tmp;
-			scene.removeElementFromScene(sceneElement);
+			this.sceneElement = (IntSceneElement) tmp;
+			EngineContext.scene.removeElementFromScene(this.sceneElement);
 		}
 		
-		sceneElement = null;
+		this.sceneElement = null;
 		context.getValues().clear();
 	}
 // --------------------------------------------------------------------------

@@ -15,17 +15,12 @@ import com.redru.application.actors.complex.Starship;
 import com.redru.application.models.BulletModel;
 import com.redru.application.models.CustomModelsData;
 import com.redru.engine.actions.ActionContext;
-import com.redru.engine.actions.ActionsManager;
+import com.redru.engine.context.EngineContext;
 import com.redru.engine.drawhandlers.TexturedObjDrawHandler;
 import com.redru.engine.elements.TransformableGameActor;
 import com.redru.engine.scene.IntSceneElement;
-import com.redru.engine.scene.SceneContext;
-import com.redru.engine.time.TimeManager;
 import com.redru.engine.time.TimeUtils;
-import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.models.Model;
-import com.redru.engine.wrapper.models.ModelFactory;
-import com.redru.engine.wrapper.textures.TextureFactory;
 
 /**
  * Created by Luca on 16/01/2015.
@@ -33,13 +28,6 @@ import com.redru.engine.wrapper.textures.TextureFactory;
 public class GLViewRenderer implements GLSurfaceView.Renderer {	
     private static final String TAG = "GLViewRenderer";    
     private static GLViewRenderer instance;
-    
-    private Camera camera = Camera.getInstance();
-    private SceneContext scene = SceneContext.getInstance();
-    private ModelFactory modelFactory = ModelFactory.getInstance();
-    private TextureFactory texFactory = TextureFactory.getInstance();
-    private ActionsManager actionsManager = ActionsManager.getInstance();
-    private TimeManager timeManager = TimeManager.getInstance();
     
     private GLViewRenderer() { }
     
@@ -57,10 +45,11 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
-        //********************************************
+        // ENGINE CONTEXT STARTUP ********************
+        EngineContext.contextStartup();
         // CAMERA SETUP ******************************
-        this.camera.rotate(30.0f, 180.0f, 0.0f);
-        this.camera.move(0.0f, 0.0f, -16.0f);
+        EngineContext.camera.rotate(30.0f, 180.0f, 0.0f);
+        EngineContext.camera.move(0.0f, 0.0f, -16.0f);
         //********************************************
         // APPLICATION STARTUP ***********************
         this.customModelsStartup();
@@ -75,10 +64,10 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 unused) {
     	TimeUtils.setStart();
     	// TIME ***************************************
-    	this.timeManager.updateTimeObjects();
-    	this.actionsManager.executeActionsByActiveContexts();
-    	this.actionsManager.createAllInQueue();
-    	this.actionsManager.destroyAllInQueue();
+    	EngineContext.timeManager.updateTimeObjects();
+    	EngineContext.actionsManager.executeActionsByActiveContexts();
+    	EngineContext.actionsManager.createAllInQueue();
+    	EngineContext.actionsManager.destroyAllInQueue();
         this.drawShapes();
         // END TIME ***********************************
         TimeUtils.setEnd();
@@ -94,7 +83,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
-    	this.camera.setAspectRatio((float) width / (float) height);
+    	EngineContext.camera.setAspectRatio((float) width / (float) height);
         GLES30.glViewport(0, 0, width, height);
     }
 
@@ -107,17 +96,17 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
         // Redraw background color
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
 
-        this.scene.drawScene();
+        EngineContext.scene.drawScene();
     }
     
     /**
      * Set application actions to be executed on every game loop
      */
     private void actionsStartup() {
-    	this.actionsManager.addContext(new ActionContext<IntSceneElement>("SceneElements", this.scene.getElements(), true));
-    	this.actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
-    	this.actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
-    	this.actionsManager.addAction(new CollisionCheckAction("CollisionCheckAction", false), "SceneElements");
+    	EngineContext.actionsManager.addContext(new ActionContext<IntSceneElement>("SceneElements", EngineContext.scene.getElements(), true));
+    	EngineContext.actionsManager.addAction(SensorInputAction.getInstance(), "SceneElements");
+    	EngineContext.actionsManager.addAction(SceneObjectsTranslateAction.getInstance(), "SceneElements");
+    	EngineContext.actionsManager.addAction(new CollisionCheckAction("CollisionCheckAction", false), "SceneElements");
     }
     
     /**
@@ -126,7 +115,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     private void timeObjectsStartup() {
     	// A TimeObject is created to spawn enemies every 1000 milliseconds, and set it as active and !executableOnce
     	EnemySpawner spawner = new EnemySpawner("enemy_spawner", 1000L, 0L, true, false);
-    	this.timeManager.addTimeObjectToList(spawner);
+    	EngineContext.timeManager.addTimeObjectToList(spawner);
     }
     
     /**
@@ -134,23 +123,23 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
      */
     private void customModelsStartup() {
     	BulletModel bullet = new BulletModel(CustomModelsData.getInstance().simpleBulletData, CustomModelsData.getInstance().simpleBulletMinMax);
-    	this.modelFactory.addModelToStock("cust_simple_bullet", bullet);
+    	EngineContext.modelFactory.addModelToStock("cust_simple_bullet", bullet);
     }
 
     /**
      * Startup of the initial objects
      */
     private void elementsStartup() {
-    	scene.linesStartup();
+    	EngineContext.scene.linesStartup();
     	
-    	Model model = modelFactory.getStockedModel("obj_b2spirit");
-    	model.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
+    	Model model = EngineContext.modelFactory.getStockedModel("obj_b2spirit");
+    	model.setTexture(EngineContext.texFactory.getStockedTexture("tex_b2spirit"));
     	TransformableGameActor actor = new Starship(model, new TexturedObjDrawHandler(), "B-2 Spirit", 100000, 0);
     	actor.setup();
     	actor.scale(0.35f, 0.35f, 0.35f);
     	actor.translate(0.0f, 2.0f, -9.2f);
     	actor.updateTransformBuffers();
-    	this.scene.addElementToScene(actor);
+    	EngineContext.scene.addElementToScene(actor);
     }
 // --------------------------------------------------------------------------------------------------------------------
 }

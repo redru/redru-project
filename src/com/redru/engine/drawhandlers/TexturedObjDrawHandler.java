@@ -8,7 +8,7 @@ import android.opengl.GLES30;
 import android.opengl.GLUtils;
 import android.util.Log;
 
-import com.redru.engine.shader.ShaderFactory;
+import com.redru.engine.context.EngineContext;
 import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.utils.ResourceUtils;
 import com.redru.engine.view.Camera;
@@ -89,13 +89,13 @@ public class TexturedObjDrawHandler implements IntModelDrawHandler {
         
         GLES30.glBindBuffer(GLES30.GL_ARRAY_BUFFER, VBOIds[0]);
         
-        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_VERTEX);
-        GLES30.glEnableVertexAttribArray(ShaderFactory.getInstance().LAYOUT_TEXTURE);
+        GLES30.glEnableVertexAttribArray(EngineContext.shadeFactory.LAYOUT_VERTEX);
+        GLES30.glEnableVertexAttribArray(EngineContext.shadeFactory.LAYOUT_TEXTURE);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_VERTEX, 3,
+        GLES30.glVertexAttribPointer(EngineContext.shadeFactory.LAYOUT_VERTEX, 3,
                 GLES30.GL_FLOAT, false, 8 * OpenGLConstants.BYTES_PER_FLOAT, 0);
 
-        GLES30.glVertexAttribPointer(ShaderFactory.getInstance().LAYOUT_TEXTURE, 2,
+        GLES30.glVertexAttribPointer(EngineContext.shadeFactory.LAYOUT_TEXTURE, 2,
                 GLES30.GL_FLOAT, false, 8 * OpenGLConstants.BYTES_PER_FLOAT, 3 * OpenGLConstants.BYTES_PER_FLOAT);
         
         GLES30.glBindVertexArray(0);
@@ -125,13 +125,13 @@ public class TexturedObjDrawHandler implements IntModelDrawHandler {
      */
     @Override
     public void draw(Model model) {
-        GLES30.glUseProgram(ShaderFactory.getInstance().complexObjectProgram);
+        GLES30.glUseProgram(EngineContext.shadeFactory.complexObjectProgram);
 
-        GLES30.glUniform1i(ShaderFactory.getInstance().COMP_PROG_SAMPLER_S_TEXTURE, 0);
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().COMP_PROG_MVP_LOC, 1, false, Camera.getInstance().getMvpMatrixAsFloatBuffer());
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().COMP_PROG_SCA_LOC, 1, false, scaleBuffer);
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().COMP_PROG_ROT_LOC, 1, false, rotationBuffer);
-        GLES30.glUniformMatrix4fv(ShaderFactory.getInstance().COMP_PROG_TRA_LOC, 1, false, translationBuffer);
+        GLES30.glUniform1i(EngineContext.shadeFactory.COMP_PROG_SAMPLER_S_TEXTURE, 0);
+        GLES30.glUniformMatrix4fv(EngineContext.shadeFactory.COMP_PROG_MVP_LOC, 1, false, Camera.getInstance().getMvpMatrixAsFloatBuffer());
+        GLES30.glUniformMatrix4fv(EngineContext.shadeFactory.COMP_PROG_SCA_LOC, 1, false, scaleBuffer);
+        GLES30.glUniformMatrix4fv(EngineContext.shadeFactory.COMP_PROG_ROT_LOC, 1, false, rotationBuffer);
+        GLES30.glUniformMatrix4fv(EngineContext.shadeFactory.COMP_PROG_TRA_LOC, 1, false, translationBuffer);
 
         // Bind this object Vertex Array Object (VAO) state and then draw the object
         GLES30.glBindVertexArray(VAOIds[0]);
