@@ -201,7 +201,9 @@ public class ActionsManager {
 	
 	@SuppressWarnings("unchecked")
 	public synchronized void addObjectToCreationQueue(TransformableGameActor tmpActor) {
-		((ArrayList<TransformableGameActor>) this.getContext("CreateQueue").getValues()).add(tmpActor);
+		if (!((ArrayList<TransformableGameActor>) this.getContext("CreateQueue").getValues()).contains(tmpActor)) {
+			((ArrayList<TransformableGameActor>) this.getContext("CreateQueue").getValues()).add(tmpActor);
+		}
 	}
 	
 	public void createAllInQueue() {

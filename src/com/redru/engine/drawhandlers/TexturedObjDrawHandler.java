@@ -17,7 +17,7 @@ import com.redru.engine.wrapper.models.Model;
 /**
  * Created by Luca on 22/01/2015.
  */
-public class TexturedObjDrawHandler implements IntDrawHandler {
+public class TexturedObjDrawHandler implements IntModelDrawHandler {
     private static final String TAG = "TexturedObjDrawHandler";
 
     private FloatBuffer vertexBuffer;

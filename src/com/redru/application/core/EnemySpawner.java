@@ -33,12 +33,12 @@ public class EnemySpawner extends TimeObject {
 		Random rand = new Random();
     	
     	float x = rand.nextFloat() * 41.0f - 20.0f;
-    	float y = rand.nextFloat() * 11.0f - 4.0f;
+//    	float y = rand.nextFloat() * 11.0f - 4.0f;
     	float z = rand.nextFloat() * 101.0f + 100.0f;
     	
     	this.tmpModel = ModelFactory.getInstance().getStockedModel("obj_b2spirit");
     	this.tmpModel.setTexture(TextureFactory.getInstance().getStockedTexture("tex_b2spirit"));
-    	this.actor = new Starship(this.tmpModel, new TexturedObjDrawHandler(), "Enemy");
+    	this.actor = new Starship(this.tmpModel, new TexturedObjDrawHandler(), "Enemy", 20, 5);
     	this.actor.scale(1.0f, 1.0f, 1.0f);
     	this.actor.rotate(0.0f, 180.0f, 0.0f);
     	this.actor.translate(x, 2.0f, z);

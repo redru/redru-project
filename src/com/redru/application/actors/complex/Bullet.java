@@ -3,7 +3,7 @@ package com.redru.application.actors.complex;
 import android.util.Log;
 
 import com.redru.engine.actions.ActionsManager;
-import com.redru.engine.drawhandlers.IntDrawHandler;
+import com.redru.engine.drawhandlers.IntModelDrawHandler;
 import com.redru.engine.elements.CollisionGameActor;
 import com.redru.engine.wrapper.models.Model;
 
@@ -15,6 +15,7 @@ public class Bullet extends CollisionGameActor {
 		SIMPLE
 	}
 	
+	private int damage = 0;
 	private BulletType type;
 // CONSTRUCTOR -------------------------------------------------------------------------------------
 	public Bullet() {
@@ -29,21 +30,29 @@ public class Bullet extends CollisionGameActor {
 		Log.i(TAG, "Creation complete.");
 	}
 	
-	public Bullet(Model obj, IntDrawHandler drawHandler, String identifier, BulletType type) {
+	public Bullet(Model obj, IntModelDrawHandler drawHandler, String identifier, int damage, BulletType type) {
 		super(obj, drawHandler, identifier);
+		this.damage = damage;
 		this.type = type;
 		Log.i(TAG, "Creation complete.");
 	}
 // IMPLEMENTATION ----------------------------------------------------------------------------------
 	@Override
 	public void onCollision(CollisionGameActor actor) {
-		Log.i(TAG, "Bullet collision!");
 		this.setActive(false);
 		ActionsManager.getInstance().addObjectToDestroyQueue(this);
 	}
 // GETTERS AND SETTERS -----------------------------------------------------------------------------
 	public BulletType getType() {
 		return type;
+	}
+
+	public int getDamage() {
+		return damage;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
 	}
 
 	public void setType(BulletType type) {

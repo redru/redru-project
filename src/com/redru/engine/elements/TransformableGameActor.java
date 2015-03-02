@@ -2,7 +2,7 @@ package com.redru.engine.elements;
 
 import android.opengl.Matrix;
 
-import com.redru.engine.drawhandlers.IntDrawHandler;
+import com.redru.engine.drawhandlers.IntModelDrawHandler;
 import com.redru.engine.scene.IntSceneElement;
 import com.redru.engine.wrapper.models.Model;
 
@@ -10,7 +10,7 @@ public abstract class TransformableGameActor implements IntSceneElement, IntTran
 	
 	protected String identifier;
 	protected Model model;
-	protected IntDrawHandler drawHandler;
+	protected IntModelDrawHandler drawHandler;
 	
 	protected float[] translationMatrix = new float[16];
 	protected float[] rotationMatrix = new float[16];
@@ -35,7 +35,7 @@ public abstract class TransformableGameActor implements IntSceneElement, IntTran
 		this(model, null, identifier);
 	}
 	
-	public TransformableGameActor(Model model, IntDrawHandler drawHandler, String identifier) {
+	public TransformableGameActor(Model model, IntModelDrawHandler drawHandler, String identifier) {
 		 Matrix.setIdentityM(translationMatrix, 0);
 		 Matrix.setIdentityM(rotationMatrix, 0);
 		 Matrix.setIdentityM(scalationMatrix, 0);
@@ -120,11 +120,11 @@ public abstract class TransformableGameActor implements IntSceneElement, IntTran
 		this.model = model;
 	}
 
-	public final IntDrawHandler getDrawHandler() {
+	public final IntModelDrawHandler getDrawHandler() {
 		return drawHandler;
 	}
 
-	public final void setDrawHandler(IntDrawHandler drawHandler) {
+	public final void setDrawHandler(IntModelDrawHandler drawHandler) {
 		this.drawHandler = drawHandler;
 	}
 	

@@ -20,6 +20,9 @@ public class ShaderFactory {
     public final int LAYOUT_COLOR = 1;
     public final int LAYOUT_TEXTURE = 1;
     
+    public final int LAYOUT_DIRECTION_VEC = 2;
+    public final int LAYOUT_START_TIME = 3;
+    
     // UNIFORMS --------------------------------------------------
     public int DEF_PROG_MVP_LOC;
     
@@ -33,19 +36,25 @@ public class ShaderFactory {
     public int SIMP_PROG_SCA_LOC;
     public int SIMP_PROG_ROT_LOC;
     public int SIMP_PROG_TRA_LOC;
+    
+    public int PART_PROG_MVP_LOC;
+    public int PART_PROG_TIME;
     // -----------------------------------------------------------
     
     public int defaultProgram;
     public int complexObjectProgram;
     public int simpleProgram;
+    public int particlesProgram;
 
     private final String vertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_default);
     private final String complexObjectVertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_complex_object);
     private final String simpleObjectVertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_simple_object);
+    private final String particlesVertexShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_vertex_particles);
     
     private final String fragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_default);
     private final String complexObjectFragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_complex_object);
     private final String simpleFragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_simple_object);
+    private final String particlesFragmentShaderCode = ResourceUtils.readTextFileFromResource(Redru.getContext(), R.raw.shader_fragment_particles);
     
     private static IntBuffer shaderCompileError = IntBuffer.allocate(1);
     private static String shaderCompileInfoLog;
@@ -57,10 +66,12 @@ public class ShaderFactory {
         int vertexShader = loadShader(GLES30.GL_VERTEX_SHADER, vertexShaderCode);
         int complexObjectVertexShader = loadShader(GLES30.GL_VERTEX_SHADER, complexObjectVertexShaderCode);
         int simpleObjectVertexShader = loadShader(GLES30.GL_VERTEX_SHADER, simpleObjectVertexShaderCode);
+        int particlesVertexShader = loadShader(GLES30.GL_VERTEX_SHADER, particlesVertexShaderCode);
         
         int fragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, fragmentShaderCode);
         int complexFragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, complexObjectFragmentShaderCode);
         int simpleFragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, simpleFragmentShaderCode);
+        int particlesFragmentShader = loadShader(GLES30.GL_FRAGMENT_SHADER, particlesFragmentShaderCode);
 
         defaultProgram = GLES30.glCreateProgram();
         GLES30.glAttachShader(defaultProgram, vertexShader);
@@ -86,6 +97,13 @@ public class ShaderFactory {
         SIMP_PROG_SCA_LOC = GLES30.glGetUniformLocation (simpleProgram, "scaVector");
         SIMP_PROG_ROT_LOC = GLES30.glGetUniformLocation (simpleProgram, "rotVector");
         SIMP_PROG_TRA_LOC = GLES30.glGetUniformLocation (simpleProgram, "traVector");
+        
+        particlesProgram = GLES30.glCreateProgram();
+        GLES30.glAttachShader(particlesProgram, particlesVertexShader);
+        GLES30.glAttachShader(particlesProgram, particlesFragmentShader);
+        GLES30.glLinkProgram(particlesProgram);
+        PART_PROG_MVP_LOC = GLES30.glGetUniformLocation (particlesProgram, "u_mvpMatrix");
+        PART_PROG_TIME = GLES30.glGetUniformLocation (particlesProgram, "u_Time");
     }
 
     /**

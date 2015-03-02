@@ -2,7 +2,7 @@ package com.redru.engine.drawhandlers;
 
 import com.redru.engine.wrapper.models.Model;
 
-public interface IntDrawHandler {
+public interface IntModelDrawHandler {
 	
 	public void setup(Model model);
 

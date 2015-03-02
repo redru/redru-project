@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
+import com.redru.engine.particles.ParticleSystem;
 import com.redru.engine.utils.ResourceUtils;
 
 /**
@@ -11,8 +12,10 @@ import com.redru.engine.utils.ResourceUtils;
  */
 public class SceneContext {
     private static final String TAG = "SceneContext";
-
     private static SceneContext instance;
+    
+    private ParticleSystem particleSystem = ParticleSystem.getInstance();
+    
     private ArrayList<IntSceneElement> elements;
     private IntSceneElement originLines;
     private IntSceneElement gridLines;
@@ -33,7 +36,7 @@ public class SceneContext {
      * 
      * @return
      */
-    public static SceneContext getInstance() {
+    public synchronized static SceneContext getInstance() {
         if (instance == null) {
             instance = new SceneContext();
         }
@@ -56,18 +59,20 @@ public class SceneContext {
     /**
      * 
      */
-    public void drawScene() {
-        if (enableOriginLines) {
-            originLines.draw();
+    public synchronized void drawScene() {
+        if (this.enableOriginLines) {
+            this.originLines.draw();
         }
         
-        if (enableGridLines) {
-        	gridLines.draw();
+        if (this.enableGridLines) {
+        	this.gridLines.draw();
         }
 
-        for (IntSceneElement element : elements) {
+        for (IntSceneElement element : this.elements) {
             element.draw();
         }
+        
+        this.particleSystem.draw();
     }
 
     /**
@@ -75,7 +80,7 @@ public class SceneContext {
      * @param value
      */
     public void setEnableOriginLines(boolean value) {
-        enableOriginLines = value;
+    	this.enableOriginLines = value;
         Log.i(TAG, "enableOriginLines: " + value);
     }
     
@@ -84,7 +89,7 @@ public class SceneContext {
      * @param value
      */
     public void setEnableGridLines(boolean value) {
-        enableGridLines = value;
+    	this.enableGridLines = value;
         Log.i(TAG, "enableGridLines: " + value);
     }
 
@@ -92,7 +97,7 @@ public class SceneContext {
      * 
      * @param element
      */
-    public void addElementToScene(IntSceneElement element) {
+    public synchronized void addElementToScene(IntSceneElement element) {
         this.elements.add(element);
     }
 
@@ -100,7 +105,7 @@ public class SceneContext {
      * 
      * @param index
      */
-    public IntSceneElement removeElementFromScene(int index) {
+    public synchronized IntSceneElement removeElementFromScene(int index) {
         return this.elements.remove(index);
     }
 
@@ -108,7 +113,7 @@ public class SceneContext {
      * 
      * @param element
      */
-    public boolean removeElementFromScene(IntSceneElement element) {
+    public synchronized boolean removeElementFromScene(IntSceneElement element) {
         return this.elements.remove(element);
     }
 
@@ -116,16 +121,16 @@ public class SceneContext {
      * 
      * @return
      */
-    public ArrayList<IntSceneElement> getElements() {
+    public synchronized ArrayList<IntSceneElement> getElements() {
         return this.elements;
     }
     
     public void linesStartup() {
-        originLines = new OriginLines();
-        setEnableOriginLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("origin_lines")));
+    	this.originLines = new OriginLines();
+    	this.setEnableOriginLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("origin_lines")));
         
-        gridLines = new GridLines();
-        setEnableGridLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("grid_lines")));
+    	this.gridLines = new GridLines();
+    	this.setEnableGridLines(Boolean.parseBoolean(ResourceUtils.getApplicationProperty("grid_lines")));
     }
 
 }

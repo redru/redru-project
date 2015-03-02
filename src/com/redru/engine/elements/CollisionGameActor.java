@@ -1,6 +1,6 @@
 package com.redru.engine.elements;
 
-import com.redru.engine.drawhandlers.IntDrawHandler;
+import com.redru.engine.drawhandlers.IntModelDrawHandler;
 import com.redru.engine.wrapper.models.Model;
 
 public abstract class CollisionGameActor extends TransformableGameActor implements IntCollision {
@@ -19,7 +19,7 @@ public abstract class CollisionGameActor extends TransformableGameActor implemen
 		super(model, null, identifier);
 	}
 	
-	public CollisionGameActor(Model model, IntDrawHandler drawHandler, String identifier) {
+	public CollisionGameActor(Model model, IntModelDrawHandler drawHandler, String identifier) {
 		super(model, drawHandler, identifier);
 	}
 // IMPLEMENTATIONS ----------------------------------------------------------------------------------------

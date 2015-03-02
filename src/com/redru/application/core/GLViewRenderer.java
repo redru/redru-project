@@ -145,7 +145,7 @@ public class GLViewRenderer implements GLSurfaceView.Renderer {
     	
     	Model model = modelFactory.getStockedModel("obj_b2spirit");
     	model.setTexture(texFactory.getStockedTexture("tex_b2spirit"));
-    	TransformableGameActor actor = new Starship(model, new TexturedObjDrawHandler(), "B-2 Spirit");
+    	TransformableGameActor actor = new Starship(model, new TexturedObjDrawHandler(), "B-2 Spirit", 100000, 0);
     	actor.setup();
     	actor.scale(0.35f, 0.35f, 0.35f);
     	actor.translate(0.0f, 2.0f, -9.2f);

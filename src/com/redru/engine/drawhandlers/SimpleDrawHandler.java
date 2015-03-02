@@ -12,7 +12,7 @@ import com.redru.engine.utils.OpenGLConstants;
 import com.redru.engine.view.Camera;
 import com.redru.engine.wrapper.models.Model;
 
-public class SimpleDrawHandler implements IntDrawHandler {
+public class SimpleDrawHandler implements IntModelDrawHandler {
 	private static final String TAG = "SimpleDrawHandler";
 
     private FloatBuffer vertexBuffer;
